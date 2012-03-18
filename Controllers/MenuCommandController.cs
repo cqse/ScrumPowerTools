@@ -1,8 +1,8 @@
 ﻿using EnvDTE;
 using Microsoft.TeamFoundation.Common;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
-using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
+using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Models;
 using ScrumPowerTools.Packaging;
@@ -15,20 +15,20 @@ namespace ScrumPowerTools.Controllers
     {
         private readonly DTE dte;
         private readonly DocumentService docService;
-        private readonly IVsTeamExplorer teamExplorer;
+        private readonly ITeamProjectUriProvider teamProjectUriProvider;
 
-        public MenuCommandController(DTE dte, DocumentService docService, IVsTeamExplorer teamExplorer)
+        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectUriProvider teamProjectUriProvider)
         {
             this.dte = dte;
             this.docService = docService;
-            this.teamExplorer = teamExplorer;
+            this.teamProjectUriProvider = teamProjectUriProvider;
         }
 
         public bool Execute(uint commandId)
         {
             if (commandId == MenuCommands.ShowAffectedChangesetFiles)
             {
-                var model = new ShowChangesetItemsModel(dte, docService, teamExplorer);
+                var model = new ShowChangesetItemsModel(dte, docService, teamProjectUriProvider);
                 var view = new ShowChangesetItemsView(dte);
 
                 view.ConnectTo(model);
@@ -39,7 +39,7 @@ namespace ScrumPowerTools.Controllers
             }
             else if (commandId == MenuCommands.ShowChangesetsWithAffectedFiles)
             {
-                var model = new ShowChangesetsModel(dte, docService, teamExplorer);
+                var model = new ShowChangesetsModel(dte, docService, teamProjectUriProvider);
                 var view = new ShowChangesetsView(dte);
 
                 view.ConnectTo(model);

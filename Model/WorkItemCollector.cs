@@ -3,6 +3,7 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.Interfaces;
 
 namespace ScrumPowerTools.Model
 {
@@ -11,9 +12,9 @@ namespace ScrumPowerTools.Model
         private readonly WorkItemStore workItemStore;
         private readonly VersionControlServer versionControlServer;
 
-        public WorkItemCollector(IVsTeamExplorer teamExplorer)
+        public WorkItemCollector(ITeamProjectUriProvider teamExplorer)
         {
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(teamExplorer.GetProjectContext().DomainUri));
+            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamExplorer.GetCurrent());
 
             workItemStore = tpc.GetService<WorkItemStore>();
             versionControlServer = tpc.GetService<VersionControlServer>();

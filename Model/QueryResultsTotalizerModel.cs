@@ -6,17 +6,18 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using ScrumPowerTools.Interfaces;
 
 namespace ScrumPowerTools.Models
 {
     public class QueryResultsTotalizerModel
     {
-        private readonly IVsTeamExplorer teamExplorer;
+        private readonly ITeamProjectUriProvider teamProjectUriProvider;
         private readonly string[] excludedFieldNames = {"ID", "Stack Rank", "Priority"};
 
-        public QueryResultsTotalizerModel(IVsTeamExplorer teamExplorer)
+        public QueryResultsTotalizerModel(ITeamProjectUriProvider teamProjectUriProvider)
         {
-            this.teamExplorer = teamExplorer;
+            this.teamProjectUriProvider = teamProjectUriProvider;
 
             CurrentWorkItems = new WorkItem[0];
             NumericFieldDefinitions = new FieldDefinition[0];
@@ -29,8 +30,7 @@ namespace ScrumPowerTools.Models
             string query = queryResultsDocument.QueryDocument.QueryText;
             Hashtable context = GetTfsQueryParameters(queryResultsDocument);
 
-            var teamProjectCollectionUri = new Uri(teamExplorer.GetProjectContext().DomainUri);
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectCollectionUri);
+            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectUriProvider.GetCurrent());
             var workItemStore = tpc.GetService<WorkItemStore>();
 
             var workItemQuery = new Query(workItemStore, query, context);
@@ -92,8 +92,7 @@ namespace ScrumPowerTools.Models
             IEnumerable<string> numericFieldDefinitionNames = NumericFieldDefinitions.Select(fd => "[" + fd.ReferenceName + "]");
             string select = "SELECT " + string.Join(", ", numericFieldDefinitionNames) + " FROM WorkItems";
 
-            var teamProjectCollectionUri = new Uri(teamExplorer.GetProjectContext().DomainUri);
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectCollectionUri);
+            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectUriProvider.GetCurrent());
             var workItemStore = tpc.GetService<WorkItemStore>();
 
             var actualWorkItemQuery = new Query(workItemStore, select, allWorkItemIds);

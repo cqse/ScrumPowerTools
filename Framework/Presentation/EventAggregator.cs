@@ -1,6 +1,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
-using ScrumPowerTools.Framework.Composition;
+using ScrumPowerTools.Interfaces;
 
 namespace ScrumPowerTools.Framework.Presentation
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.TeamFoundation.Common;
 using Microsoft.VisualStudio;
@@ -7,8 +8,8 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Controllers;
-using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
+using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
@@ -38,14 +39,16 @@ namespace ScrumPowerTools
     [ProvideToolWindow(typeof(ReviewToolWindow))]
     [Guid(Identifiers.PackageId)]
     [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
-    public sealed class ScrumPowerToolsPackage : Package, IOleCommandTarget, IToolWindowActivator
+    public sealed class ScrumPowerToolsPackage : Package, IOleCommandTarget, IToolWindowActivator, IPackageServiceProvider
     {
         private MenuCommandController menuCommandController;
         private const int OLECMDERR_E_UNKNOWNGROUP = unchecked((int)0x80040104);
 
         public ScrumPowerToolsPackage()
         {
+            IoC.Setup(Assembly.GetExecutingAssembly());
             IoC.Register<IToolWindowActivator>(this);
+            IoC.Register<IPackageServiceProvider>(this);
         }
 
         /// <summary>
@@ -64,9 +67,14 @@ namespace ScrumPowerTools
             IoC.Register(teamExplorer);
             IoC.Register(new ShellDocumentOpener(this));
 
-            new QueryResultsTotalizerController(documentService, dte.StatusBar, teamExplorer);
 
-            menuCommandController = new MenuCommandController(dte, documentService, teamExplorer);
+            new VisualStudioSpecificImplementationLoader().RegisterTypes(dte.Version);
+
+            var projectUriProvider = IoC.GetInstance<ITeamProjectUriProvider>();
+
+            new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
+
+            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider);
         }
 
         int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint commandId, OLECMD[] prgCmds, IntPtr pCmdText)
@@ -169,6 +177,11 @@ namespace ScrumPowerTools
 
             var windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
+        }
+
+        public T GetService<T>() where T : Type
+        {
+            return (T)GetService(typeof(T));
         }
     }
 }

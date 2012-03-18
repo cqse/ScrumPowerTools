@@ -4,7 +4,7 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using ScrumPowerTools.Framework.Composition;
+using ScrumPowerTools.Interfaces;
 
 namespace ScrumPowerTools.Model
 {

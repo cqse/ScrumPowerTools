@@ -3,14 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools", "ScrumPowerTools.csproj", "{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.Interfaces", "..\ScrumPowerTools.Interfaces\ScrumPowerTools.Interfaces.csproj", "{B799C4A5-7205-4942-82B0-316FE5F167DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.VS10", "..\ScrumPowerTools.VS10\ScrumPowerTools.VS10.csproj", "{298CB347-D538-4C3D-BD32-67CA6E2DA58D}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs27
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = ScrumPowerTools.csproj
 		SccLocalPath1 = .
+		SccProjectUniqueName2 = ..\\ScrumPowerTools.Interfaces\\ScrumPowerTools.Interfaces.csproj
+		SccProjectName2 = ../ScrumPowerTools.Interfaces
+		SccLocalPath2 = ..\\ScrumPowerTools.Interfaces
+		SccProjectUniqueName3 = ..\\ScrumPowerTools.VS10\\ScrumPowerTools.VS10.csproj
+		SccProjectName3 = ../ScrumPowerTools.VS10
+		SccLocalPath3 = ..\\ScrumPowerTools.VS10
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +31,14 @@ Global
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
