@@ -60,11 +60,9 @@ namespace ScrumPowerTools
             base.Initialize();
 
             var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
-            //var teamExplorer = (IVsTeamExplorer)GetService(typeof(IVsTeamExplorer));
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
             IoC.Register(new WorkItemSelectionService(dte, documentService));
-            //IoC.Register(teamExplorer);
             IoC.Register(new ShellDocumentOpener(this));
 
 

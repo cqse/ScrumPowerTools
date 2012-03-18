@@ -1,6 +1,3 @@
-using System;
-using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using ScrumPowerTools.Interfaces;
 
@@ -12,9 +9,7 @@ namespace ScrumPowerTools.Model
 
         public TfsItemDifferentiator()
         {
-            var teamExplorer = IoC.GetInstance<IVsTeamExplorer>();
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(
-                new Uri(teamExplorer.GetProjectContext().DomainUri));
+            var tpc = IoC.GetInstance<ITeamProjectCollectionProvider>().GetCurrent();
 
             versionControlServer = tpc.GetService<VersionControlServer>();
         }
