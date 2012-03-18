@@ -12,9 +12,9 @@ namespace ScrumPowerTools.Model
         private readonly WorkItemStore workItemStore;
         private readonly VersionControlServer versionControlServer;
 
-        public WorkItemCollector(ITeamProjectUriProvider teamExplorer)
+        public WorkItemCollector(ITeamProjectCollectionProvider teamExplorer)
         {
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamExplorer.GetCurrent());
+            var tpc = teamExplorer.GetCurrent();
 
             workItemStore = tpc.GetService<WorkItemStore>();
             versionControlServer = tpc.GetService<VersionControlServer>();

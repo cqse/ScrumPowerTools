@@ -9,7 +9,7 @@ namespace ScrumPowerTools.Controllers
 {
     public class QueryResultsTotalizerController
     {
-        public QueryResultsTotalizerController(DocumentService docService, StatusBar statusBar, ITeamProjectUriProvider teamExplorer)
+        public QueryResultsTotalizerController(DocumentService docService, StatusBar statusBar, ITeamProjectCollectionProvider teamExplorer)
         {
             var documentCreationTracker = new QueryResultsDocumentCreationObserver(docService);
 

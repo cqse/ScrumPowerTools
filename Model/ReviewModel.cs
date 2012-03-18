@@ -15,8 +15,8 @@ namespace ScrumPowerTools.Model
 
         public ReviewModel()
         {
-            var teamExplorer = IoC.GetInstance<IVsTeamExplorer>();
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(teamExplorer.GetProjectContext().DomainUri));
+            var teamProjectCollectionProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
+            var tpc = teamProjectCollectionProvider.GetCurrent();
 
             workItemStore = tpc.GetService<WorkItemStore>();
             versionControlServer = tpc.GetService<VersionControlServer>();

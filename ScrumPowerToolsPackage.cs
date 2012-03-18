@@ -60,17 +60,17 @@ namespace ScrumPowerTools
             base.Initialize();
 
             var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
-            var teamExplorer = (IVsTeamExplorer)GetService(typeof(IVsTeamExplorer));
+            //var teamExplorer = (IVsTeamExplorer)GetService(typeof(IVsTeamExplorer));
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
             IoC.Register(new WorkItemSelectionService(dte, documentService));
-            IoC.Register(teamExplorer);
+            //IoC.Register(teamExplorer);
             IoC.Register(new ShellDocumentOpener(this));
 
 
             new VisualStudioSpecificImplementationLoader().RegisterTypes(dte.Version);
 
-            var projectUriProvider = IoC.GetInstance<ITeamProjectUriProvider>();
+            var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
 
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
 
@@ -179,7 +179,7 @@ namespace ScrumPowerTools
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
-        public T GetService<T>() where T : Type
+        public T GetService<T>() where T : class
         {
             return (T)GetService(typeof(T));
         }

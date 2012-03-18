@@ -1,45 +1,39 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools", "ScrumPowerTools.csproj", "{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 11
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerToolsVS11", "ScrumPowerToolsVS11.csproj", "{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.Interfaces", "..\ScrumPowerTools.Interfaces\ScrumPowerTools.Interfaces.csproj", "{B799C4A5-7205-4942-82B0-316FE5F167DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.VS10", "..\ScrumPowerTools.VS10\ScrumPowerTools.VS10.csproj", "{298CB347-D538-4C3D-BD32-67CA6E2DA58D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13C9E4C0-F6EA-4C8F-90F6-5087DCC60D8C}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.VS11", "..\ScrumPowerTools.VS11\ScrumPowerTools.VS11.csproj", "{415CD305-2C90-4414-8067-F3F1B273DDAB}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs27
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ScrumPowerTools.csproj
-		SccLocalPath1 = .
-		SccProjectUniqueName2 = ..\\ScrumPowerTools.Interfaces\\ScrumPowerTools.Interfaces.csproj
-		SccProjectName2 = ../ScrumPowerTools.Interfaces
-		SccLocalPath2 = ..\\ScrumPowerTools.Interfaces
-		SccProjectUniqueName3 = ..\\ScrumPowerTools.VS10\\ScrumPowerTools.VS10.csproj
-		SccProjectName3 = ../ScrumPowerTools.VS10
-		SccLocalPath3 = ..\\ScrumPowerTools.VS10
-		SccProjectUniqueName4 = ..\\ScrumPowerTools.VS11\\ScrumPowerTools.VS11.csproj
-		SccProjectName4 = ../ScrumPowerTools.VS11
+		SccLocalPath0 = ..\\ScrumPowerTools.Interfaces
+		SccLocalPath1 = ..\\ScrumPowerTools.VS10
+		SccLocalPath2 = .
+		SccLocalPath3 = .
 		SccLocalPath4 = ..\\ScrumPowerTools.VS11
+		SccNumberOfProjects = 5
+		SccProjectName0 = ../ScrumPowerTools.Interfaces
+		SccProjectName1 = ../ScrumPowerTools.VS10
+		SccProjectName4 = ../ScrumPowerTools.VS11
+		SccProjectUniqueName0 = ..\\ScrumPowerTools.Interfaces\\ScrumPowerTools.Interfaces.csproj
+		SccProjectUniqueName1 = ..\\ScrumPowerTools.VS10\\ScrumPowerTools.VS10.csproj
+		SccProjectUniqueName3 = ScrumPowerToolsVS11.csproj
+		SccProjectUniqueName4 = ..\\ScrumPowerTools.VS11\\ScrumPowerTools.VS11.csproj
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs27
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{298CB347-D538-4C3D-BD32-67CA6E2DA58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +42,14 @@ Global
 		{415CD305-2C90-4414-8067-F3F1B273DDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{415CD305-2C90-4414-8067-F3F1B273DDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{415CD305-2C90-4414-8067-F3F1B273DDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B799C4A5-7205-4942-82B0-316FE5F167DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

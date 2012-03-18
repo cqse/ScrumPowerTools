@@ -250,6 +250,10 @@
       <Project>{298CB347-D538-4C3D-BD32-67CA6E2DA58D}</Project>
       <Name>ScrumPowerTools.VS10</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScrumPowerTools.VS11\ScrumPowerTools.VS11.csproj">
+      <Project>{415CD305-2C90-4414-8067-F3F1B273DDAB}</Project>
+      <Name>ScrumPowerTools.VS11</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

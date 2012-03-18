@@ -15,20 +15,20 @@ namespace ScrumPowerTools.Controllers
     {
         private readonly DTE dte;
         private readonly DocumentService docService;
-        private readonly ITeamProjectUriProvider teamProjectUriProvider;
+        private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
 
-        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectUriProvider teamProjectUriProvider)
+        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider)
         {
             this.dte = dte;
             this.docService = docService;
-            this.teamProjectUriProvider = teamProjectUriProvider;
+            this.teamProjectCollectionProvider = teamProjectCollectionProvider;
         }
 
         public bool Execute(uint commandId)
         {
             if (commandId == MenuCommands.ShowAffectedChangesetFiles)
             {
-                var model = new ShowChangesetItemsModel(dte, docService, teamProjectUriProvider);
+                var model = new ShowChangesetItemsModel(dte, docService, teamProjectCollectionProvider);
                 var view = new ShowChangesetItemsView(dte);
 
                 view.ConnectTo(model);
@@ -39,7 +39,7 @@ namespace ScrumPowerTools.Controllers
             }
             else if (commandId == MenuCommands.ShowChangesetsWithAffectedFiles)
             {
-                var model = new ShowChangesetsModel(dte, docService, teamProjectUriProvider);
+                var model = new ShowChangesetsModel(dte, docService, teamProjectCollectionProvider);
                 var view = new ShowChangesetsView(dte);
 
                 view.ConnectTo(model);

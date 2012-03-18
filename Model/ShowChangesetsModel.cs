@@ -12,7 +12,7 @@ namespace ScrumPowerTools.Model
         private readonly WorkItemSelectionService workItemSelectionService;
         internal event EventHandler<ShowChangesetsEventArgs> ShowChangesets = delegate { };
 
-        public ShowChangesetsModel(DTE dte, DocumentService docService, ITeamProjectUriProvider teamExplorer)
+        public ShowChangesetsModel(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamExplorer)
         {
             workItemSelectionService = new WorkItemSelectionService(dte, docService);
             workItemCollector = new WorkItemCollector(teamExplorer);

@@ -12,12 +12,12 @@ namespace ScrumPowerTools.Models
 {
     public class QueryResultsTotalizerModel
     {
-        private readonly ITeamProjectUriProvider teamProjectUriProvider;
+        private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
         private readonly string[] excludedFieldNames = {"ID", "Stack Rank", "Priority"};
 
-        public QueryResultsTotalizerModel(ITeamProjectUriProvider teamProjectUriProvider)
+        public QueryResultsTotalizerModel(ITeamProjectCollectionProvider teamProjectCollectionProvider)
         {
-            this.teamProjectUriProvider = teamProjectUriProvider;
+            this.teamProjectCollectionProvider = teamProjectCollectionProvider;
 
             CurrentWorkItems = new WorkItem[0];
             NumericFieldDefinitions = new FieldDefinition[0];
@@ -30,7 +30,7 @@ namespace ScrumPowerTools.Models
             string query = queryResultsDocument.QueryDocument.QueryText;
             Hashtable context = GetTfsQueryParameters(queryResultsDocument);
 
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectUriProvider.GetCurrent());
+            var tpc = teamProjectCollectionProvider.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
 
             var workItemQuery = new Query(workItemStore, query, context);
@@ -92,7 +92,7 @@ namespace ScrumPowerTools.Models
             IEnumerable<string> numericFieldDefinitionNames = NumericFieldDefinitions.Select(fd => "[" + fd.ReferenceName + "]");
             string select = "SELECT " + string.Join(", ", numericFieldDefinitionNames) + " FROM WorkItems";
 
-            var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(teamProjectUriProvider.GetCurrent());
+            var tpc = teamProjectCollectionProvider.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
 
             var actualWorkItemQuery = new Query(workItemStore, select, allWorkItemIds);
