@@ -65,8 +65,11 @@ namespace ScrumPowerTools
             IoC.Register(new WorkItemSelectionService(dte, documentService));
             IoC.Register(new ShellDocumentOpener(this));
 
+#if VS11
+            IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());
+#else
             IoC.Register<ITeamProjectCollectionProvider>(new Vs10TeamProjectCollectionProvider());
-
+#endif
             var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
 
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);

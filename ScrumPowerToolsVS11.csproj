@@ -30,7 +30,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;VS11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,7 +38,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;VS11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -159,6 +159,7 @@
   <ItemGroup>
     <Compile Include="Controllers\MenuCommandController.cs" />
     <Compile Include="Controllers\QueryResultsTotalizerController.cs" />
+    <Compile Include="Framework\Composition\IoC.cs" />
     <Compile Include="Framework\Executor.cs" />
     <Compile Include="Framework\Presentation\ColumnDescriptor.cs" />
     <Compile Include="Framework\Presentation\DelegateCommand.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Framework\Presentation\ViewModelBase.cs" />
     <Compile Include="Framework\Presentation\ViewModelBinder.cs" />
     <Compile Include="Framework\Presentation\ViewResolver.cs" />
+    <Compile Include="IPackageServiceProvider.cs" />
     <Compile Include="Model\ChangesetCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetServerItemCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetVisitEventArgs.cs" />
@@ -195,6 +197,8 @@
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
     <Compile Include="Services\ShellDocumentOpener.cs" />
+    <Compile Include="TfsIntegration\ITeamProjectCollectionProvider.cs" />
+    <Compile Include="TfsIntegration\Vs11TeamProjectCollectionProvider.cs" />
     <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
     <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
     <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />
@@ -214,7 +218,6 @@
     <Compile Include="Views\ReviewView.xaml.cs">
       <DependentUpon>ReviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisualStudioSpecificImplementationLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -228,12 +231,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Key.snk" />
+    <None Include="source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="ScrumPowerTools.vsct">
@@ -259,23 +258,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ScrumPowerTools.Interfaces\ScrumPowerTools.Interfaces.csproj">
-      <Project>{b799c4a5-7205-4942-82b0-316fe5f167df}</Project>
-      <Name>ScrumPowerTools.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScrumPowerTools.VS10\ScrumPowerTools.VS10.csproj">
-      <Project>{298cb347-d538-4c3d-bd32-67ca6e2da58d}</Project>
-      <Name>ScrumPowerTools.VS10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScrumPowerTools.VS11\ScrumPowerTools.VS11.csproj">
-      <Project>{415cd305-2c90-4414-8067-f3f1b273ddab}</Project>
-      <Name>ScrumPowerTools.VS11</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\Composition\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
