@@ -140,6 +140,7 @@
   <ItemGroup>
     <Compile Include="Controllers\MenuCommandController.cs" />
     <Compile Include="Controllers\QueryResultsTotalizerController.cs" />
+    <Compile Include="Framework\Composition\IoC.cs" />
     <Compile Include="Framework\Executor.cs" />
     <Compile Include="Framework\Presentation\ColumnDescriptor.cs" />
     <Compile Include="Framework\Presentation\DelegateCommand.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Framework\Presentation\ViewModelBase.cs" />
     <Compile Include="Framework\Presentation\ViewModelBinder.cs" />
     <Compile Include="Framework\Presentation\ViewResolver.cs" />
+    <Compile Include="IPackageServiceProvider.cs" />
     <Compile Include="Model\ChangesetCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetServerItemCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetVisitEventArgs.cs" />
@@ -176,6 +178,10 @@
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
     <Compile Include="Services\ShellDocumentOpener.cs" />
+    <Compile Include="TfsIntegration\ITeamProjectCollectionProvider.cs" />
+    <Compile Include="TfsIntegration\Vs10TeamProjectCollectionProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
     <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
     <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />
@@ -195,7 +201,6 @@
     <Compile Include="Views\ReviewView.xaml.cs">
       <DependentUpon>ReviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisualStudioSpecificImplementationLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -238,23 +243,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\Composition\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ScrumPowerTools.Interfaces\ScrumPowerTools.Interfaces.csproj">
-      <Project>{B799C4A5-7205-4942-82B0-316FE5F167DF}</Project>
-      <Name>ScrumPowerTools.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScrumPowerTools.VS10\ScrumPowerTools.VS10.csproj">
-      <Project>{298CB347-D538-4C3D-BD32-67CA6E2DA58D}</Project>
-      <Name>ScrumPowerTools.VS10</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScrumPowerTools.VS11\ScrumPowerTools.VS11.csproj">
-      <Project>{415CD305-2C90-4414-8067-F3F1B273DDAB}</Project>
-      <Name>ScrumPowerTools.VS11</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

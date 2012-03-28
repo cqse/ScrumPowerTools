@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
-using ScrumPowerTools.Interfaces;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Models
 {

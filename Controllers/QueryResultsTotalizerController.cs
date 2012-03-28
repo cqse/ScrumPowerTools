@@ -1,8 +1,7 @@
-﻿using Microsoft.TeamFoundation.Common;
-using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+﻿using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using EnvDTE;
-using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Models;
+using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.Views;
 
 namespace ScrumPowerTools.Controllers

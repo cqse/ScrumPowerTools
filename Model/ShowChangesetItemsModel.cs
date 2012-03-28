@@ -1,8 +1,8 @@
 ﻿using System;
 using EnvDTE;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
-using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Models;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {

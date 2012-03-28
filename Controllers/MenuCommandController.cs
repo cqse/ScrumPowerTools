@@ -1,11 +1,10 @@
 ﻿using EnvDTE;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
-using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Model;
-using ScrumPowerTools.Models;
 using ScrumPowerTools.Packaging;
+using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.ViewModels;
 using ScrumPowerTools.Views;
 

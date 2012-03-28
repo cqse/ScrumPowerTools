@@ -1,5 +1,6 @@
 using Microsoft.TeamFoundation.VersionControl.Client;
-using ScrumPowerTools.Interfaces;
+using ScrumPowerTools.Framework.Composition;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Controllers;
+using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
-using ScrumPowerTools.Interfaces;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
+using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.ViewModels;
 
 
@@ -65,8 +65,7 @@ namespace ScrumPowerTools
             IoC.Register(new WorkItemSelectionService(dte, documentService));
             IoC.Register(new ShellDocumentOpener(this));
 
-
-            new VisualStudioSpecificImplementationLoader().RegisterTypes(dte.Version);
+            IoC.Register<ITeamProjectCollectionProvider>(new Vs10TeamProjectCollectionProvider());
 
             var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
 

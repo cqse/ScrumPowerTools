@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using ScrumPowerTools.Interfaces;
+using ScrumPowerTools.Framework.Composition;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {
