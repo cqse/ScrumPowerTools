@@ -3,19 +3,13 @@
   <Identifier Id="534ed8ea-71db-4c8f-a27b-588c7e19d8f7">
     <Name>Scrum Power Tools</Name>
     <Author>Pascal van Buijtene</Author>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
     <Description xml:space="preserve">Adds extensions to support daily scrum activities, like drawing burn down chart and showing items for reviewing.</Description>
     <Locale>1033</Locale>
     <License>license.txt</License>
     <InstalledByMsi>false</InstalledByMsi>
     <SupportedProducts>
       <VisualStudio Version="10.0">
-        <Edition>Ultimate</Edition>
-        <Edition>Premium</Edition>
-        <Edition>Pro</Edition>
-        <Edition>IntegratedShell</Edition>
-      </VisualStudio>
-      <VisualStudio Version="11.0">
         <Edition>Ultimate</Edition>
         <Edition>Premium</Edition>
         <Edition>Pro</Edition>

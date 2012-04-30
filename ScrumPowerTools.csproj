@@ -214,11 +214,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +231,7 @@
     </Content>
     <Content Include="Resources\Package.ico" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
+    <None Include="VS10Specific\source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ReviewView.xaml">

@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScrumPowerTools</RootNamespace>
-    <AssemblyName>ScrumPowerTools</AssemblyName>
+    <AssemblyName>ScrumPowerToolsVS11</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -29,7 +29,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\DebugVS11\</OutputPath>
     <DefineConstants>TRACE;DEBUG;VS11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,11 +37,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\ReleaseVS11\</OutputPath>
     <DefineConstants>TRACE;VS11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
@@ -232,7 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
-    <None Include="source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="ScrumPowerTools.vsct">
@@ -249,6 +248,7 @@
     </Content>
     <Content Include="Resources\Package.ico" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
+    <None Include="VS11Specific\source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ReviewView.xaml">

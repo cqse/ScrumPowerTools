@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.VisualStudio.Shell;
 
 namespace ScrumPowerTools.Services
@@ -14,7 +15,10 @@ namespace ScrumPowerTools.Services
 
         public void Open(string path)
         {
-            VsShellUtilities.OpenDocument(serviceProvider, path);
+            if (File.Exists(path))
+            {
+                VsShellUtilities.OpenDocument(serviceProvider, path);
+            }
         }
     }
 }

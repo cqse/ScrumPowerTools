@@ -39,7 +39,7 @@ namespace ScrumPowerTools.Model
 
             var workItem = workItemStore.GetWorkItem(workItemId);
 
-            Title = string.Format("Review - {0} - {1}", workItem.Type.Name, workItem.Title);
+            Title = string.Format("Review - {0} {1} - {2}", workItem.Type.Name, workItem.Id, workItem.Title);
         }
     }
 }
