@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.TeamFoundation.VersionControl.Client;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
@@ -18,11 +20,17 @@ namespace ScrumPowerTools.Model
         public void CompareWithPreviousVersion(string serverItem, int changesetId)
         {
             var previousVersionId = GetPreviousChangesetId(serverItem, changesetId);
+            try
+            {
+                var itemFrom = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(previousVersionId));
+                var itemTo = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(changesetId));
 
-            var itemFrom = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(previousVersionId));
-            var itemTo = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(changesetId));
-
-            Difference.VisualDiffItems(versionControlServer, itemFrom, itemTo);
+                Difference.VisualDiffItems(versionControlServer, itemFrom, itemTo);
+            }
+            catch(Exception ex)
+            {
+                //HACK
+            }
         }
 
         private int GetPreviousChangesetId(string serverItem, int changesetId)
