@@ -6,7 +6,7 @@ using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using ScrumPowerTools.TfsIntegration;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     public class QueryResultsTotalizerModel
     {

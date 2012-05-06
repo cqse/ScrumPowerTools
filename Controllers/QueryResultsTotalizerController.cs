@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using EnvDTE;
-using ScrumPowerTools.Models;
+using ScrumPowerTools.Model;
 using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.Views;
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using ScrumPowerTools.Models;
 
 namespace ScrumPowerTools.Model
 {

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using ScrumPowerTools.Model;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     internal class ShowChangesetsEventArgs : EventArgs
     {

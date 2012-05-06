@@ -1,8 +1,7 @@
 ﻿using System;
-using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     internal class WorkItemVisitor
     {
@@ -15,7 +14,6 @@ namespace ScrumPowerTools.Models
         {
             this.workItemStore = workItemStore;
         }
-
 
         public void Visit(WorkItem workItem)
         {

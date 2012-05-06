@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     internal class WorkItemVisitEventArgs : EventArgs
     {

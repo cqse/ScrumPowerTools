@@ -1,8 +1,5 @@
 using System;
-using EnvDTE;
-using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
-using ScrumPowerTools.Models;
-using ScrumPowerTools.TfsIntegration;
+
 
 namespace ScrumPowerTools.Model
 {
@@ -10,12 +7,13 @@ namespace ScrumPowerTools.Model
     {
         private readonly WorkItemCollector workItemCollector;
         private readonly WorkItemSelectionService workItemSelectionService;
+        
         internal event EventHandler<ShowChangesetsEventArgs> ShowChangesets = delegate { };
 
-        public ShowChangesetsModel(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamExplorer)
+        public ShowChangesetsModel(WorkItemSelectionService workItemSelectionService, WorkItemCollector workItemCollector)
         {
-            workItemSelectionService = new WorkItemSelectionService(dte, docService);
-            workItemCollector = new WorkItemCollector(teamExplorer);
+            this.workItemSelectionService = workItemSelectionService;
+            this.workItemCollector = workItemCollector;
         }
 
         public void Execute()

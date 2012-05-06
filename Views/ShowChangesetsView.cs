@@ -5,7 +5,6 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using ScrumPowerTools.Model;
-using ScrumPowerTools.Models;
 using ScrumPowerTools.Packaging;
 
 namespace ScrumPowerTools.Views

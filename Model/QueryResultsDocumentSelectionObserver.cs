@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     public class QueryResultsDocumentSelectionObserver
     {

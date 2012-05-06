@@ -1,4 +1,7 @@
 ﻿using EnvDTE;
+using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
@@ -27,7 +30,12 @@ namespace ScrumPowerTools.Controllers
         {
             if (commandId == MenuCommands.ShowAffectedChangesetFiles)
             {
-                var model = new ShowChangesetItemsModel(dte, docService, teamProjectCollectionProvider);
+                var workItemSelectionService = new WorkItemSelectionService(dte, docService);
+                TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
+                var workItemStore = tpc.GetService<WorkItemStore>();
+                var versionControlServer = tpc.GetService<VersionControlServer>();
+                var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
+                var model = new ShowChangesetItemsModel(workItemSelectionService, workItemCollector);
                 var view = new ShowChangesetItemsView(dte);
 
                 view.ConnectTo(model);
@@ -38,7 +46,12 @@ namespace ScrumPowerTools.Controllers
             }
             else if (commandId == MenuCommands.ShowChangesetsWithAffectedFiles)
             {
-                var model = new ShowChangesetsModel(dte, docService, teamProjectCollectionProvider);
+                var workItemSelectionService = new WorkItemSelectionService(dte, docService);
+                TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
+                var workItemStore = tpc.GetService<WorkItemStore>();
+                var versionControlServer = tpc.GetService<VersionControlServer>();
+                var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
+                var model = new ShowChangesetsModel(workItemSelectionService, workItemCollector);
                 var view = new ShowChangesetsView(dte);
 
                 view.ConnectTo(model);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     public class ChangesetVisitEventArgs : EventArgs
     {

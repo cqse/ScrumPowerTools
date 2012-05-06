@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 
-namespace ScrumPowerTools.Models
+namespace ScrumPowerTools.Model
 {
     /// <summary>
     /// Responsible for observing the creation of query results documents and notifying when it happens.
