@@ -101,6 +101,24 @@
           <ButtonText>Review</ButtonText>
         </Strings>
       </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="expandAllReviewItemsCommandId" priority="0x100" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" />
+        <Icon guid="guidImages" id="1" />
+        <CommandName>ExpandAllReviewItemsCommand</CommandName>
+        <Strings>
+          <ButtonText>Expand All</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="collapseAllReviewItemsCommandId" priority="0x101" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" />
+        <Icon guid="guidImages" id="2" />
+        <CommandName>CollapseAllReviewItemsCommand</CommandName>
+        <Strings>
+          <ButtonText>Collapse All</ButtonText>
+        </Strings>
+      </Button>
       
     </Buttons>
 
@@ -143,6 +161,8 @@
 
       <IDSymbol name="fillReviewGroupingComboListCommandId" value="0x2004" />
       <IDSymbol name="changeReviewGroupingCommandId" value="0x2005" />
+      <IDSymbol name="expandAllReviewItemsCommandId" value="0x2006" />
+      <IDSymbol name="collapseAllReviewItemsCommandId" value="0x2007" />
 
       <IDSymbol name="TWToolbar" value="0x1000" />
       <IDSymbol name="TWToolbarGroup" value="0x1050" />
