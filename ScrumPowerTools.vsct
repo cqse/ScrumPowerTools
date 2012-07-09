@@ -56,10 +56,14 @@
          must be a menu. -->
     <Groups>
 
-      <Group guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" priority="0x0000">
+      <Group guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" priority="0x0001">
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
 
+      <Group guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" priority="0x0000">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
+      </Group>
+      
       <Group guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" priority="0x0600">
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
       </Group>
@@ -103,7 +107,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="expandAllReviewItemsCommandId" priority="0x100" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" />
         <Icon guid="guidImages" id="1" />
         <CommandName>ExpandAllReviewItemsCommand</CommandName>
         <Strings>
@@ -112,7 +116,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="collapseAllReviewItemsCommandId" priority="0x101" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" />
         <Icon guid="guidImages" id="2" />
         <CommandName>CollapseAllReviewItemsCommand</CommandName>
         <Strings>
@@ -166,6 +170,7 @@
 
       <IDSymbol name="TWToolbar" value="0x1000" />
       <IDSymbol name="TWToolbarGroup" value="0x1050" />
+      <IDSymbol name="CollapseExpandGroup" value="0x1040" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{e364f031-5b6d-439c-92fd-7328ca274524}">

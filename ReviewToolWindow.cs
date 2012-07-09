@@ -36,7 +36,7 @@ namespace ScrumPowerTools
             // the object returned by the Content property.
             var view = ViewResolver.Resolve<ReviewViewModel>();
 
-            viewModel = (view as FrameworkElement).DataContext as ReviewViewModel;
+            viewModel = ((FrameworkElement)view).DataContext as ReviewViewModel;
             viewModel.PropertyChanged += ViewModelPropertyChanged;
 
             Content = view;
