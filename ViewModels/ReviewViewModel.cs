@@ -17,11 +17,15 @@ namespace ScrumPowerTools.ViewModels
     [Export(typeof(IHandle<RequestReviewGroupingChoicesEvent>))]
     [Export(typeof(IHandle<RequestSelectedReviewGroupingEvent>))]
     [Export(typeof(IHandle<ReviewGroupingSelectedEvent>))]
+    [Export(typeof(IHandle<CollapseAllReviewItemsEvent>))]
+    [Export(typeof(IHandle<ExpandAllReviewItemsEvent>))]
     public class ReviewViewModel : ViewModelBase,
         IHandle<ShowReviewWindowMessage>,
         IHandle<RequestReviewGroupingChoicesEvent>,
         IHandle<RequestSelectedReviewGroupingEvent>,
-        IHandle<ReviewGroupingSelectedEvent>
+        IHandle<ReviewGroupingSelectedEvent>,
+        IHandle<CollapseAllReviewItemsEvent>,
+        IHandle<ExpandAllReviewItemsEvent>
     {
         private enum ReviewGrouping
         {
@@ -35,24 +39,6 @@ namespace ScrumPowerTools.ViewModels
             SelectedGrouping = ReviewGrouping.Changeset;
 
             AssignColumns();
-        }
-
-        private void AssignColumns()
-        {
-            ObservableCollection<ColumnDescriptor> columns;
-
-            if(SelectedGrouping == ReviewGrouping.File)
-            {
-                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder"));                
-            }
-            else
-            {
-                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Comment"));
-            }
-
-            Columns = columns;
-
-            NotifyOfPropertyChange(() => Columns);
         }
 
         [Import(typeof(IToolWindowActivator))]
@@ -74,6 +60,9 @@ namespace ScrumPowerTools.ViewModels
         }
 
         private string title;
+
+        private bool isExpanded;
+
         public string Title
         {
             get { return title; }
@@ -96,6 +85,34 @@ namespace ScrumPowerTools.ViewModels
         public ICommand CompareWithPreviousVersionCommand
         {
             get { return new DelegateCommand<ReviewItemModel>(CompareWithPreviousVersion); }
+        }
+
+        public bool IsExpanded 
+        { 
+            get { return isExpanded; }
+            set
+            {
+                isExpanded = value;
+                NotifyOfPropertyChange(() => IsExpanded);
+            }
+        }
+
+        private void AssignColumns()
+        {
+            ObservableCollection<ColumnDescriptor> columns;
+
+            if(SelectedGrouping == ReviewGrouping.File)
+            {
+                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder"));                
+            }
+            else
+            {
+                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Comment"));
+            }
+
+            Columns = columns;
+
+            NotifyOfPropertyChange(() => Columns);
         }
 
         private void SelectItem(ReviewItemModel reviewItem)
@@ -138,6 +155,16 @@ namespace ScrumPowerTools.ViewModels
             AssignColumns();
 
             UpdateGrouping();
+        }
+
+        public void Handle(CollapseAllReviewItemsEvent message)
+        {
+            IsExpanded = false;
+        }
+
+        public void Handle(ExpandAllReviewItemsEvent message)
+        {
+            IsExpanded = true;
         }
 
         private void UpdateGrouping()

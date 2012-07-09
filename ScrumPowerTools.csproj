@@ -182,6 +182,8 @@
     <Compile Include="TfsIntegration\Vs10TeamProjectCollectionProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\CollapseAllReviewItemsEvent.cs" />
+    <Compile Include="ViewModels\ExpandAllReviewItemsEvent.cs" />
     <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
     <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
     <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />

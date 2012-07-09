@@ -124,7 +124,8 @@ namespace ScrumPowerTools
             {
                 return VSConstants.S_OK;
             }
-            else if (commandId == MenuCommands.FillReviewGroupingComboList)
+
+            if (commandId == MenuCommands.FillReviewGroupingComboList)
             {
                 if (pvaOut == IntPtr.Zero)
                 {
@@ -138,7 +139,8 @@ namespace ScrumPowerTools
 
                 return VSConstants.S_OK;
             }
-            else if (commandId == MenuCommands.ChangeReviewGrouping)
+
+            if (commandId == MenuCommands.ChangeReviewGrouping)
             {
                 if (pvaOut != IntPtr.Zero)
                 {
@@ -159,6 +161,19 @@ namespace ScrumPowerTools
 
                 return VSConstants.S_OK;
             }
+
+            if (commandId == MenuCommands.CollapseAllReviewItems)
+            {
+                eventAggregator.Publish(new CollapseAllReviewItemsEvent());
+                return VSConstants.S_OK;
+            }
+
+            if (commandId == MenuCommands.ExpandAllReviewItems)
+            {
+                eventAggregator.Publish(new ExpandAllReviewItemsEvent());
+                return VSConstants.S_OK;
+            }
+
 
             return OLECMDERR_E_UNKNOWNGROUP;
         }
