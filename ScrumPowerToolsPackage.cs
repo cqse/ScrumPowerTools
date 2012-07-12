@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Controllers;
@@ -64,6 +65,7 @@ namespace ScrumPowerTools
 
             IoC.Register(new WorkItemSelectionService(dte, documentService));
             IoC.Register(new ShellDocumentOpener(this));
+            IoC.Register(new FileHistoryWindow(dte));
 
 #if VS11
             IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());

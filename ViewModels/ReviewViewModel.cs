@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
-using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Services;
@@ -27,12 +26,6 @@ namespace ScrumPowerTools.ViewModels
         IHandle<CollapseAllReviewItemsEvent>,
         IHandle<ExpandAllReviewItemsEvent>
     {
-        private enum ReviewGrouping
-        {
-            Changeset = 0,
-            File = 1
-        }
-
         public ReviewViewModel()
         {
             ReviewItems = new ListCollectionView(new List<ReviewItemModel>());
@@ -40,14 +33,6 @@ namespace ScrumPowerTools.ViewModels
 
             AssignColumns();
         }
-
-        [Import(typeof(IToolWindowActivator))]
-        private IToolWindowActivator ToolWindowActivator { get; set; }
-
-        [Import(typeof(ShellDocumentOpener))]
-        private ShellDocumentOpener ShellDocumentOpener { get; set; }
-
-        private ListCollectionView reviewItems;
 
         public ListCollectionView ReviewItems
         {
@@ -58,10 +43,6 @@ namespace ScrumPowerTools.ViewModels
                 NotifyOfPropertyChange(() => ReviewItems);
             }
         }
-
-        private string title;
-
-        private bool isExpanded;
 
         public string Title
         {
@@ -75,8 +56,6 @@ namespace ScrumPowerTools.ViewModels
 
         public ObservableCollection<ColumnDescriptor> Columns { get; private set; }
 
-        private ReviewGrouping SelectedGrouping { get; set; }
-
         public ICommand SelectItemCommand
         {
             get { return new DelegateCommand<ReviewItemModel>(SelectItem); }
@@ -85,6 +64,15 @@ namespace ScrumPowerTools.ViewModels
         public ICommand CompareWithPreviousVersionCommand
         {
             get { return new DelegateCommand<ReviewItemModel>(CompareWithPreviousVersion); }
+        }
+
+        public ICommand ViewHistoryCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(ViewHistory,
+                    () => SelectedItem != null);
+            }
         }
 
         public bool IsExpanded 
@@ -96,6 +84,8 @@ namespace ScrumPowerTools.ViewModels
                 NotifyOfPropertyChange(() => IsExpanded);
             }
         }
+
+        public ReviewItemModel SelectedItem { get; set; }
 
         private void AssignColumns()
         {
@@ -124,6 +114,11 @@ namespace ScrumPowerTools.ViewModels
         {
             var differentiator = new TfsItemDifferentiator();
             differentiator.CompareWithPreviousVersion(reviewItem.ServerItem, reviewItem.ChangesetId);
+        }
+
+        private void ViewHistory(ReviewItemModel reviewItem)
+        {
+            FileHistoryWindow.Show(reviewItem.ServerItem);
         }
 
         public void Handle(ShowReviewWindowMessage message)
@@ -196,6 +191,29 @@ namespace ScrumPowerTools.ViewModels
                     new ColumnDescriptor { HeaderText = "CreationDate", DisplayMember = "CreationDate" }
                 };
             }
+        }
+
+        private string title;
+
+        private bool isExpanded;
+
+        [Import(typeof(IToolWindowActivator))]
+        private IToolWindowActivator ToolWindowActivator { get; set; }
+
+        [Import(typeof(ShellDocumentOpener))]
+        private ShellDocumentOpener ShellDocumentOpener { get; set; }
+
+        [Import(typeof(FileHistoryWindow))]
+        private FileHistoryWindow FileHistoryWindow { get; set; }
+
+        private ListCollectionView reviewItems;
+
+        private ReviewGrouping SelectedGrouping { get; set; }
+
+        private enum ReviewGrouping
+        {
+            Changeset = 0,
+            File = 1
         }
     }
 }

@@ -10,8 +10,13 @@
   <UserControl.Resources>
 
     <ContextMenu x:Key="ReviewItemMenu"
-                 DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-      <MenuItem Header="Open" />
+                 DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget.DataContext}"
+                 
+                 >
+        <MenuItem Header="Open" />
+        <MenuItem Header="View History"
+                  Command="{Binding Path=DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                  CommandParameter="{Binding}"/>
       <MenuItem Header="Compare">
         <MenuItem Header="With Previous Version"
                   Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
@@ -21,7 +26,7 @@
 
   </UserControl.Resources>
   <Grid>
-    <ListView Name="ReviewItems">
+    <ListView Name="ReviewItems" SelectedItem="{Binding SelectedItem}">
       <ListView.View>
         <GridView local:GridViewColumns.DisplayMemberMember="DisplayMember"
                   local:GridViewColumns.HeaderTextMember="HeaderText" local:GridViewColumns.ColumnsSource="{Binding Columns}">
@@ -49,7 +54,7 @@
               <Setter Property="Template">
                 <Setter.Value>
                   <ControlTemplate TargetType="{x:Type GroupItem}">
-                        <Expander IsExpanded="{Binding Path=DataContext.IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type UserControl} }, Mode=OneWay}" BorderThickness="0,0,0,1">
+                        <Expander IsExpanded="{Binding Path=DataContext.IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type UserControl} }}" BorderThickness="0,0,0,1">
                       <Expander.Header>
                         <DockPanel>
                           <TextBlock Text="{Binding Path=Name}" Margin="5,0,5,0" />
