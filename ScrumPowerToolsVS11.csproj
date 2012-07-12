@@ -78,6 +78,10 @@
     <Reference Include="Microsoft.VisualStudio.TeamFoundation.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.VersionControl, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.VersionControl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TeamFoundation.WorkItemTracking, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -197,8 +201,11 @@
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
     <Compile Include="Services\ShellDocumentOpener.cs" />
+    <Compile Include="Services\TfsUiServices.cs" />
     <Compile Include="TfsIntegration\ITeamProjectCollectionProvider.cs" />
     <Compile Include="TfsIntegration\Vs11TeamProjectCollectionProvider.cs" />
+    <Compile Include="ViewModels\CollapseAllReviewItemsEvent.cs" />
+    <Compile Include="ViewModels\ExpandAllReviewItemsEvent.cs" />
     <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
     <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
     <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />
