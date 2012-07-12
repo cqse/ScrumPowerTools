@@ -180,7 +180,7 @@
     <Compile Include="Packaging\Identifiers.cs" />
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
-    <Compile Include="Services\FileHistoryWindow.cs">
+    <Compile Include="Services\TfsUiServices.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\ShellDocumentOpener.cs" />

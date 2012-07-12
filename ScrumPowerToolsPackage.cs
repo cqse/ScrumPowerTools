@@ -65,7 +65,7 @@ namespace ScrumPowerTools
 
             IoC.Register(new WorkItemSelectionService(dte, documentService));
             IoC.Register(new ShellDocumentOpener(this));
-            IoC.Register(new FileHistoryWindow(dte));
+            IoC.Register(new TfsUiServices(dte));
 
 #if VS11
             IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());

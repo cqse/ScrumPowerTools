@@ -75,6 +75,15 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
+        public ICommand ViewChangesetDetailsCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(ViewChangesetDetails,
+                    () => SelectedItem != null);
+            }
+        }
+
         public bool IsExpanded 
         { 
             get { return isExpanded; }
@@ -118,7 +127,12 @@ namespace ScrumPowerTools.ViewModels
 
         private void ViewHistory(ReviewItemModel reviewItem)
         {
-            FileHistoryWindow.Show(reviewItem.ServerItem);
+            TfsUiServices.ShowHistory(reviewItem.ServerItem);
+        }
+
+        private void ViewChangesetDetails(ReviewItemModel reviewItem)
+        {
+            TfsUiServices.ShowChangesetDetails(reviewItem.ChangesetId);
         }
 
         public void Handle(ShowReviewWindowMessage message)
@@ -203,8 +217,8 @@ namespace ScrumPowerTools.ViewModels
         [Import(typeof(ShellDocumentOpener))]
         private ShellDocumentOpener ShellDocumentOpener { get; set; }
 
-        [Import(typeof(FileHistoryWindow))]
-        private FileHistoryWindow FileHistoryWindow { get; set; }
+        [Import(typeof(TfsUiServices))]
+        private TfsUiServices TfsUiServices { get; set; }
 
         private ListCollectionView reviewItems;
 
