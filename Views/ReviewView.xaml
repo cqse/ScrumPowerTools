@@ -33,7 +33,8 @@
     <ListView Name="ReviewItems" SelectedItem="{Binding SelectedItem}">
       <ListView.View>
         <GridView local:GridViewColumns.DisplayMemberMember="DisplayMember"
-                  local:GridViewColumns.HeaderTextMember="HeaderText" local:GridViewColumns.ColumnsSource="{Binding Columns}">
+                  local:GridViewColumns.HeaderTextMember="HeaderText" 
+                  local:GridViewColumns.ColumnsSource="{Binding Columns}">
 
           <GridView.ColumnHeaderContainerStyle>
             <Style TargetType="GridViewColumnHeader">

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Data;
@@ -193,10 +194,14 @@ namespace ScrumPowerTools.ViewModels
             if (SelectedGrouping == ReviewGrouping.File)
             {
                 reviewItems.GroupDescriptions.Add(new PropertyGroupDescription("ServerItem"));
+                ReviewItems.SortDescriptions.Add(new SortDescription("ServerItem", ListSortDirection.Ascending));
+                ReviewItems.SortDescriptions.Add(new SortDescription("ChangesetId", ListSortDirection.Ascending));
             }
             else
             {
                 reviewItems.GroupDescriptions.Add(new PropertyGroupDescription("Comment"));
+                ReviewItems.SortDescriptions.Add(new SortDescription("ChangesetId", ListSortDirection.Ascending));
+                ReviewItems.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             }
         }
 
