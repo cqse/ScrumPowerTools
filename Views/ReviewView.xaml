@@ -19,9 +19,12 @@
                   Command="{Binding Path=DataContext.ViewChangesetDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
                   CommandParameter="{Binding}"/>
             <MenuItem Header="Compare">
-        <MenuItem Header="With Previous Version"
-                  Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}" />
+                <MenuItem Header="With Previous Version"
+                          Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                          CommandParameter="{Binding}" />
+                <MenuItem Header="Initial Version with Latest Change"
+                          Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                          CommandParameter="{Binding}" />
       </MenuItem>
     </ContextMenu>
 

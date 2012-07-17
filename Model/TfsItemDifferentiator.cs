@@ -1,5 +1,4 @@
 using System;
-
 using Microsoft.TeamFoundation.VersionControl.Client;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
@@ -20,14 +19,27 @@ namespace ScrumPowerTools.Model
         public void CompareWithPreviousVersion(string serverItem, int changesetId)
         {
             var previousVersionId = GetPreviousChangesetId(serverItem, changesetId);
+            Compare(serverItem, previousVersionId, changesetId);
+        }
+
+        public void CompareInitialVersionWithLatestChange(string serverItem, int firstChangesetId, int lastChangesetId)
+        {
+            var initialChangesetId = GetPreviousChangesetId(serverItem, firstChangesetId);
+            Compare(serverItem, initialChangesetId, lastChangesetId);
+        }
+
+        private void Compare(string serverItem, int fromChangesetId, int toChangesetId)
+        {
             try
             {
-                var itemFrom = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(previousVersionId));
-                var itemTo = new DiffItemVersionedFile(versionControlServer, serverItem, new ChangesetVersionSpec(changesetId));
+                var itemFrom = new DiffItemVersionedFile(versionControlServer, serverItem,
+                    new ChangesetVersionSpec(fromChangesetId));
+                var itemTo = new DiffItemVersionedFile(versionControlServer, serverItem,
+                    new ChangesetVersionSpec(toChangesetId));
 
                 Difference.VisualDiffItems(versionControlServer, itemFrom, itemTo);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //HACK
             }
@@ -37,7 +49,8 @@ namespace ScrumPowerTools.Model
         {
             VersionSpec version = new ChangesetVersionSpec(changesetId);
 
-            var itemChangesetHistory = versionControlServer.QueryHistory(serverItem, version, 0, RecursionType.Full, null, null,
+            var itemChangesetHistory = versionControlServer.QueryHistory(serverItem, version, 0, RecursionType.Full,
+                null, null,
                 version, 2, false, false);
 
             int previousVersionId = changesetId;

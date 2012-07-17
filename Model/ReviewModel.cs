@@ -3,6 +3,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
+using System.Linq;
 
 namespace ScrumPowerTools.Model
 {
@@ -40,6 +41,20 @@ namespace ScrumPowerTools.Model
             var workItem = workItemStore.GetWorkItem(workItemId);
 
             Title = string.Format("Review - {0} {1} - {2}", workItem.Type.Name, workItem.Id, workItem.Title);
+        }
+
+        public void CompareInitialVersionWithLatestChange(string serverItem)
+        {
+            int firstChangesetId = ItemsToReview
+                .Where(reviewItem => reviewItem.ServerItem == serverItem)
+                .Min(reviewItem => reviewItem.ChangesetId);
+
+            int lastChangesetId = ItemsToReview
+                .Where(reviewItem => reviewItem.ServerItem == serverItem)
+                .Max(reviewItem => reviewItem.ChangesetId);
+
+            var diffirentiator = new TfsItemDifferentiator();
+            diffirentiator.CompareInitialVersionWithLatestChange(serverItem, firstChangesetId, lastChangesetId);
         }
     }
 }

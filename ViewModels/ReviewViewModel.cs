@@ -66,6 +66,11 @@ namespace ScrumPowerTools.ViewModels
             get { return new DelegateCommand<ReviewItemModel>(CompareWithPreviousVersion); }
         }
 
+        public ICommand CompareInitialVersionWithLatestChangeCommand
+        {
+            get { return new DelegateCommand<ReviewItemModel>(CompareInitialVersionWithLatestChange); }
+        }
+
         public ICommand ViewHistoryCommand
         {
             get
@@ -125,6 +130,11 @@ namespace ScrumPowerTools.ViewModels
             differentiator.CompareWithPreviousVersion(reviewItem.ServerItem, reviewItem.ChangesetId);
         }
 
+        private void CompareInitialVersionWithLatestChange(ReviewItemModel reviewItem)
+        {
+            model.CompareInitialVersionWithLatestChange(reviewItem.ServerItem);
+        }
+
         private void ViewHistory(ReviewItemModel reviewItem)
         {
             TfsUiServices.ShowHistory(reviewItem.ServerItem);
@@ -137,11 +147,11 @@ namespace ScrumPowerTools.ViewModels
 
         public void Handle(ShowReviewWindowMessage message)
         {
-            var reviewModel = new ReviewModel();
-            reviewModel.Review(message.WorkItemId);
+            model = new ReviewModel();
+            model.Review(message.WorkItemId);
 
-            Title = reviewModel.Title;
-            ReviewItems = new ListCollectionView(reviewModel.ItemsToReview.ToList());
+            Title = model.Title;
+            ReviewItems = new ListCollectionView(model.ItemsToReview.ToList());
             
             UpdateGrouping();
             ToolWindowActivator.Activate<ReviewToolWindow>();
@@ -221,6 +231,7 @@ namespace ScrumPowerTools.ViewModels
         private TfsUiServices TfsUiServices { get; set; }
 
         private ListCollectionView reviewItems;
+        private ReviewModel model;
 
         private ReviewGrouping SelectedGrouping { get; set; }
 
