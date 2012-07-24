@@ -156,7 +156,11 @@
     <Compile Include="Framework\Presentation\ViewModelBase.cs" />
     <Compile Include="Framework\Presentation\ViewModelBinder.cs" />
     <Compile Include="Framework\Presentation\ViewResolver.cs" />
+    <Compile Include="GeneralOptions.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IPackageServiceProvider.cs" />
+    <Compile Include="MenuItemVisibility.cs" />
     <Compile Include="Model\ChangesetCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetServerItemCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetVisitEventArgs.cs" />

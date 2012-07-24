@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Controllers;
@@ -38,6 +37,7 @@ namespace ScrumPowerTools
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ReviewToolWindow))]
+    [ProvideOptionPage(typeof(GeneralOptions),"Scrum Power Toolss", "General", 110, 1001, false)]
     [Guid(Identifiers.PackageId)]
     [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
     public sealed class ScrumPowerToolsPackage : Package, IOleCommandTarget, IToolWindowActivator, IPackageServiceProvider
@@ -76,7 +76,9 @@ namespace ScrumPowerTools
 
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
 
-            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider);
+
+            GeneralOptions options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
+            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options);
         }
 
         int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint commandId, OLECMD[] prgCmds, IntPtr pCmdText)
@@ -86,18 +88,23 @@ namespace ScrumPowerTools
                 return OLECMDERR_E_UNKNOWNGROUP;
             }
 
-            switch (prgCmds[0].cmdID)
+            
+            uint cmdId = prgCmds[0].cmdID;
+
+            switch (cmdId)
             {
+                case MenuCommands.ShowReviewWindow:
                 case MenuCommands.ShowAffectedChangesetFiles:
                 case MenuCommands.ShowChangesetsWithAffectedFiles:
 
-                    prgCmds[0].cmdf = (int)OLECMDF.OLECMDF_SUPPORTED;
-
-                    if (menuCommandController.CanExecute(commandId))
+                    if (menuCommandController.CanExecute(cmdId))
                     {
-                        prgCmds[0].cmdf |= (int)OLECMDF.OLECMDF_ENABLED;
+                        prgCmds[0].cmdf = (int)OLECMDF.OLECMDF_ENABLED | (int)OLECMDF.OLECMDF_SUPPORTED;
                     }
-
+                    else
+                    {
+                        prgCmds[0].cmdf = (int)OLECMDF.OLECMDF_INVISIBLE | (int)OLECMDF.OLECMDF_SUPPORTED;                            
+                    }
                     break;
 
                 case MenuCommands.ChangeReviewGrouping:
@@ -184,8 +191,8 @@ namespace ScrumPowerTools
         {
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = FindToolWindow(typeof(T), 0, true);
+            bool createWhenNotFound = true;
+            ToolWindowPane window = FindToolWindow(typeof(T), 0, createWhenNotFound);
 
             if ((null == window) || (null == window.Frame))
             {

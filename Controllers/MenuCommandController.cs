@@ -18,12 +18,15 @@ namespace ScrumPowerTools.Controllers
         private readonly DTE dte;
         private readonly DocumentService docService;
         private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
+        private readonly GeneralOptions options;
 
-        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider)
+        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider,
+            GeneralOptions options)
         {
             this.dte = dte;
             this.docService = docService;
             this.teamProjectCollectionProvider = teamProjectCollectionProvider;
+            this.options = options;
         }
 
         public bool Execute(uint commandId)
@@ -78,7 +81,12 @@ namespace ScrumPowerTools.Controllers
 
         public bool CanExecute(uint commandId)
         {
-            return new WorkItemSelectionService(dte, docService).HasSelection();
+            if(options.IsEnabled(commandId))
+            {
+                return new WorkItemSelectionService(dte, docService).HasSelection();
+            }
+
+            return false;
         }
     }
 }

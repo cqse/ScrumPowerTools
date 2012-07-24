@@ -84,6 +84,8 @@
 
       <Button guid="scrumPowerToolsCommandGroup" id="showAffectedChangesetFilesCommandId" priority="0x0100" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <CommandName>ShowAffectedChangesetFilesCommandId</CommandName>
           <ButtonText>Show Affected Files</ButtonText>
@@ -92,6 +94,8 @@
 
       <Button guid="scrumPowerToolsCommandGroup" id="showChangesetsWithAffectedFilesCommandId" priority="0x0101" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <CommandName>ShowChangesetsWithAffectedFilesCommandId</CommandName>
           <ButtonText>Show Changesets with Affected Files</ButtonText>
@@ -100,6 +104,8 @@
 
       <Button guid="scrumPowerToolsCommandGroup" id="showReviewWindowCommandId" priority="0x0102" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <CommandName>ShowReviewWindowCommandId</CommandName>
           <ButtonText>Review</ButtonText>
@@ -109,8 +115,8 @@
       <Button guid="scrumPowerToolsCommandGroup" id="expandAllReviewItemsCommandId" priority="0x100" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" />
         <Icon guid="guidImages" id="1" />
-        <CommandName>ExpandAllReviewItemsCommand</CommandName>
         <Strings>
+          <CommandName>ExpandAllReviewItemsCommand</CommandName>
           <ButtonText>Expand All</ButtonText>
         </Strings>
       </Button>
