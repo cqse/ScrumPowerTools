@@ -11,5 +11,7 @@
         public const uint ChangeReviewGrouping = 0x2005;
         public const uint ExpandAllReviewItems = 0x2006;
         public const uint CollapseAllReviewItems = 0x2007;
+
+        public const uint OpenTfsQuery1 = 0x3101;
     };
 }

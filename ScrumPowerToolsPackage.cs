@@ -107,6 +107,7 @@ namespace ScrumPowerTools
                     }
                     break;
 
+                case MenuCommands.OpenTfsQuery1:
                 case MenuCommands.ChangeReviewGrouping:
 
                     prgCmds[0].cmdf = (int)(OLECMDF.OLECMDF_SUPPORTED | OLECMDF.OLECMDF_ENABLED);

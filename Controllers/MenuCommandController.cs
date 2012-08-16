@@ -47,7 +47,8 @@ namespace ScrumPowerTools.Controllers
 
                 return true;
             }
-            else if (commandId == MenuCommands.ShowChangesetsWithAffectedFiles)
+
+            if (commandId == MenuCommands.ShowChangesetsWithAffectedFiles)
             {
                 var workItemSelectionService = new WorkItemSelectionService(dte, docService);
                 TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
@@ -63,7 +64,8 @@ namespace ScrumPowerTools.Controllers
 
                 return true;
             }
-            else if (commandId == MenuCommands.ShowReviewWindow)
+
+            if (commandId == MenuCommands.ShowReviewWindow)
             {
                 var workItemSelectionService = IoC.GetInstance<WorkItemSelectionService>();
 
@@ -74,6 +76,13 @@ namespace ScrumPowerTools.Controllers
                         WorkItemId = workItemSelectionService.GetFirstSelected()                                               
                     });
                 }
+
+                return true;
+            }
+
+            if (commandId == MenuCommands.OpenTfsQuery1)
+            {
+                return true;
             }
 
             return false;
