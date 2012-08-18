@@ -60,6 +60,14 @@ namespace ScrumPowerTools
         {
             base.Initialize();
 
+#if VS11
+            IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());
+#else
+            IoC.Register<ITeamProjectCollectionProvider>(new Vs10TeamProjectCollectionProvider());
+#endif
+
+            var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
+
             var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
@@ -67,18 +75,12 @@ namespace ScrumPowerTools
             IoC.Register(new ShellDocumentOpener(this));
             IoC.Register(new TfsUiServices(dte));
 
-#if VS11
-            IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());
-#else
-            IoC.Register<ITeamProjectCollectionProvider>(new Vs10TeamProjectCollectionProvider());
-#endif
-            var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
-
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
 
+            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider);
 
-            GeneralOptions options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
-            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options);
+            var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
+            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options, tfsQueryShortcutOpener);
         }
 
         int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint commandId, OLECMD[] prgCmds, IntPtr pCmdText)

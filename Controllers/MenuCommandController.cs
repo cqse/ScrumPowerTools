@@ -7,6 +7,7 @@ using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
+using ScrumPowerTools.Services;
 using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.ViewModels;
 using ScrumPowerTools.Views;
@@ -19,14 +20,16 @@ namespace ScrumPowerTools.Controllers
         private readonly DocumentService docService;
         private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
         private readonly GeneralOptions options;
+        private readonly TfsQueryShortcutOpener tfsQueryShortcutOpener;
 
-        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider,
-            GeneralOptions options)
+        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider, 
+            GeneralOptions options, TfsQueryShortcutOpener tfsQueryShortcutOpener)
         {
             this.dte = dte;
             this.docService = docService;
             this.teamProjectCollectionProvider = teamProjectCollectionProvider;
             this.options = options;
+            this.tfsQueryShortcutOpener = tfsQueryShortcutOpener;
         }
 
         public bool Execute(uint commandId)
@@ -82,6 +85,7 @@ namespace ScrumPowerTools.Controllers
 
             if (commandId == MenuCommands.OpenTfsQuery1)
             {
+                tfsQueryShortcutOpener.Open();
                 return true;
             }
 
