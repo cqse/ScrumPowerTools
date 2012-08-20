@@ -54,6 +54,14 @@
           <CommandName>Test Toolbar</CommandName>
         </Strings>
       </Menu>
+
+      <Menu guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenu" type="Menu" priority="0x0002">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" />
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>Assign shortcut</ButtonText>
+        </Strings>
+      </Menu>
       
     </Menus>
     
@@ -77,8 +85,16 @@
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
       
-      <Group guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" priority="0x0600">
+      <Group guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup">
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
+      </Group>
+
+      <Group guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" priority="0x1002">
+        <Parent guid="WorkItemTrackingGuid" id="TEQuery" />
+      </Group>
+
+      <Group guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" priority="0x0002">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenu" />
       </Group>
       
     </Groups>
@@ -104,9 +120,8 @@
         </Strings>
       </Button>
       
-      
       <Button guid="scrumPowerToolsCommandGroup" id="showAffectedChangesetFilesCommandId" priority="0x0100" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -116,7 +131,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="showChangesetsWithAffectedFilesCommandId" priority="0x0101" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -126,7 +141,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="showReviewWindowCommandId" priority="0x0102" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="scrumPowerToolsMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -150,6 +165,21 @@
         <Strings>
           <CommandName>CollapseAllReviewItemsCommand</CommandName>
           <ButtonText>Collapse All</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignShortcut" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" />
+        <Strings>
+          <CommandName>Assign shortcut</CommandName>
+          <ButtonText>Assign shortcut</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignShortcut1" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <Strings>
+          <ButtonText>Shortcut 1</ButtonText>
         </Strings>
       </Button>
       
@@ -186,7 +216,7 @@
     
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="scrumPowerToolsCommandGroup" value="{580831fe-ea0f-46f7-83d7-1d87039202cc}">
-      <IDSymbol name="scrumPowerToolsMenuGroup" value="0x1020" />
+      <IDSymbol name="WorkItemMenuGroup" value="0x1020" />
       <IDSymbol name="showAffectedChangesetFilesCommandId" value="0x0100" />
       <IDSymbol name="showChangesetsWithAffectedFilesCommandId" value="0x0101" />
       <IDSymbol name="showReviewWindowCommandId" value="0x0102" />
@@ -204,6 +234,13 @@
       <IDSymbol name="TopLevelMenuGroup" value="0x3100" />
       <IDSymbol name="OpenTfsQuery1" value="0x3101" />
       
+      <IDSymbol name="TeamExplorerQueryNodeContextMenuGroup" value="0x4000" />
+      <IDSymbol name="AssignShortcut" value="0x4001" />
+      <IDSymbol name="AssignShortcutMenu" value="0x4002" />
+      <IDSymbol name="AssignShortcutMenuGroup" value="0x4003" />
+      <IDSymbol name="AssignShortcut1" value="0x4004" />
+
+
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{e364f031-5b6d-439c-92fd-7328ca274524}">

@@ -13,5 +13,6 @@
         public const uint CollapseAllReviewItems = 0x2007;
 
         public const uint OpenTfsQuery1 = 0x3101;
+        public const uint AssignTfsQuery1 = 0x4004;
     };
 }

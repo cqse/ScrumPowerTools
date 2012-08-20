@@ -19,6 +19,7 @@ namespace ScrumPowerTools
             ShowAffectedChangesetFiles = MenuItemVisibility.Show;
             ShowChangesetsWithAffectedFiles = MenuItemVisibility.Show;
             Review = MenuItemVisibility.Show;
+            TfsQueryShortcut = "";
 
 
             commandVisibilityMapping = new Dictionary<uint,Func<bool>>
@@ -43,6 +44,12 @@ namespace ScrumPowerTools
         [DisplayName(@"Review")]
         [Description(MenuItemDescription)]
         public MenuItemVisibility Review { get; set; }
+
+        [Category(@"TFS Query Shortcuts")]
+        [DisplayName(@"TFS Query Shortcuts")]
+        [Description(@"TFS Query Shortcuts")]
+        public string TfsQueryShortcut { get; set; }
+
 
         public bool IsEnabled(uint commandId)
         {

@@ -77,9 +77,10 @@ namespace ScrumPowerTools
 
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
 
-            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider);
 
             var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
+            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, options);
+
             menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options, tfsQueryShortcutOpener);
         }
 

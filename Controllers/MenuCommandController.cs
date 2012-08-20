@@ -88,6 +88,11 @@ namespace ScrumPowerTools.Controllers
                 tfsQueryShortcutOpener.Open();
                 return true;
             }
+            if(commandId == MenuCommands.AssignTfsQuery1)
+            {
+                tfsQueryShortcutOpener.Assign();
+                return true;
+            }
 
             return false;
         }
