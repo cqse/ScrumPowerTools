@@ -11,6 +11,7 @@ using ScrumPowerTools.Services;
 using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.ViewModels;
 using ScrumPowerTools.Views;
+using System.Linq;
 
 namespace ScrumPowerTools.Controllers
 {
@@ -20,16 +21,36 @@ namespace ScrumPowerTools.Controllers
         private readonly DocumentService docService;
         private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
         private readonly GeneralOptions options;
+        private readonly TfsQueryShortcutAssigner tfsQueryShortcutAssigner;
         private readonly TfsQueryShortcutOpener tfsQueryShortcutOpener;
+        private readonly uint[] assignShortcutCommandIdentifiers;
+        private uint[] openTfsQueryCommandIdentifiers;
 
-        public MenuCommandController(DTE dte, DocumentService docService, ITeamProjectCollectionProvider teamProjectCollectionProvider, 
-            GeneralOptions options, TfsQueryShortcutOpener tfsQueryShortcutOpener)
+        public MenuCommandController(DTE dte, DocumentService docService,
+                                     ITeamProjectCollectionProvider teamProjectCollectionProvider,
+                                     GeneralOptions options, TfsQueryShortcutAssigner tfsQueryShortcutAssigner,
+                                     TfsQueryShortcutOpener tfsQueryShortcutOpener)
         {
             this.dte = dte;
             this.docService = docService;
             this.teamProjectCollectionProvider = teamProjectCollectionProvider;
             this.options = options;
+            this.tfsQueryShortcutAssigner = tfsQueryShortcutAssigner;
             this.tfsQueryShortcutOpener = tfsQueryShortcutOpener;
+
+            assignShortcutCommandIdentifiers = new[]
+            {
+                MenuCommands.AssignTfsQueryShortcut1, MenuCommands.AssignTfsQueryShortcut2,
+                MenuCommands.AssignTfsQueryShortcut3, MenuCommands.AssignTfsQueryShortcut4,
+                MenuCommands.AssignTfsQueryShortcut5
+            };
+
+            openTfsQueryCommandIdentifiers = new[]
+            {
+                MenuCommands.OpenTfsQuery1, MenuCommands.OpenTfsQuery2,
+                MenuCommands.OpenTfsQuery3, MenuCommands.OpenTfsQuery4,
+                MenuCommands.OpenTfsQuery5
+            };
         }
 
         public bool Execute(uint commandId)
@@ -76,21 +97,21 @@ namespace ScrumPowerTools.Controllers
                 {
                     IoC.GetInstance<EventAggregator>().Publish(new ShowReviewWindowMessage()
                     {
-                        WorkItemId = workItemSelectionService.GetFirstSelected()                                               
+                        WorkItemId = workItemSelectionService.GetFirstSelected()
                     });
                 }
 
                 return true;
             }
 
-            if (commandId == MenuCommands.OpenTfsQuery1)
+            if (openTfsQueryCommandIdentifiers.Contains(commandId))
             {
-                tfsQueryShortcutOpener.Open();
+                tfsQueryShortcutOpener.Open(commandId);
                 return true;
             }
-            if(commandId == MenuCommands.AssignTfsQuery1)
+            if (assignShortcutCommandIdentifiers.Contains(commandId))
             {
-                tfsQueryShortcutOpener.Assign();
+                tfsQueryShortcutAssigner.Assign(commandId);
                 return true;
             }
 
@@ -99,7 +120,7 @@ namespace ScrumPowerTools.Controllers
 
         public bool CanExecute(uint commandId)
         {
-            if(options.IsEnabled(commandId))
+            if (options.IsEnabled(commandId))
             {
                 return new WorkItemSelectionService(dte, docService).HasSelection();
             }

@@ -184,7 +184,10 @@
     <Compile Include="Packaging\Identifiers.cs" />
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
+    <Compile Include="Services\QueryPath.cs" />
+    <Compile Include="Services\TfsQueryShortcutAssigner.cs" />
     <Compile Include="Services\TfsQueryShortcutOpener.cs" />
+    <Compile Include="Services\TfsQueryShortcutStore.cs" />
     <Compile Include="Services\TfsUiServices.cs">
       <SubType>Code</SubType>
     </Compile>

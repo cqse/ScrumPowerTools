@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Microsoft.TeamFoundation.Common;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
-using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Services
@@ -14,32 +10,36 @@ namespace ScrumPowerTools.Services
     {
         private readonly DocumentService documentService;
         private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
-        private readonly GeneralOptions options;
+        private readonly TfsQueryShortcutStore store;
 
         public TfsQueryShortcutOpener(DocumentService documentService,
-                                      ITeamProjectCollectionProvider teamProjectCollectionProvider, GeneralOptions options)
+                                      ITeamProjectCollectionProvider teamProjectCollectionProvider, TfsQueryShortcutStore store)
         {
             this.documentService = documentService;
             this.teamProjectCollectionProvider = teamProjectCollectionProvider;
-            this.options = options;
+            this.store = store;
         }
 
-        public void Open()
+        public void Open(uint shortcutNr)
         {
-            try
+            shortcutNr = shortcutNr & 0x0f;
+
+            var queryPath = store.GetShortcut(shortcutNr);
+
+            if (queryPath != null)
             {
-                //QueryPath queryPath = new QueryPath(@"$scrumpowertools/Team Queries/All Work Items");
-                QueryPath queryPath = new QueryPath(options.TfsQueryShortcut);
-
-                QueryDefinition queryDefinition = GetQueryDefinition(queryPath);
-
-                if(queryDefinition != null)
+                try
                 {
-                    ShowQueryResults(queryDefinition);
+                    QueryDefinition queryDefinition = GetQueryDefinition(queryPath);
+
+                    if (queryDefinition != null)
+                    {
+                        ShowQueryResults(queryDefinition);
+                    }
                 }
-            }
-            catch (Exception)
-            {
+                catch (Exception)
+                {
+                }   
             }
         }
 
@@ -80,46 +80,5 @@ namespace ScrumPowerTools.Services
             results.Release(lockToken);
             queryDocument.Release(lockToken);
         }
-
-        public void Assign()
-        {
-            var teamExplorer = IoC.GetInstance<IPackageServiceProvider>().GetService<IVsTeamExplorer>();
-
-            IntPtr hierarchyPtr;
-            uint selectedItemId;
-            IVsMultiItemSelect dummy;
-            teamExplorer.TeamExplorerWindow.GetCurrentSelection(out hierarchyPtr, out selectedItemId, out dummy);
-            var hierarchy = (IVsHierarchy)Marshal.GetObjectForIUnknown(hierarchyPtr);
-            Marshal.Release(hierarchyPtr);
-
-            // now that we have the id and hierarchy, we can retrieve lots of properties about the node
-            // in this case, we get the canonical name which is the in the form of (server/project/[query folders]*/query)    
-            string canonicalName;    
-            hierarchy.GetCanonicalName(selectedItemId, out canonicalName);    
-            string[] tokens = canonicalName.Split('/');
-
-            options.TfsQueryShortcut = "$" + string.Join("/", tokens.Skip(1));
-            options.SaveSettingsToStorage();
-        }
-    }
-
-    public class QueryPath
-    {
-        public QueryPath(string queryPath)
-        {
-            var queryPathElements = queryPath.Split('/');
-
-            if (!queryPathElements.Any())
-            {
-                throw new ArgumentException("The specified path is not valid."); // no elements
-            }
-
-            ProjectName = queryPathElements.First().TrimStart('$');
-
-            PathNames = queryPathElements.Skip(1).ToArray();
-        }
-
-        public string ProjectName { get; private set; }
-        public string[] PathNames { get; private set; }
     }
 }

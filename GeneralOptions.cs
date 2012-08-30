@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.Win32;
 using ScrumPowerTools.Packaging;
 using System.Linq;
 
@@ -19,14 +20,13 @@ namespace ScrumPowerTools
             ShowAffectedChangesetFiles = MenuItemVisibility.Show;
             ShowChangesetsWithAffectedFiles = MenuItemVisibility.Show;
             Review = MenuItemVisibility.Show;
-            TfsQueryShortcut = "";
-
+            TfsQueryShortcuts = new string[0];
 
             commandVisibilityMapping = new Dictionary<uint,Func<bool>>
             {
-                {MenuCommands.ShowAffectedChangesetFiles, () => { return ShowAffectedChangesetFiles == MenuItemVisibility.Show; }},
-                {MenuCommands.ShowChangesetsWithAffectedFiles, () => { return ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show; }},
-                {MenuCommands.ShowReviewWindow, () => { return Review == MenuItemVisibility.Show; }}
+                {MenuCommands.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
+                {MenuCommands.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
+                {MenuCommands.ShowReviewWindow, () => Review == MenuItemVisibility.Show}
             };
         }
 
@@ -45,15 +45,40 @@ namespace ScrumPowerTools
         [Description(MenuItemDescription)]
         public MenuItemVisibility Review { get; set; }
 
-        [Category(@"TFS Query Shortcuts")]
-        [DisplayName(@"TFS Query Shortcuts")]
-        [Description(@"TFS Query Shortcuts")]
-        public string TfsQueryShortcut { get; set; }
-
+        internal string[] TfsQueryShortcuts { get; set; }
 
         public bool IsEnabled(uint commandId)
         {
             return commandVisibilityMapping[commandId]();
+        }
+
+        public override void SaveSettingsToStorage()
+        {
+            base.SaveSettingsToStorage();
+            var package = (Package)GetService(typeof(Package));
+
+            using (var registryKey = package.UserRegistryRoot)
+            using (var settingsKey = registryKey.OpenSubKey(SettingsRegistryPath, true))
+            {
+                settingsKey.SetValue("TfsQueryShortcuts", TfsQueryShortcuts, RegistryValueKind.MultiString);
+            }
+        }
+
+        public override void LoadSettingsFromStorage()
+        {
+            base.LoadSettingsFromStorage();
+
+            var package = (Package)GetService(typeof(Package));
+
+            using (var registryKey = package.UserRegistryRoot)
+            using (var settingsKey = registryKey.OpenSubKey(SettingsRegistryPath))
+            {
+                if( settingsKey.GetValueNames().Contains("TfsQueryShortcuts")
+                    && settingsKey.GetValueKind("TfsQueryShortcuts") == RegistryValueKind.MultiString)
+                {
+                    TfsQueryShortcuts = (string[])settingsKey.GetValue("TfsQueryShortcuts", new string[0]);
+                }
+            }
         }
     }
 }

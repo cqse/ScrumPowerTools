@@ -119,6 +119,38 @@
           <ButtonText>OpenTfsQuery1</ButtonText>
         </Strings>
       </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="OpenTfsQuery2" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TopLevelMenuGroup" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>OpenTfsQuery2Command</CommandName>
+          <ButtonText>OpenTfsQuery2</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="OpenTfsQuery3" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TopLevelMenuGroup" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>OpenTfsQuery3Command</CommandName>
+          <ButtonText>OpenTfsQuery3</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="OpenTfsQuery4" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TopLevelMenuGroup" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>OpenTfsQuery4Command</CommandName>
+          <ButtonText>OpenTfsQuery4</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="OpenTfsQuery5" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TopLevelMenuGroup" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>OpenTfsQuery5Command</CommandName>
+          <ButtonText>OpenTfsQuery5</ButtonText>
+        </Strings>
+      </Button>
       
       <Button guid="scrumPowerToolsCommandGroup" id="showAffectedChangesetFilesCommandId" priority="0x0100" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
@@ -168,21 +200,38 @@
         </Strings>
       </Button>
 
-      <Button guid="scrumPowerToolsCommandGroup" id="AssignShortcut" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" />
-        <Strings>
-          <CommandName>Assign shortcut</CommandName>
-          <ButtonText>Assign shortcut</ButtonText>
-        </Strings>
-      </Button>
-
-      <Button guid="scrumPowerToolsCommandGroup" id="AssignShortcut1" type="Button">
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut1" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
         <Strings>
           <ButtonText>Shortcut 1</ButtonText>
         </Strings>
       </Button>
-      
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut2" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <Strings>
+          <ButtonText>Shortcut 2</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut3" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <Strings>
+          <ButtonText>Shortcut 3</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut4" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <Strings>
+          <ButtonText>Shortcut 4</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut5" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <Strings>
+          <ButtonText>Shortcut 5</ButtonText>
+        </Strings>
+      </Button>
+
+
     </Buttons>
 
     <Combos>
@@ -230,16 +279,22 @@
       <IDSymbol name="TWToolbarGroup" value="0x1050" />
       <IDSymbol name="CollapseExpandGroup" value="0x1040" />
 
-      <IDSymbol name="TopLevelMenu" value="0x3000" />
-      <IDSymbol name="TopLevelMenuGroup" value="0x3100" />
-      <IDSymbol name="OpenTfsQuery1" value="0x3101" />
+      <IDSymbol name="TopLevelMenu" value="0x3050" />
+      <IDSymbol name="TopLevelMenuGroup" value="0x3051" />
+      <IDSymbol name="OpenTfsQuery1" value="0x3000" />
+      <IDSymbol name="OpenTfsQuery2" value="0x3001" />
+      <IDSymbol name="OpenTfsQuery3" value="0x3002" />
+      <IDSymbol name="OpenTfsQuery4" value="0x3003" />
+      <IDSymbol name="OpenTfsQuery5" value="0x3004" />
       
-      <IDSymbol name="TeamExplorerQueryNodeContextMenuGroup" value="0x4000" />
-      <IDSymbol name="AssignShortcut" value="0x4001" />
-      <IDSymbol name="AssignShortcutMenu" value="0x4002" />
-      <IDSymbol name="AssignShortcutMenuGroup" value="0x4003" />
-      <IDSymbol name="AssignShortcut1" value="0x4004" />
-
+      <IDSymbol name="TeamExplorerQueryNodeContextMenuGroup" value="0x4050" />
+      <IDSymbol name="AssignShortcutMenu" value="0x4051" />
+      <IDSymbol name="AssignShortcutMenuGroup" value="0x4052" />
+      <IDSymbol name="AssignTfsQueryShortcut1" value="0x4000" />
+      <IDSymbol name="AssignTfsQueryShortcut2" value="0x4001" />
+      <IDSymbol name="AssignTfsQueryShortcut3" value="0x4002" />
+      <IDSymbol name="AssignTfsQueryShortcut4" value="0x4003" />
+      <IDSymbol name="AssignTfsQueryShortcut5" value="0x4004" />
 
     </GuidSymbol>
 

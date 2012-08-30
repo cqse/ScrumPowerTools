@@ -77,11 +77,12 @@ namespace ScrumPowerTools
 
             new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
 
-
             var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
-            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, options);
+            var tfsQueryShortcutStore = new TfsQueryShortcutStore(options);
+            var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore);
+            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, tfsQueryShortcutStore);
 
-            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options, tfsQueryShortcutOpener);
+            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options, tfsQueryShortcutAssigner, tfsQueryShortcutOpener);
         }
 
         int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint commandId, OLECMD[] prgCmds, IntPtr pCmdText)
@@ -111,6 +112,10 @@ namespace ScrumPowerTools
                     break;
 
                 case MenuCommands.OpenTfsQuery1:
+                case MenuCommands.OpenTfsQuery2:
+                case MenuCommands.OpenTfsQuery3:
+                case MenuCommands.OpenTfsQuery4:
+                case MenuCommands.OpenTfsQuery5:
                 case MenuCommands.ChangeReviewGrouping:
 
                     prgCmds[0].cmdf = (int)(OLECMDF.OLECMDF_SUPPORTED | OLECMDF.OLECMDF_ENABLED);
