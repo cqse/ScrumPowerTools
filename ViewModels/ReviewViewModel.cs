@@ -8,24 +8,21 @@ using System.Windows.Data;
 using System.Windows.Input;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
+using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
 
 namespace ScrumPowerTools.ViewModels
 {
     [Export(typeof(ReviewViewModel))]
     [Export(typeof(IHandle<ShowReviewWindowMessage>))]
-    [Export(typeof(IHandle<RequestReviewGroupingChoicesEvent>))]
-    [Export(typeof(IHandle<RequestSelectedReviewGroupingEvent>))]
-    [Export(typeof(IHandle<ReviewGroupingSelectedEvent>))]
-    [Export(typeof(IHandle<CollapseAllReviewItemsEvent>))]
-    [Export(typeof(IHandle<ExpandAllReviewItemsEvent>))]
+    [Export(typeof(IComboBoxCommandHandler))]
+    [HandlesComboBoxCommand(MenuCommands.FillReviewGroupingComboList, MenuCommands.ChangeReviewGrouping)]
+    [Export(typeof(IMenuCommandHandler))]
+    [HandlesMenuCommand(MenuCommands.CollapseAllReviewItems, MenuCommands.ExpandAllReviewItems)]
     public class ReviewViewModel : ViewModelBase,
         IHandle<ShowReviewWindowMessage>,
-        IHandle<RequestReviewGroupingChoicesEvent>,
-        IHandle<RequestSelectedReviewGroupingEvent>,
-        IHandle<ReviewGroupingSelectedEvent>,
-        IHandle<CollapseAllReviewItemsEvent>,
-        IHandle<ExpandAllReviewItemsEvent>
+        IComboBoxCommandHandler,
+        IMenuCommandHandler
     {
         public ReviewViewModel()
         {
@@ -158,33 +155,40 @@ namespace ScrumPowerTools.ViewModels
             ToolWindowActivator.Activate<ReviewToolWindow>();
         }
 
-        public void Handle(RequestReviewGroupingChoicesEvent message)
+        public IEnumerable<string> GetAvailableItems(int commandId)
         {
-            message.Choices = Enum.GetNames(typeof(ReviewGrouping));
+            return Enum.GetNames(typeof(ReviewGrouping));
         }
 
-        public void Handle(RequestSelectedReviewGroupingEvent message)
+        public string GetSelectedItem(int commandId)
         {
-            message.Selection = Enum.GetName(typeof(ReviewGrouping), SelectedGrouping);
+            return Enum.GetName(typeof(ReviewGrouping), SelectedGrouping);
         }
 
-        public void Handle(ReviewGroupingSelectedEvent message)
+        public void Selected(string selectedItem, int commandId)
         {
-            SelectedGrouping = (ReviewGrouping)Enum.Parse(typeof(ReviewGrouping), message.Selection);
+            SelectedGrouping = (ReviewGrouping)Enum.Parse(typeof(ReviewGrouping), selectedItem);
 
             AssignColumns();
 
             UpdateGrouping();
         }
 
-        public void Handle(CollapseAllReviewItemsEvent message)
+        public void Execute(int commandId)
         {
-            IsExpanded = false;
+            if (commandId == MenuCommands.CollapseAllReviewItems)
+            {
+                IsExpanded = false;
+            }
+            else if (commandId == MenuCommands.ExpandAllReviewItems)
+            {
+                IsExpanded = true;
+            }
         }
 
-        public void Handle(ExpandAllReviewItemsEvent message)
+        public bool CanExecute(int commandId)
         {
-            IsExpanded = true;
+            return true;
         }
 
         private void UpdateGrouping()

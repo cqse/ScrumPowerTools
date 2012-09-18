@@ -13,7 +13,7 @@ namespace ScrumPowerTools
         private const string MenuItems = "Menu Items";
         private const string MenuItemDescription = "Specifies if the menu item should be shown or not.";
 
-        private readonly Dictionary<uint, Func<bool>> commandVisibilityMapping;
+        private readonly Dictionary<int, Func<bool>> commandVisibilityMapping;
 
         public GeneralOptions()
         {
@@ -22,7 +22,7 @@ namespace ScrumPowerTools
             Review = MenuItemVisibility.Show;
             TfsQueryShortcuts = new string[0];
 
-            commandVisibilityMapping = new Dictionary<uint,Func<bool>>
+            commandVisibilityMapping = new Dictionary<int,Func<bool>>
             {
                 {MenuCommands.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
                 {MenuCommands.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
@@ -47,7 +47,7 @@ namespace ScrumPowerTools
 
         internal string[] TfsQueryShortcuts { get; set; }
 
-        public bool IsEnabled(uint commandId)
+        public bool IsEnabled(int commandId)
         {
             return commandVisibilityMapping[commandId]();
         }
@@ -73,7 +73,8 @@ namespace ScrumPowerTools
             using (var registryKey = package.UserRegistryRoot)
             using (var settingsKey = registryKey.OpenSubKey(SettingsRegistryPath))
             {
-                if( settingsKey.GetValueNames().Contains("TfsQueryShortcuts")
+                if( (settingsKey != null)
+                    && settingsKey.GetValueNames().Contains("TfsQueryShortcuts")
                     && settingsKey.GetValueKind("TfsQueryShortcuts") == RegistryValueKind.MultiString)
                 {
                     TfsQueryShortcuts = (string[])settingsKey.GetValue("TfsQueryShortcuts", new string[0]);

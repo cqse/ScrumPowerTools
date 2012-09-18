@@ -85,7 +85,7 @@
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
       
-      <Group guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup">
+      <Group guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" priority="0x0600" >
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
       </Group>
 
@@ -202,6 +202,7 @@
 
       <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut1" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Shortcut 1</ButtonText>
         </Strings>

@@ -141,18 +141,23 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\MenuCommandController.cs" />
     <Compile Include="Controllers\QueryResultsTotalizerController.cs" />
     <Compile Include="Framework\Composition\IoC.cs" />
     <Compile Include="Framework\Executor.cs" />
     <Compile Include="Framework\Presentation\ColumnDescriptor.cs" />
+    <Compile Include="Framework\Presentation\ComboBoxCommandHandlerBinder.cs" />
     <Compile Include="Framework\Presentation\DelegateCommand.cs" />
     <Compile Include="Framework\Presentation\EventAggregator.cs" />
     <Compile Include="Framework\Presentation\GridViewColumns.cs" />
+    <Compile Include="Framework\Presentation\HandlesComboBoxCommandAttribute.cs" />
+    <Compile Include="Framework\Presentation\HandlesMenuCommandAttribute.cs" />
+    <Compile Include="Framework\Presentation\IComboBoxCommandHandler.cs" />
     <Compile Include="Framework\Presentation\IHandle.cs" />
+    <Compile Include="Framework\Presentation\IMenuCommandHandler.cs" />
     <Compile Include="Framework\Presentation\IMessage.cs" />
     <Compile Include="Framework\Presentation\IToolWindowActivator.cs" />
     <Compile Include="Framework\Presentation\ListViewItemClickBehavior.cs" />
+    <Compile Include="Framework\Presentation\MenuCommandHandlerBinder.cs" />
     <Compile Include="Framework\Presentation\ViewModelBase.cs" />
     <Compile Include="Framework\Presentation\ViewModelBinder.cs" />
     <Compile Include="Framework\Presentation\ViewResolver.cs" />
@@ -196,13 +201,10 @@
     <Compile Include="TfsIntegration\Vs10TeamProjectCollectionProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\CollapseAllReviewItemsEvent.cs" />
-    <Compile Include="ViewModels\ExpandAllReviewItemsEvent.cs" />
-    <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
-    <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
-    <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
+    <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
+    <Compile Include="ViewModels\WorkItemContextMenuViewModel.cs" />
     <Compile Include="Views\QueryResultsTotalizerView.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

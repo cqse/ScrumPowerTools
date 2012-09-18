@@ -1,8 +1,8 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
 using Microsoft.VisualStudio.Shell;
@@ -13,7 +13,6 @@ using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
 using ScrumPowerTools.TfsIntegration;
-using ScrumPowerTools.ViewModels;
 
 
 namespace ScrumPowerTools
@@ -40,11 +39,8 @@ namespace ScrumPowerTools
     [ProvideOptionPage(typeof(GeneralOptions),"Scrum Power Toolss", "General", 110, 1001, false)]
     [Guid(Identifiers.PackageId)]
     [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
-    public sealed class ScrumPowerToolsPackage : Package, IOleCommandTarget, IToolWindowActivator, IPackageServiceProvider
+    public sealed class ScrumPowerToolsPackage : Package, IToolWindowActivator, IPackageServiceProvider
     {
-        private MenuCommandController menuCommandController;
-        private const int OLECMDERR_E_UNKNOWNGROUP = unchecked((int)0x80040104);
-
         public ScrumPowerToolsPackage()
         {
             IoC.Setup(Assembly.GetExecutingAssembly());
@@ -82,125 +78,19 @@ namespace ScrumPowerTools
             var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore);
             var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, tfsQueryShortcutStore);
 
-            menuCommandController = new MenuCommandController(dte, documentService, projectUriProvider, options, tfsQueryShortcutAssigner, tfsQueryShortcutOpener);
-        }
+            IoC.Register(options);
+            IoC.Register(tfsQueryShortcutAssigner);
+            IoC.Register(tfsQueryShortcutOpener);
 
-        int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint commandId, OLECMD[] prgCmds, IntPtr pCmdText)
-        {
-            if (pguidCmdGroup != Identifiers.CommandGroupId)
-            {
-                return OLECMDERR_E_UNKNOWNGROUP;
-            }
-
-            
-            uint cmdId = prgCmds[0].cmdID;
-
-            switch (cmdId)
-            {
-                case MenuCommands.ShowReviewWindow:
-                case MenuCommands.ShowAffectedChangesetFiles:
-                case MenuCommands.ShowChangesetsWithAffectedFiles:
-
-                    if (menuCommandController.CanExecute(cmdId))
-                    {
-                        prgCmds[0].cmdf = (int)OLECMDF.OLECMDF_ENABLED | (int)OLECMDF.OLECMDF_SUPPORTED;
-                    }
-                    else
-                    {
-                        prgCmds[0].cmdf = (int)OLECMDF.OLECMDF_INVISIBLE | (int)OLECMDF.OLECMDF_SUPPORTED;                            
-                    }
-                    break;
-
-                case MenuCommands.OpenTfsQuery1:
-                case MenuCommands.OpenTfsQuery2:
-                case MenuCommands.OpenTfsQuery3:
-                case MenuCommands.OpenTfsQuery4:
-                case MenuCommands.OpenTfsQuery5:
-                case MenuCommands.ChangeReviewGrouping:
-
-                    prgCmds[0].cmdf = (int)(OLECMDF.OLECMDF_SUPPORTED | OLECMDF.OLECMDF_ENABLED);
-
-                    break;
-
-                default:
-                    return OLECMDERR_E_UNKNOWNGROUP;
-            }
-
-            return VSConstants.S_OK;
-        }
-
-        int IOleCommandTarget.Exec(ref Guid pguidCmdGroup, uint commandId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
-        {
-            if (pguidCmdGroup != Identifiers.CommandGroupId)
-            {
-                return OLECMDERR_E_UNKNOWNGROUP;
-            }
-
-            var eventAggregator = IoC.GetInstance<EventAggregator>();
-
-            if (menuCommandController.Execute(commandId))
-            {
-                return VSConstants.S_OK;
-            }
-
-            if (commandId == MenuCommands.FillReviewGroupingComboList)
-            {
-                if (pvaOut == IntPtr.Zero)
-                {
-                    throw (new ArgumentException("Resources.InParamIllegal"));
-                }
-
-                var @event = new RequestReviewGroupingChoicesEvent();
-                eventAggregator.Publish(@event);
-
-                Marshal.GetNativeVariantForObject(@event.Choices, pvaOut);
-
-                return VSConstants.S_OK;
-            }
-
-            if (commandId == MenuCommands.ChangeReviewGrouping)
-            {
-                if (pvaOut != IntPtr.Zero)
-                {
-                    var @event = new RequestSelectedReviewGroupingEvent();
-                    eventAggregator.Publish(@event);
-
-                    Marshal.GetNativeVariantForObject(@event.Selection, pvaOut);
-                }
-                else if (pvaIn != IntPtr.Zero)
-                {
-                    var selectedGrouping = Marshal.GetObjectForNativeVariant(pvaIn) as string;
-
-                    eventAggregator.Publish(new ReviewGroupingSelectedEvent()
-                    {
-                        Selection = selectedGrouping
-                    });
-                }
-
-                return VSConstants.S_OK;
-            }
-
-            if (commandId == MenuCommands.CollapseAllReviewItems)
-            {
-                eventAggregator.Publish(new CollapseAllReviewItemsEvent());
-                return VSConstants.S_OK;
-            }
-
-            if (commandId == MenuCommands.ExpandAllReviewItems)
-            {
-                eventAggregator.Publish(new ExpandAllReviewItemsEvent());
-                return VSConstants.S_OK;
-            }
-
-
-            return OLECMDERR_E_UNKNOWNGROUP;
+            MenuCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
+            ComboBoxCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
         }
 
         public void Activate<T>()
         {
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
-            bool createWhenNotFound = true;
+            const bool createWhenNotFound = true;
             ToolWindowPane window = FindToolWindow(typeof(T), 0, createWhenNotFound);
 
             if ((null == window) || (null == window.Frame))
