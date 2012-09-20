@@ -204,34 +204,37 @@
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Shortcut 1</ButtonText>
+          <ButtonText>#1 (not assigned)</ButtonText>
         </Strings>
       </Button>
       <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut2" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Shortcut 2</ButtonText>
+          <ButtonText>#2 (not assigned)</ButtonText>
         </Strings>
       </Button>
       <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut3" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Shortcut 3</ButtonText>
+          <ButtonText>#3 (not assigned)</ButtonText>
         </Strings>
       </Button>
       <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut4" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Shortcut 4</ButtonText>
+          <ButtonText>#4 (not assigned)</ButtonText>
         </Strings>
       </Button>
       <Button guid="scrumPowerToolsCommandGroup" id="AssignTfsQueryShortcut5" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>Shortcut 5</ButtonText>
+          <ButtonText>#5 (not assigned)</ButtonText>
         </Strings>
       </Button>
-
 
     </Buttons>
 

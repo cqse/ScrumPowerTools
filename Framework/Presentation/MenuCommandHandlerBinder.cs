@@ -36,7 +36,7 @@ namespace ScrumPowerTools.Framework.Presentation
             var command = sender as OleMenuCommand;
             if (null != command)
             {
-                ExecuteCommandOnRegisterdHandlers(command.CommandID.ID, handler => handler.Execute(command.CommandID.ID));
+                GetHandler(command.CommandID.ID).Execute(command.CommandID.ID);
             }
         }
 
@@ -45,25 +45,34 @@ namespace ScrumPowerTools.Framework.Presentation
             var command = sender as OleMenuCommand;
             if (null != command)
             {
-                ExecuteCommandOnRegisterdHandlers(command.CommandID.ID,
-                    handler => command.Visible = handler.CanExecute(command.CommandID.ID));
+                int commandId = command.CommandID.ID;
+                var handler = GetHandler(commandId);
+                command.Visible = handler.CanExecute(commandId);
+
+                var menuTextProvider = handler as IProvideMenuText;
+                if (menuTextProvider != null)
+                {
+                    command.Text = menuTextProvider.GetText(commandId);
+                }
             }
         }
 
-        private static void ExecuteCommandOnRegisterdHandlers(int commandId, Action<IMenuCommandHandler> commandAction)
+        private static IMenuCommandHandler GetHandler(int commandId)
         {
             var menuHandlers = IoC.GetInstances<IMenuCommandHandler>();
-            foreach (IMenuCommandHandler menuCommandHandler in menuHandlers)
+            foreach (IMenuCommandHandler handler in menuHandlers)
             {
                 var handlesCommandAttributes =
                     (HandlesMenuCommandAttribute[])
-                    menuCommandHandler.GetType().GetCustomAttributes(typeof(HandlesMenuCommandAttribute), false);
+                    handler.GetType().GetCustomAttributes(typeof(HandlesMenuCommandAttribute), false);
 
                 if (handlesCommandAttributes.Any(a => a.CommandIdentifiers.Contains(commandId)))
                 {
-                    commandAction(menuCommandHandler);
+                    return handler;
                 }
             }
+
+            throw new ArgumentException("No menu handler registered for the specified id!");
         }
     }
 }

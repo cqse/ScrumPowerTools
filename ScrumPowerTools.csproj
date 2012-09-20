@@ -155,6 +155,7 @@
     <Compile Include="Framework\Presentation\IHandle.cs" />
     <Compile Include="Framework\Presentation\IMenuCommandHandler.cs" />
     <Compile Include="Framework\Presentation\IMessage.cs" />
+    <Compile Include="Framework\Presentation\IProvideMenuText.cs" />
     <Compile Include="Framework\Presentation\IToolWindowActivator.cs" />
     <Compile Include="Framework\Presentation\ListViewItemClickBehavior.cs" />
     <Compile Include="Framework\Presentation\MenuCommandHandlerBinder.cs" />

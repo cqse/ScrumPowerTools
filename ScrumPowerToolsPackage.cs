@@ -79,6 +79,7 @@ namespace ScrumPowerTools
             var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, tfsQueryShortcutStore);
 
             IoC.Register(options);
+            IoC.Register(tfsQueryShortcutStore);
             IoC.Register(tfsQueryShortcutAssigner);
             IoC.Register(tfsQueryShortcutOpener);
 

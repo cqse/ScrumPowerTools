@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Packaging;
-using ScrumPowerTools.ViewModels;
 
 namespace ScrumPowerTools.Framework.Presentation
 {
@@ -44,7 +43,7 @@ namespace ScrumPowerTools.Framework.Presentation
                 if (commandEventArgs.Options == OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT)
                 {
                     int commandId = commandEvent.CommandID.ID;
-                    IComboBoxCommandHandler handler = ExecuteCommandOnRegisterdHandlers(commandId);
+                    IComboBoxCommandHandler handler = GetHandlerFor(commandId);
                     IEnumerable<string> items = handler.GetAvailableItems(commandId);
 
                     Marshal.GetNativeVariantForObject(items, commandEventArgs.OutValue);
@@ -60,7 +59,7 @@ namespace ScrumPowerTools.Framework.Presentation
             if ((commandEvent != null) && (null != commandEventArgs))
             {
                 int commandId = commandEvent.CommandID.ID;
-                IComboBoxCommandHandler handler = ExecuteCommandOnRegisterdHandlers(commandId);
+                IComboBoxCommandHandler handler = GetHandlerFor(commandId);
 
                 if (commandEventArgs.OutValue != IntPtr.Zero)
                 {
@@ -77,7 +76,7 @@ namespace ScrumPowerTools.Framework.Presentation
             }
         }
 
-        private static IComboBoxCommandHandler ExecuteCommandOnRegisterdHandlers(int commandId)
+        private static IComboBoxCommandHandler GetHandlerFor(int commandId)
         {
             var handlers = IoC.GetInstances<IComboBoxCommandHandler>();
 
@@ -93,7 +92,7 @@ namespace ScrumPowerTools.Framework.Presentation
                 }
             }
 
-            return null;
+            throw new ArgumentException("No handler registerd for the specified command id!");
         }
     }
 }
