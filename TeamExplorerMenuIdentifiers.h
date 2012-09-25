@@ -11,6 +11,7 @@
 
 // TeamExplorer Query node Context Menu
 #define TEQuery				0x203
+#define TEQuery2012			0x300
 
 //Query Builder Context Menu
 #define QueryBuilder		0x204

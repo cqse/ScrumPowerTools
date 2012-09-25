@@ -22,17 +22,17 @@ namespace ScrumPowerTools.ViewModels
     {
         private readonly GeneralOptions options;
         private readonly WorkItemSelectionService workItemSelectionService;
-        private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
 
         private readonly Dictionary<int, Action> commandHandlerMappings;
 
         [ImportingConstructor]
         public WorkItemContextMenuViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService,
-                                            ITeamProjectCollectionProvider teamProjectCollectionProvider)
+                                            IVisualStudioAdapter visualStudioAdapter)
         {
             this.options = options;
             this.workItemSelectionService = workItemSelectionService;
-            this.teamProjectCollectionProvider = teamProjectCollectionProvider;
+            this.visualStudioAdapter = visualStudioAdapter;
 
             commandHandlerMappings = new Dictionary<int, Action>
             {
@@ -44,7 +44,7 @@ namespace ScrumPowerTools.ViewModels
 
         private void ShowChangesetsWithAffectedFiles()
         {
-            TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
+            TfsTeamProjectCollection tpc = visualStudioAdapter.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
             var versionControlServer = tpc.GetService<VersionControlServer>();
             var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
@@ -60,7 +60,7 @@ namespace ScrumPowerTools.ViewModels
 
         private void ShowAffectedChangesetFiles()
         {
-            TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
+            TfsTeamProjectCollection tpc = visualStudioAdapter.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
             var versionControlServer = tpc.GetService<VersionControlServer>();
             var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);

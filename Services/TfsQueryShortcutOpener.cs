@@ -9,14 +9,14 @@ namespace ScrumPowerTools.Services
     public class TfsQueryShortcutOpener
     {
         private readonly DocumentService documentService;
-        private readonly ITeamProjectCollectionProvider teamProjectCollectionProvider;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
         private readonly TfsQueryShortcutStore store;
 
         public TfsQueryShortcutOpener(DocumentService documentService,
-                                      ITeamProjectCollectionProvider teamProjectCollectionProvider, TfsQueryShortcutStore store)
+                                      IVisualStudioAdapter visualStudioAdapter, TfsQueryShortcutStore store)
         {
             this.documentService = documentService;
-            this.teamProjectCollectionProvider = teamProjectCollectionProvider;
+            this.visualStudioAdapter = visualStudioAdapter;
             this.store = store;
         }
 
@@ -45,7 +45,7 @@ namespace ScrumPowerTools.Services
 
         private QueryDefinition GetQueryDefinition(QueryPath queryPath)
         {
-            var workItemStore = teamProjectCollectionProvider.GetCurrent().GetService<WorkItemStore>();
+            var workItemStore = visualStudioAdapter.GetCurrent().GetService<WorkItemStore>();
             var queryHierarchy = workItemStore.Projects[queryPath.ProjectName].QueryHierarchy;
 
             var foundQueryItem = queryPath.PathNames
@@ -69,7 +69,7 @@ namespace ScrumPowerTools.Services
         private void ShowQueryResults(QueryDefinition queryDefinition)
         {
             object lockToken = new object();
-            IQueryDocument queryDocument = documentService.GetQuery(teamProjectCollectionProvider.GetCurrent(),
+            IQueryDocument queryDocument = documentService.GetQuery(visualStudioAdapter.GetCurrent(),
                 queryDefinition.Id.ToString(), lockToken);
 
             queryDocument.Load();

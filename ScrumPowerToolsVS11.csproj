@@ -13,7 +13,7 @@
     <AssemblyName>ScrumPowerToolsVS11</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -24,6 +24,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,6 +58,7 @@
     <Reference Include="Microsoft.TeamFoundation.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -72,19 +74,14 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
-    <Reference Include="Microsoft.VisualStudio.TeamFoundation, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TeamFoundation.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.Client.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.Client, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.TeamFoundation.VersionControl, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.VersionControl.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.TeamFoundation.WorkItemTracking, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.WorkItemTracking, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.10.0">
@@ -161,22 +158,32 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\MenuCommandController.cs" />
     <Compile Include="Controllers\QueryResultsTotalizerController.cs" />
     <Compile Include="Framework\Composition\IoC.cs" />
     <Compile Include="Framework\Executor.cs" />
     <Compile Include="Framework\Presentation\ColumnDescriptor.cs" />
+    <Compile Include="Framework\Presentation\ComboBoxCommandHandlerBinder.cs" />
     <Compile Include="Framework\Presentation\DelegateCommand.cs" />
     <Compile Include="Framework\Presentation\EventAggregator.cs" />
     <Compile Include="Framework\Presentation\GridViewColumns.cs" />
+    <Compile Include="Framework\Presentation\HandlesComboBoxCommandAttribute.cs" />
+    <Compile Include="Framework\Presentation\HandlesMenuCommandAttribute.cs" />
+    <Compile Include="Framework\Presentation\IComboBoxCommandHandler.cs" />
     <Compile Include="Framework\Presentation\IHandle.cs" />
+    <Compile Include="Framework\Presentation\IMenuCommandHandler.cs" />
     <Compile Include="Framework\Presentation\IMessage.cs" />
+    <Compile Include="Framework\Presentation\IProvideMenuText.cs" />
     <Compile Include="Framework\Presentation\IToolWindowActivator.cs" />
     <Compile Include="Framework\Presentation\ListViewItemClickBehavior.cs" />
+    <Compile Include="Framework\Presentation\MenuCommandHandlerBinder.cs" />
     <Compile Include="Framework\Presentation\ViewModelBase.cs" />
     <Compile Include="Framework\Presentation\ViewModelBinder.cs" />
     <Compile Include="Framework\Presentation\ViewResolver.cs" />
+    <Compile Include="GeneralOptions.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IPackageServiceProvider.cs" />
+    <Compile Include="MenuItemVisibility.cs" />
     <Compile Include="Model\ChangesetCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetServerItemCollectorStrategy.cs" />
     <Compile Include="Model\ChangesetVisitEventArgs.cs" />
@@ -200,17 +207,18 @@
     <Compile Include="Packaging\Identifiers.cs" />
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
+    <Compile Include="Services\QueryPath.cs" />
     <Compile Include="Services\ShellDocumentOpener.cs" />
+    <Compile Include="Services\TfsQueryShortcutAssigner.cs" />
+    <Compile Include="Services\TfsQueryShortcutOpener.cs" />
+    <Compile Include="Services\TfsQueryShortcutStore.cs" />
     <Compile Include="Services\TfsUiServices.cs" />
-    <Compile Include="TfsIntegration\ITeamProjectCollectionProvider.cs" />
-    <Compile Include="TfsIntegration\Vs11TeamProjectCollectionProvider.cs" />
-    <Compile Include="ViewModels\CollapseAllReviewItemsEvent.cs" />
-    <Compile Include="ViewModels\ExpandAllReviewItemsEvent.cs" />
-    <Compile Include="ViewModels\RequestReviewGroupingChoicesEvent.cs" />
-    <Compile Include="ViewModels\RequestSelectedReviewGroupingEvent.cs" />
-    <Compile Include="ViewModels\ReviewGroupingSelectedEvent.cs" />
+    <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
+    <Compile Include="TfsIntegration\Vs11VisualStudioAdapter.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
+    <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
+    <Compile Include="ViewModels\WorkItemContextMenuViewModel.cs" />
     <Compile Include="Views\QueryResultsTotalizerView.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -287,10 +295,12 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
 </Project>

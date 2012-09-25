@@ -57,13 +57,13 @@ namespace ScrumPowerTools
             base.Initialize();
 
 #if VS11
-            IoC.Register<ITeamProjectCollectionProvider>(new Vs11TeamProjectCollectionProvider());
+            IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter();
 #else
-            IoC.Register<ITeamProjectCollectionProvider>(new Vs10TeamProjectCollectionProvider());
+            IVisualStudioAdapter visualStudioAdapter = new Vs10TeamProjectCollectionProvider();
 #endif
 
-            var projectUriProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
-
+            IoC.Register(visualStudioAdapter);
+            
             var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
@@ -71,12 +71,12 @@ namespace ScrumPowerTools
             IoC.Register(new ShellDocumentOpener(this));
             IoC.Register(new TfsUiServices(dte));
 
-            new QueryResultsTotalizerController(documentService, dte.StatusBar, projectUriProvider);
+            new QueryResultsTotalizerController(documentService, dte.StatusBar, visualStudioAdapter);
 
             var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             var tfsQueryShortcutStore = new TfsQueryShortcutStore(options);
-            var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore);
-            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, projectUriProvider, tfsQueryShortcutStore);
+            var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore, visualStudioAdapter);
+            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, visualStudioAdapter, tfsQueryShortcutStore);
 
             IoC.Register(options);
             IoC.Register(tfsQueryShortcutStore);

@@ -14,7 +14,7 @@ namespace ScrumPowerTools.Model
 
         public ReviewModel()
         {
-            var teamProjectCollectionProvider = IoC.GetInstance<ITeamProjectCollectionProvider>();
+            var teamProjectCollectionProvider = IoC.GetInstance<IVisualStudioAdapter>();
             var tpc = teamProjectCollectionProvider.GetCurrent();
 
             workItemStore = tpc.GetService<WorkItemStore>();

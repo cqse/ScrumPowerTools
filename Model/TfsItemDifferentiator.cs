@@ -11,7 +11,7 @@ namespace ScrumPowerTools.Model
 
         public TfsItemDifferentiator()
         {
-            var tpc = IoC.GetInstance<ITeamProjectCollectionProvider>().GetCurrent();
+            var tpc = IoC.GetInstance<IVisualStudioAdapter>().GetCurrent();
 
             versionControlServer = tpc.GetService<VersionControlServer>();
         }
