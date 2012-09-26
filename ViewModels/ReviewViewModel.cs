@@ -19,6 +19,7 @@ namespace ScrumPowerTools.ViewModels
     [HandlesComboBoxCommand(MenuCommands.FillReviewGroupingComboList, MenuCommands.ChangeReviewGrouping)]
     [Export(typeof(IMenuCommandHandler))]
     [HandlesMenuCommand(MenuCommands.CollapseAllReviewItems, MenuCommands.ExpandAllReviewItems)]
+    [HandlesMenuCommand(MenuCommands.CompareWithPreviousVersion, MenuCommands.CompareWithVersionBeforeFirstChange)]
     public class ReviewViewModel : ViewModelBase,
         IHandle<ShowReviewWindowMessage>,
         IComboBoxCommandHandler,
@@ -124,8 +125,7 @@ namespace ScrumPowerTools.ViewModels
 
         private void CompareWithPreviousVersion(ReviewItemModel reviewItem)
         {
-            var differentiator = new TfsItemDifferentiator();
-            differentiator.CompareWithPreviousVersion(reviewItem.ServerItem, reviewItem.ChangesetId);
+            model.CompareWithPreviousVersion(reviewItem.ServerItem, reviewItem.ChangesetId);
         }
 
         private void CompareInitialVersionWithLatestChange(ReviewItemModel reviewItem)
@@ -183,6 +183,20 @@ namespace ScrumPowerTools.ViewModels
             else if (commandId == MenuCommands.ExpandAllReviewItems)
             {
                 IsExpanded = true;
+            }
+            else if (commandId == MenuCommands.CompareWithPreviousVersion)
+            {
+                if (SelectedItem != null)
+                {
+                    model.CompareWithPreviousVersion(SelectedItem.ServerItem, SelectedItem.ChangesetId);                    
+                }
+            }
+            else if (commandId == MenuCommands.CompareWithVersionBeforeFirstChange)
+            {
+                if (SelectedItem != null)
+                {
+                    model.CompareInitialVersionWithLatestChange(SelectedItem.ServerItem);
+                }
             }
         }
 

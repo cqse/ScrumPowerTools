@@ -11,6 +11,8 @@
         public const int ChangeReviewGrouping = 0x2005;
         public const int ExpandAllReviewItems = 0x2006;
         public const int CollapseAllReviewItems = 0x2007;
+        public const int CompareWithPreviousVersion = 0x2008;
+        public const int CompareWithVersionBeforeFirstChange = 0x2009;
 
         public const int OpenTfsQuery1 = 0x3000;
         public const int OpenTfsQuery2 = 0x3001;

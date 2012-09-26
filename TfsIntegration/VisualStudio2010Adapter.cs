@@ -9,7 +9,7 @@ using ScrumPowerTools.Services;
 
 namespace ScrumPowerTools.TfsIntegration
 {
-    internal class Vs10TeamProjectCollectionProvider : ITeamProjectCollectionProvider
+    internal class VisualStudio2010Adapter : IVisualStudioAdapter
     {
         public TfsTeamProjectCollection GetCurrent()
         {
@@ -17,7 +17,6 @@ namespace ScrumPowerTools.TfsIntegration
             
             return TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(teamExplorer.GetProjectContext().DomainUri));
         }
-
 
         public QueryPath GetCurrentSelectedQueryPath()
         {        

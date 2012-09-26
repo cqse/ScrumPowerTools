@@ -56,5 +56,11 @@ namespace ScrumPowerTools.Model
             var diffirentiator = new TfsItemDifferentiator();
             diffirentiator.CompareInitialVersionWithLatestChange(serverItem, firstChangesetId, lastChangesetId);
         }
+
+        public void CompareWithPreviousVersion(string serverItem, int changesetId)
+        {
+            var differentiator = new TfsItemDifferentiator();
+            differentiator.CompareWithPreviousVersion(serverItem, changesetId);
+        }
     }
 }

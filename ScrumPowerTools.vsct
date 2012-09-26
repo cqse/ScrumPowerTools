@@ -77,11 +77,15 @@
         </Group>
       </Groups>
 
-      <Group guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" priority="0x0001">
+      <Group guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" priority="0x0000">
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
 
-      <Group guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" priority="0x0000">
+      <Group guid="scrumPowerToolsCommandGroup" id="TWToolbarGroup" priority="0x0001">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
+      </Group>
+      
+      <Group guid="scrumPowerToolsCommandGroup" id="CompareGroup" priority="0x0002">
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
       
@@ -240,6 +244,24 @@
         </Strings>
       </Button>
 
+      <Button guid="scrumPowerToolsCommandGroup" id="CompareWithPreviousVersionCommandId" priority="0x01" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="CompareGroup" />
+        <Icon guid="guidImages" id="3" />
+        <Strings>
+          <CommandName>CompareWithPreviousVersionCommand</CommandName>
+          <ButtonText>Compare selection with previous version</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="CompareWithVersionBeforeFirstChangeCommandId" priority="0x02" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="CompareGroup" />
+        <Icon guid="guidImages" id="4" />
+        <Strings>
+          <CommandName>CompareWithVersionBeforeFirstChangeCommand</CommandName>
+          <ButtonText>Compare version of selection before first changeset with version of last changeset</ButtonText>
+        </Strings>
+      </Button>
+      
     </Buttons>
 
     <Combos>
@@ -282,10 +304,13 @@
       <IDSymbol name="changeReviewGroupingCommandId" value="0x2005" />
       <IDSymbol name="expandAllReviewItemsCommandId" value="0x2006" />
       <IDSymbol name="collapseAllReviewItemsCommandId" value="0x2007" />
+      <IDSymbol name="CompareWithPreviousVersionCommandId" value="0x2008" />
+      <IDSymbol name="CompareWithVersionBeforeFirstChangeCommandId" value="0x2009" />
 
       <IDSymbol name="TWToolbar" value="0x1000" />
       <IDSymbol name="TWToolbarGroup" value="0x1050" />
       <IDSymbol name="CollapseExpandGroup" value="0x1040" />
+      <IDSymbol name="CompareGroup" value="0x1041" />
 
       <IDSymbol name="TopLevelMenu" value="0x3050" />
       <IDSymbol name="TopLevelMenuGroup" value="0x3051" />

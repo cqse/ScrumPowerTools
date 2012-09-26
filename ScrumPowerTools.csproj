@@ -198,8 +198,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\ShellDocumentOpener.cs" />
-    <Compile Include="TfsIntegration\ITeamProjectCollectionProvider.cs" />
-    <Compile Include="TfsIntegration\Vs10TeamProjectCollectionProvider.cs">
+    <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
+    <Compile Include="TfsIntegration\VisualStudio2010Adapter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\ReviewViewModel.cs" />
