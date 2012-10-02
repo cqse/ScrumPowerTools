@@ -20,13 +20,20 @@ namespace ScrumPowerTools.ViewModels
     [Export(typeof(IMenuCommandHandler))]
     [HandlesMenuCommand(MenuCommands.CollapseAllReviewItems, MenuCommands.ExpandAllReviewItems)]
     [HandlesMenuCommand(MenuCommands.CompareWithPreviousVersion, MenuCommands.CompareWithVersionBeforeFirstChange)]
+    [HandlesMenuCommand(MenuCommands.ClearExcludedItems)]
     public class ReviewViewModel : ViewModelBase,
         IHandle<ShowReviewWindowMessage>,
         IComboBoxCommandHandler,
         IMenuCommandHandler
     {
+        private readonly IList<int> excludedChangesets;
+        private readonly IList<string> excludedFiles;
+
         public ReviewViewModel()
         {
+            excludedChangesets = new List<int>();
+            excludedFiles = new List<string>();
+
             ReviewItems = new ListCollectionView(new List<ReviewItemModel>());
             SelectedGrouping = ReviewGrouping.Changeset;
 
@@ -88,6 +95,24 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
+        public ICommand ExcludeChangesetCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(ExcludeChangeset,
+                    () => SelectedItem != null);
+            }
+        }
+
+        public ICommand ExcludeFileCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(ExcludeFile,
+                    () => SelectedItem != null);
+            }
+        }
+
         public bool IsExpanded 
         { 
             get { return isExpanded; }
@@ -143,16 +168,42 @@ namespace ScrumPowerTools.ViewModels
             TfsUiServices.ShowChangesetDetails(reviewItem.ChangesetId);
         }
 
+        private void ExcludeChangeset(ReviewItemModel reviewItem)
+        {
+            excludedChangesets.Add(reviewItem.ChangesetId);
+            
+            ReviewItems.Refresh();
+        }
+
+        private void ExcludeFile(ReviewItemModel reviewItem)
+        {
+            excludedFiles.Add(reviewItem.ServerItem);
+
+            ReviewItems.Refresh();
+        }
+        
         public void Handle(ShowReviewWindowMessage message)
         {
             model = new ReviewModel();
             model.Review(message.WorkItemId);
 
+            ClearExcludedItems();
+
             Title = model.Title;
+
             ReviewItems = new ListCollectionView(model.ItemsToReview.ToList());
-            
+            ReviewItems.Filter = ReviewModelFilter;
+
             UpdateGrouping();
             ToolWindowActivator.Activate<ReviewToolWindow>();
+        }
+
+        private bool ReviewModelFilter(object o)
+        {
+            var reviewItemModel = (ReviewItemModel)o;
+
+            return !excludedChangesets.Contains(reviewItemModel.ChangesetId)
+                && !excludedFiles.Contains(reviewItemModel.ServerItem);
         }
 
         public IEnumerable<string> GetAvailableItems(int commandId)
@@ -198,6 +249,17 @@ namespace ScrumPowerTools.ViewModels
                     model.CompareInitialVersionWithLatestChange(SelectedItem.ServerItem);
                 }
             }
+            else if (commandId == MenuCommands.ClearExcludedItems)
+            {
+                ClearExcludedItems();
+            }
+        }
+
+        private void ClearExcludedItems()
+        {
+            excludedChangesets.Clear();
+            excludedFiles.Clear();
+            ReviewItems.Refresh();
         }
 
         public bool CanExecute(int commandId)

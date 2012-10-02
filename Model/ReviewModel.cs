@@ -22,6 +22,7 @@ namespace ScrumPowerTools.Model
         }
 
         public string Title { get; set; }
+
         public IEnumerable<ReviewItemModel> ItemsToReview { get; private set; }
 
         public void Review(int workItemId)

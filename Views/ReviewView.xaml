@@ -14,18 +14,25 @@
         <MenuItem Header="Open" />
         <MenuItem Header="View History"
                   Command="{Binding Path=DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}"/>
-            <MenuItem Header="Changeset Details"
-                  Command="{Binding Path=DataContext.ViewChangesetDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}"/>
-            <MenuItem Header="Compare">
-                <MenuItem Header="With Previous Version"
-                          Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                          CommandParameter="{Binding}" />
-                <MenuItem Header="Version Before First Changeset With Version of Last Changeset"
-                          Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                          CommandParameter="{Binding}" />
-      </MenuItem>
+                  CommandParameter="{Binding}" />
+        <MenuItem Header="Changeset Details"
+                Command="{Binding Path=DataContext.ViewChangesetDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                CommandParameter="{Binding}" />
+        <MenuItem Header="Compare">
+            <MenuItem Header="With Previous Version"
+                        Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                        CommandParameter="{Binding}" />
+            <MenuItem Header="Version Before First Change With Version of Last Changeset"
+                        Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                        CommandParameter="{Binding}" />
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Exclude Changeset"
+                  Command="{Binding Path=DataContext.ExcludeChangesetCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                  CommandParameter="{Binding}" />
+        <MenuItem Header="Exclude File" 
+                  Command="{Binding Path=DataContext.ExcludeFileCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                  CommandParameter="{Binding}" />
     </ContextMenu>
 
   </UserControl.Resources>
