@@ -88,11 +88,15 @@
       <Group guid="scrumPowerToolsCommandGroup" id="CompareGroup" priority="0x0002">
         <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
       </Group>
+
+      <Group guid="scrumPowerToolsCommandGroup" id="ExclusionGroup" priority="0x0003">
+        <Parent guid="scrumPowerToolsCommandGroup" id="TWToolbar" />
+      </Group>
       
       <Group guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" priority="0x0600" >
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
       </Group>
-
+      
       <Group guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" priority="0x1002">
         <Parent guid="WorkItemTrackingGuid" id="TEQuery" />
       </Group>
@@ -258,7 +262,16 @@
         <Icon guid="guidImages" id="4" />
         <Strings>
           <CommandName>CompareWithVersionBeforeFirstChangeCommand</CommandName>
-          <ButtonText>Compare version of selection before first changeset with version of last changeset</ButtonText>
+          <ButtonText>Compare version of selection before first change with version of last changeset</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="scrumPowerToolsCommandGroup" id="ClearExcludedItemsCommandId" priority="0x01" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="ExclusionGroup" />
+        <Icon guid="guidImages" id="5" />
+        <Strings>
+          <CommandName>ClearExcludedItemsCommand</CommandName>
+          <ButtonText>Clear current excluded items</ButtonText>
         </Strings>
       </Button>
       
@@ -306,11 +319,13 @@
       <IDSymbol name="collapseAllReviewItemsCommandId" value="0x2007" />
       <IDSymbol name="CompareWithPreviousVersionCommandId" value="0x2008" />
       <IDSymbol name="CompareWithVersionBeforeFirstChangeCommandId" value="0x2009" />
+      <IDSymbol name="ClearExcludedItemsCommandId" value="0x2010" />
 
       <IDSymbol name="TWToolbar" value="0x1000" />
       <IDSymbol name="TWToolbarGroup" value="0x1050" />
       <IDSymbol name="CollapseExpandGroup" value="0x1040" />
       <IDSymbol name="CompareGroup" value="0x1041" />
+      <IDSymbol name="ExclusionGroup" value="0x1042" />
 
       <IDSymbol name="TopLevelMenu" value="0x3050" />
       <IDSymbol name="TopLevelMenuGroup" value="0x3051" />
