@@ -13,6 +13,8 @@ namespace ScrumPowerTools.Model
             Committer = changesetVisitEventArgs.Committer;
         }
 
+        public bool IsGroupExpanded { get; set; }
+
         public string Comment { get; internal set; }
 
         public int ChangesetId { get; internal set; }

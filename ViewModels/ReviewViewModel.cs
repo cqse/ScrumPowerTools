@@ -22,9 +22,9 @@ namespace ScrumPowerTools.ViewModels
     [HandlesMenuCommand(MenuCommands.CompareWithPreviousVersion, MenuCommands.CompareWithVersionBeforeFirstChange)]
     [HandlesMenuCommand(MenuCommands.ClearExcludedItems)]
     public class ReviewViewModel : ViewModelBase,
-        IHandle<ShowReviewWindowMessage>,
-        IComboBoxCommandHandler,
-        IMenuCommandHandler
+                                   IHandle<ShowReviewWindowMessage>,
+                                   IComboBoxCommandHandler,
+                                   IMenuCommandHandler
     {
         private readonly IList<int> excludedChangesets;
         private readonly IList<string> excludedFiles;
@@ -53,9 +53,9 @@ namespace ScrumPowerTools.ViewModels
         public string Title
         {
             get { return title; }
-            set 
-            { 
-                title = value; 
+            set
+            {
+                title = value;
                 NotifyOfPropertyChange(() => Title);
             }
         }
@@ -113,29 +113,23 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
-        public bool IsExpanded 
-        { 
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
-                NotifyOfPropertyChange(() => IsExpanded);
-            }
-        }
-
         public ReviewItemModel SelectedItem { get; set; }
 
         private void AssignColumns()
         {
             ObservableCollection<ColumnDescriptor> columns;
 
-            if(SelectedGrouping == ReviewGrouping.File)
+            if (SelectedGrouping == ReviewGrouping.File)
             {
-                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder"));                
+                columns =
+                    new ObservableCollection<ColumnDescriptor>(
+                        AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder"));
             }
             else
             {
-                columns = new ObservableCollection<ColumnDescriptor>(AvailableColumns.Where(cd => cd.DisplayMember != "Comment"));
+                columns =
+                    new ObservableCollection<ColumnDescriptor>(
+                        AvailableColumns.Where(cd => cd.DisplayMember != "Comment"));
             }
 
             Columns = columns;
@@ -171,7 +165,7 @@ namespace ScrumPowerTools.ViewModels
         private void ExcludeChangeset(ReviewItemModel reviewItem)
         {
             excludedChangesets.Add(reviewItem.ChangesetId);
-            
+
             ReviewItems.Refresh();
         }
 
@@ -179,9 +173,20 @@ namespace ScrumPowerTools.ViewModels
         {
             excludedFiles.Add(reviewItem.ServerItem);
 
+            SyncGroupExpansionStateOfItems();
+
             ReviewItems.Refresh();
         }
-        
+
+        private void SyncGroupExpansionStateOfItems()
+        {
+            var groups = ReviewItems.Groups.OfType<CollectionViewGroup>();
+
+            groups.ToList()
+                .ForEach(g => g.Items.Cast<ReviewItemModel>().ToList()
+                    .ForEach(ri => ri.IsGroupExpanded = g.Items.Cast<ReviewItemModel>().First().IsGroupExpanded));
+        }
+
         public void Handle(ShowReviewWindowMessage message)
         {
             model = new ReviewModel();
@@ -203,7 +208,7 @@ namespace ScrumPowerTools.ViewModels
             var reviewItemModel = (ReviewItemModel)o;
 
             return !excludedChangesets.Contains(reviewItemModel.ChangesetId)
-                && !excludedFiles.Contains(reviewItemModel.ServerItem);
+                   && !excludedFiles.Contains(reviewItemModel.ServerItem);
         }
 
         public IEnumerable<string> GetAvailableItems(int commandId)
@@ -229,17 +234,17 @@ namespace ScrumPowerTools.ViewModels
         {
             if (commandId == MenuCommands.CollapseAllReviewItems)
             {
-                IsExpanded = false;
+                ExpandAllReviewItems(false);
             }
             else if (commandId == MenuCommands.ExpandAllReviewItems)
             {
-                IsExpanded = true;
+                ExpandAllReviewItems(true);
             }
             else if (commandId == MenuCommands.CompareWithPreviousVersion)
             {
                 if (SelectedItem != null)
                 {
-                    model.CompareWithPreviousVersion(SelectedItem.ServerItem, SelectedItem.ChangesetId);                    
+                    model.CompareWithPreviousVersion(SelectedItem.ServerItem, SelectedItem.ChangesetId);
                 }
             }
             else if (commandId == MenuCommands.CompareWithVersionBeforeFirstChange)
@@ -253,6 +258,12 @@ namespace ScrumPowerTools.ViewModels
             {
                 ClearExcludedItems();
             }
+        }
+
+        private void ExpandAllReviewItems(bool expand)
+        {
+            model.ItemsToReview.ToList().ForEach(ri => ri.IsGroupExpanded = expand);
+            ReviewItems.Refresh();
         }
 
         private void ClearExcludedItems()
@@ -291,13 +302,41 @@ namespace ScrumPowerTools.ViewModels
             {
                 return new List<ColumnDescriptor>
                 {
-                    new ColumnDescriptor { HeaderText = "Changeset", DisplayMember = "ChangesetId" },
-                    new ColumnDescriptor { HeaderText = "Name", DisplayMember = "Name" },
-                    new ColumnDescriptor { HeaderText = "Folder", DisplayMember = "Folder" },
-                    new ColumnDescriptor { HeaderText = "Comment", DisplayMember = "Comment" },
-                    new ColumnDescriptor { HeaderText = "Change", DisplayMember = "Change" },
-                    new ColumnDescriptor { HeaderText = "Committer", DisplayMember = "Committer" },
-                    new ColumnDescriptor { HeaderText = "CreationDate", DisplayMember = "CreationDate" }
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Changeset",
+                        DisplayMember = "ChangesetId"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Name",
+                        DisplayMember = "Name"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Folder",
+                        DisplayMember = "Folder"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Comment",
+                        DisplayMember = "Comment"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Change",
+                        DisplayMember = "Change"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "Committer",
+                        DisplayMember = "Committer"
+                    },
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "CreationDate",
+                        DisplayMember = "CreationDate"
+                    }
                 };
             }
         }
