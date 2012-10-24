@@ -70,7 +70,7 @@
                                   BorderThickness="0,0,0,1">
                       <Expander.Header>
                         <DockPanel>
-                          <TextBlock Text="{Binding Path=Name}" Margin="5,0,5,0" />
+                          <TextBlock Text="{Binding Path=Items[0].Description}" Margin="5,0,5,0" />
                           <TextBlock Text="{Binding Path=ItemCount, StringFormat=({0})}" />
                         </DockPanel>
                       </Expander.Header>

@@ -262,7 +262,9 @@ namespace ScrumPowerTools.ViewModels
 
         private void ExpandAllReviewItems(bool expand)
         {
-            model.ItemsToReview.ToList().ForEach(ri => ri.IsGroupExpanded = expand);
+            ReviewItems.SourceCollection.Cast<ReviewItemModel>().ToList()
+                .ForEach(ri => ri.IsGroupExpanded = expand);
+
             ReviewItems.Refresh();
         }
 
@@ -282,6 +284,9 @@ namespace ScrumPowerTools.ViewModels
         {
             ReviewItems.GroupDescriptions.Clear();
 
+            ReviewItems.SourceCollection.Cast<ReviewItemModel>()
+                .ToList().ForEach(ri => ri.GroupingType = SelectedGrouping);
+
             if (SelectedGrouping == ReviewGrouping.File)
             {
                 reviewItems.GroupDescriptions.Add(new PropertyGroupDescription("ServerItem"));
@@ -290,7 +295,7 @@ namespace ScrumPowerTools.ViewModels
             }
             else
             {
-                reviewItems.GroupDescriptions.Add(new PropertyGroupDescription("Comment"));
+                reviewItems.GroupDescriptions.Add(new PropertyGroupDescription("ChangesetId"));
                 ReviewItems.SortDescriptions.Add(new SortDescription("ChangesetId", ListSortDirection.Ascending));
                 ReviewItems.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             }
@@ -358,11 +363,11 @@ namespace ScrumPowerTools.ViewModels
         private ReviewModel model;
 
         private ReviewGrouping SelectedGrouping { get; set; }
+    }
 
-        private enum ReviewGrouping
-        {
-            Changeset = 0,
-            File = 1
-        }
+    public enum ReviewGrouping
+    {
+        Changeset = 0,
+        File = 1
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ScrumPowerTools.ViewModels;
 
 namespace ScrumPowerTools.Model
 {
@@ -33,6 +34,18 @@ namespace ScrumPowerTools.Model
         {
             get { return Path.GetDirectoryName(LocalFilePath); }
         }
+
+        public string Description
+        {
+            get 
+            { 
+                return GroupingType == ReviewGrouping.File 
+                ? ServerItem
+                : Comment;
+            }
+        }
+
+        public ReviewGrouping GroupingType { get; set; }
 
         public string Name
         {
