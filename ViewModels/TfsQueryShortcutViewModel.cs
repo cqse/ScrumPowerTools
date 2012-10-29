@@ -12,15 +12,20 @@ namespace ScrumPowerTools.ViewModels
     [HandlesMenuCommand(MenuCommands.AssignTfsQueryShortcut3, MenuCommands.AssignTfsQueryShortcut4, MenuCommands.AssignTfsQueryShortcut5)]
     [HandlesMenuCommand(MenuCommands.OpenTfsQuery1, MenuCommands.OpenTfsQuery2)]
     [HandlesMenuCommand(MenuCommands.OpenTfsQuery3, MenuCommands.OpenTfsQuery4, MenuCommands.OpenTfsQuery5)]
+    [HandlesMenuCommand(MenuCommands.AssignWorkItemQueryShortcutMenu)]
     public class TfsQueryShortcutViewModel : IMenuCommandHandler, IProvideMenuText
     {
         private readonly TfsQueryShortcutStore store;
+        private readonly GeneralOptions options;
         private readonly Dictionary<int, Action> commandHandlerMappings;
             
         [ImportingConstructor]
-        public TfsQueryShortcutViewModel(TfsQueryShortcutAssigner shortcutAssigner, TfsQueryShortcutOpener shortcutOpener, TfsQueryShortcutStore store)
+        public TfsQueryShortcutViewModel(TfsQueryShortcutAssigner shortcutAssigner,
+            TfsQueryShortcutOpener shortcutOpener, TfsQueryShortcutStore store, GeneralOptions options)
         {
             this.store = store;
+            this.options = options;
+
             commandHandlerMappings = new Dictionary<int, Action>
             {
                 {MenuCommands.AssignTfsQueryShortcut1, () => shortcutAssigner.Assign(0)},
@@ -38,11 +43,19 @@ namespace ScrumPowerTools.ViewModels
 
         public void Execute(int commandId)
         {
-            commandHandlerMappings[commandId]();
+            if (commandHandlerMappings.ContainsKey(commandId))
+            {
+                commandHandlerMappings[commandId]();
+            }
         }
 
         public bool CanExecute(int commandId)
         {
+            if (commandId == MenuCommands.AssignWorkItemQueryShortcutMenu)
+            {
+                return options.AssignWorkItemQueryShortcut == MenuItemVisibility.Show;
+            }
+
             return true;
         }
 

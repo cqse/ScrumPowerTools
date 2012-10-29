@@ -57,7 +57,8 @@
 
       <Menu guid="scrumPowerToolsCommandGroup" id="AssignShortcutMenu" type="Menu" priority="0x0002">
         <Parent guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" />
-        <CommandFlag>DefaultDocked</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Assign shortcut</ButtonText>
         </Strings>

@@ -45,6 +45,11 @@ namespace ScrumPowerTools
         [Description(MenuItemDescription)]
         public MenuItemVisibility Review { get; set; }
 
+        [Category(MenuItems)]
+        [DisplayName(@"Assign work item query shortcut")]
+        [Description(MenuItemDescription)]
+        public MenuItemVisibility AssignWorkItemQueryShortcut { get; set; }
+
         internal string[] TfsQueryShortcuts { get; set; }
 
         public bool IsEnabled(int commandId)

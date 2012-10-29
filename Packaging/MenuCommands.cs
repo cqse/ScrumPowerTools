@@ -14,7 +14,9 @@
         public const int CompareWithPreviousVersion = 0x2008;
         public const int CompareWithVersionBeforeFirstChange = 0x2009;
         public const int ClearExcludedItems = 0x2010;
-        
+
+        public const int AssignWorkItemQueryShortcutMenu = 0x4051;
+
         public const int OpenTfsQuery1 = 0x3000;
         public const int OpenTfsQuery2 = 0x3001;
         public const int OpenTfsQuery3 = 0x3002;
