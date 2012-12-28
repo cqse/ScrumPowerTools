@@ -19,6 +19,7 @@ namespace ScrumPowerTools
         {
             ShowAffectedChangesetFiles = MenuItemVisibility.Show;
             ShowChangesetsWithAffectedFiles = MenuItemVisibility.Show;
+            ShowCreateScrumTaskBoardCards = MenuItemVisibility.Show;
             Review = MenuItemVisibility.Show;
             TfsQueryShortcuts = new string[0];
 
@@ -26,29 +27,36 @@ namespace ScrumPowerTools
             {
                 {MenuCommands.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
                 {MenuCommands.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
-                {MenuCommands.ShowReviewWindow, () => Review == MenuItemVisibility.Show}
+                {MenuCommands.ShowReviewWindow, () => Review == MenuItemVisibility.Show},
+                {MenuCommands.CreateScrumTaskBoardCards, () => ShowCreateScrumTaskBoardCards == MenuItemVisibility.Show}
             };
         }
 
         [Category(MenuItems)]
-        [DisplayName(@"Show affected changeset files")]
+        [DisplayName("Show affected changeset files")]
         [Description(MenuItemDescription)]
         public MenuItemVisibility ShowAffectedChangesetFiles { get; set; }
 
         [Category(MenuItems)]
-        [DisplayName(@"Show changesets with affected files")]
+        [DisplayName("Show changesets with affected files")]
         [Description(MenuItemDescription)]
         public MenuItemVisibility ShowChangesetsWithAffectedFiles { get; set; }
 
         [Category(MenuItems)]
-        [DisplayName(@"Review")]
+        [DisplayName("Review")]
         [Description(MenuItemDescription)]
         public MenuItemVisibility Review { get; set; }
 
         [Category(MenuItems)]
-        [DisplayName(@"Assign work item query shortcut")]
+        [DisplayName("Assign work item query shortcut")]
         [Description(MenuItemDescription)]
         public MenuItemVisibility AssignWorkItemQueryShortcut { get; set; }
+
+        [Category(MenuItems)]
+        [DisplayName("Show create scrum task board cards")]
+        [Description(MenuItemDescription)]
+        public MenuItemVisibility ShowCreateScrumTaskBoardCards { get; set; }
+
 
         internal string[] TfsQueryShortcuts { get; set; }
 
