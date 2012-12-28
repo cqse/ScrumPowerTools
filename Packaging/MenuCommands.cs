@@ -5,6 +5,7 @@
         public const int ShowAffectedChangesetFiles = 0x100;
         public const int ShowChangesetsWithAffectedFiles = 0x101;
         public const int ShowReviewWindow = 0x102;
+        public const int CreateScrumTaskBoardCards = 0x103;
 
         public const int TWToolbar = 0x1000;
         public const int FillReviewGroupingComboList = 0x2004;

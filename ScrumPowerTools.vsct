@@ -195,6 +195,16 @@
         </Strings>
       </Button>
 
+      <Button guid="scrumPowerToolsCommandGroup" id="CreateScrumTaskBoardCardsCommandId" priority="0x003" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>CreateScrumTaskBoardCardsCommandId</CommandName>
+          <ButtonText>Create Scrum Task Board Cards...</ButtonText>
+        </Strings>
+      </Button>
+      
       <Button guid="scrumPowerToolsCommandGroup" id="expandAllReviewItemsCommandId" priority="0x100" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="CollapseExpandGroup" />
         <Icon guid="guidImages" id="1" />
@@ -313,6 +323,7 @@
       <IDSymbol name="showAffectedChangesetFilesCommandId" value="0x0100" />
       <IDSymbol name="showChangesetsWithAffectedFilesCommandId" value="0x0101" />
       <IDSymbol name="showReviewWindowCommandId" value="0x0102" />
+      <IDSymbol name="CreateScrumTaskBoardCardsCommandId" value="0x0103" />
 
       <IDSymbol name="fillReviewGroupingComboListCommandId" value="0x2004" />
       <IDSymbol name="changeReviewGroupingCommandId" value="0x2005" />
