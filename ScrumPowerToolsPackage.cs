@@ -67,7 +67,7 @@ namespace ScrumPowerTools
             var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
-            IoC.Register(new WorkItemSelectionService(dte, documentService));
+            IoC.Register(new WorkItemSelectionService(dte, documentService, visualStudioAdapter));
             IoC.Register(new ShellDocumentOpener(this));
             IoC.Register(new TfsUiServices(dte));
 
