@@ -1,7 +1,10 @@
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Xml;
+using System.Xml.Xsl;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
@@ -34,6 +37,19 @@ namespace ScrumPowerTools.ViewModels
 
             var workItemXml = new WorkItemXmlFileCreator();
             workItemXml.Create(workItems);
+
+            var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("ScrumPowerTools.Resources.ScrumTaskBoardCards.xslt");
+            var xslt = XmlReader.Create(s);
+
+            var x = new XslCompiledTransform();
+            x.Load(xslt);
+
+            string cardsFileName = Path.Combine(Path.GetDirectoryName(WorkItemXmlFileCreator.FileName), "Cards.html");
+
+            x.Transform(WorkItemXmlFileCreator.FileName, cardsFileName);
+            xslt.Close();
+
+            Process.Start(cardsFileName);
         }
 
         public bool CanExecute(int commandId)
@@ -53,7 +69,7 @@ namespace ScrumPowerTools.ViewModels
 
         private void CreateXmlFile(WorkItem[] workItems)
         {
-            var xmlWriter = XmlWriter.Create(FileName);
+            var xmlWriter = XmlWriter.Create(FileName, new XmlWriterSettings { Indent = true });
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("WorkItems");
 
@@ -72,6 +88,14 @@ namespace ScrumPowerTools.ViewModels
             xmlWriter.WriteStartElement("WorkItem");
             xmlWriter.WriteAttributeString("Id", workItem.Id.ToString(CultureInfo.CurrentCulture));
             xmlWriter.WriteAttributeString("Type", workItem.Type.Name);
+
+            WriteFields(workItem, xmlWriter);
+
+            xmlWriter.WriteEndElement();
+        }
+
+        private static void WriteFields(WorkItem workItem, XmlWriter xmlWriter)
+        {
             xmlWriter.WriteStartElement("Fields");
 
             foreach (Field field in workItem.Fields)
@@ -95,12 +119,12 @@ namespace ScrumPowerTools.ViewModels
             Directory.CreateDirectory(TempDirectory);            
         }
 
-        private string FileName
+        public static string FileName
         {
             get { return Path.Combine(TempDirectory, "WorkItems.xml"); }
         }
 
-        private string TempDirectory
+        private static string TempDirectory
         {
             get { return Path.Combine(Path.GetTempPath(), "ScrumPowerToolsTaskBoardCards"); }
         }
