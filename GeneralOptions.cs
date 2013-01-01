@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
-using ScrumPowerTools.Packaging;
 using System.Linq;
+using MenuCommands = ScrumPowerTools.Packaging.MenuCommands;
 
 namespace ScrumPowerTools
 {
@@ -57,6 +59,11 @@ namespace ScrumPowerTools
         [Description(MenuItemDescription)]
         public MenuItemVisibility ShowCreateScrumTaskBoardCards { get; set; }
 
+        [Category("Task Board Cards")]
+        [DisplayName("Task board cards xslt file")]
+        [Description("Specifies which XSLT file to use for creating the task board cards. The default will be used when not specified.")]
+        [EditorAttribute(typeof(XsltFileNameEditor), typeof(UITypeEditor))]
+        public string TaskBoardCardsXsltFileName { get; set; }
 
         internal string[] TfsQueryShortcuts { get; set; }
 
@@ -94,5 +101,15 @@ namespace ScrumPowerTools
                 }
             }
         }
+
+        private class XsltFileNameEditor : FileNameEditor
+        {
+            protected override void InitializeDialog(System.Windows.Forms.OpenFileDialog openFileDialog)
+            {
+                openFileDialog.Filter = "XSLT Files|*.xslt;*.xsl|All Files (*.*)|*.*";
+            }
+        }
     }
+
+
 }
