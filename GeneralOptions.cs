@@ -24,6 +24,7 @@ namespace ScrumPowerTools
             ShowCreateScrumTaskBoardCards = MenuItemVisibility.Show;
             Review = MenuItemVisibility.Show;
             TfsQueryShortcuts = new string[0];
+            TaskBoardCardsXsltFileName = "";
 
             commandVisibilityMapping = new Dictionary<int,Func<bool>>
             {

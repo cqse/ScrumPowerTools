@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
@@ -38,8 +39,8 @@ namespace ScrumPowerTools.ViewModels
             var workItemXml = new WorkItemXmlFileCreator();
             workItemXml.Create(workItems);
 
-            var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("ScrumPowerTools.Resources.ScrumTaskBoardCards.xslt");
-            var xslt = XmlReader.Create(s);
+            Stream xsltStream = GetXsltStream();
+            var xslt = XmlReader.Create(xsltStream);
 
             var x = new XslCompiledTransform();
             x.Load(xslt);
@@ -48,8 +49,25 @@ namespace ScrumPowerTools.ViewModels
 
             x.Transform(WorkItemXmlFileCreator.FileName, cardsFileName);
             xslt.Close();
+            xsltStream.Dispose();
 
             Process.Start(cardsFileName);
+        }
+
+        private Stream GetXsltStream()
+        {
+            if (string.IsNullOrEmpty(options.TaskBoardCardsXsltFileName))
+            {
+                return Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("ScrumPowerTools.Resources.ScrumTaskBoardCards.xslt");
+            }
+
+            if (File.Exists(options.TaskBoardCardsXsltFileName))
+            {
+                return new FileStream(options.TaskBoardCardsXsltFileName, FileMode.Open, FileAccess.Read);
+            }
+
+            throw new ArgumentException("Unable to get XSLT file for creating taskboard cards.");
         }
 
         public bool CanExecute(int commandId)

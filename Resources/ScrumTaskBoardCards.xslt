@@ -12,7 +12,7 @@
 
           .card { border: solid 1px black; width: 7cm; height: 5cm; display: inline; margin: 2mm; position: relative; }
 
-          .title { background-color: blue; color: white; }
+          .title { background-color: blue; color: white; font-weight: bold; text-align: center; }
 
           .description, .title, .estimation, .sprintDetails { padding: 2mm; }
 
