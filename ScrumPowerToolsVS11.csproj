@@ -215,6 +215,7 @@
     <Compile Include="Services\TfsUiServices.cs" />
     <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
     <Compile Include="TfsIntegration\Vs11VisualStudioAdapter.cs" />
+    <Compile Include="ViewModels\CreateScrumTaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
     <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
@@ -262,6 +263,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico" />
+    <EmbeddedResource Include="Resources\ScrumTaskBoardCards.xslt" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
     <None Include="VS11Specific\source.extension.vsixmanifest" />
   </ItemGroup>

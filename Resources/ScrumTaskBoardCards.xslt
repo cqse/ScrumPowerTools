@@ -1,20 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:output method="html" indent="yes" />
+  <xsl:output method="html" indent="yes"  encoding="utf-8" 
+              doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" />
 
   <xsl:template match="/WorkItems">
-    <html>
-
+    <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Taskboard Cards</title>
+        <style type="text/css">
           body { font-family: arial; }
 
-          .card, .userStoryCard, .bugCard { border: solid 1px black; width: 8cm; height: 5cm; display: inline; margin: 2mm; position: relative; }
+          .card, .userStoryCard, .bugCard { border: solid 1px black; width: 8cm; height: 5cm; display: inline-block; margin: 2mm; position: relative; }
 
-          .title { background-color: blue; color: white; font-weight: bold; text-align: center; }
+          .title { background-color: #4169e1; color: white; font-weight: bold; text-align: center; }
 
-          .bugCard .title { background-color: red; }
+          .bugCard .title { background-color: #8b0000; }
 
           .description, .title, .estimation, .sprintDetails { padding: 2mm; }
 
