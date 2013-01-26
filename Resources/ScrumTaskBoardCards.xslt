@@ -13,7 +13,10 @@
         <style type="text/css">
           body { font-family: arial; }
 
-          .card, .userStoryCard, .bugCard { border: solid 1px black; width: 8cm; height: 5cm; display: inline-block; margin: 2mm; position: relative; }
+          .card, .userStoryCard, .bugCard {
+            border: solid 1px black; width: 8cm; height: 5cm;
+            display: inline; margin: 2mm; position: relative;
+          }
 
           .title { background-color: #4169e1; color: white; font-weight: bold; text-align: center; }
 
@@ -21,7 +24,9 @@
 
           .description, .title, .estimation, .sprintDetails { padding: 2mm; }
 
-          .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 24px; font-weight: bold; }
+          .description { position: absolute; }
+
+          .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 30px; font-weight: bold; }
 
           .sprintDetails { position: absolute; bottom: 0px; left: 0px; font-size: 10px; color: lightgray; }
         </style>
@@ -37,7 +42,7 @@
               <xsl:when test="@Type = 'User Story'">
                 <xsl:attribute name="class">userStoryCard</xsl:attribute>
               </xsl:when>
-              <xsl:when test="@Type = 'Bug'">
+              <xsl:when test="@Type = 'Bug' or Fields/Field[@RefName='CodeStudio.WorkItemType']/@Value = 'Issue'">
                 <xsl:attribute name="class">bugCard</xsl:attribute>
               </xsl:when>
               <xsl:otherwise>

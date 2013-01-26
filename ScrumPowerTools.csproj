@@ -202,7 +202,7 @@
     <Compile Include="TfsIntegration\VisualStudio2010Adapter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\CreateScrumTaskBoardCardsViewModel.cs" />
+    <Compile Include="ViewModels\CreateTaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
     <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />

@@ -6,22 +6,26 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Xsl;
+using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.ViewModels
 {
     [Export(typeof(IMenuCommandHandler))]
-    [HandlesMenuCommand(MenuCommands.CreateScrumTaskBoardCards)]
-    public class CreateScrumTaskBoardCardsViewModel : IMenuCommandHandler
+    [HandlesMenuCommand(MenuCommands.CreateTaskBoardCards)]
+    public class CreateTaskBoardCardsViewModel : IMenuCommandHandler
     {
         private readonly GeneralOptions options;
         private readonly WorkItemSelectionService workItemSelectionService;
 
         [ImportingConstructor]
-        public CreateScrumTaskBoardCardsViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService)
+        public CreateTaskBoardCardsViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService)
         {
             this.options = options;
             this.workItemSelectionService = workItemSelectionService;
@@ -34,37 +38,47 @@ namespace ScrumPowerTools.ViewModels
 
         private void CreateCards()
         {
-            var workItems = workItemSelectionService.GetSelectedWorkItems();
+            WorkItem[] workItems = workItemSelectionService.GetSelectedWorkItems();
 
             var workItemXml = new WorkItemXmlFileCreator();
             workItemXml.Create(workItems);
 
-            Stream xsltStream = GetXsltStream();
-            var xslt = XmlReader.Create(xsltStream);
-
-            var x = new XslCompiledTransform();
-            x.Load(xslt);
-
             string cardsFileName = Path.Combine(Path.GetDirectoryName(WorkItemXmlFileCreator.FileName), "Cards.html");
 
-            x.Transform(WorkItemXmlFileCreator.FileName, cardsFileName);
-            xslt.Close();
-            xsltStream.Dispose();
+            using (Stream xsltStream = GetXsltStream())
+            using (XmlReader xslt = XmlReader.Create(xsltStream))
+            {
+                var xslCompiledTransform = new XslCompiledTransform();
+                xslCompiledTransform.Load(xslt);
+                xslCompiledTransform.Transform(WorkItemXmlFileCreator.FileName, cardsFileName);
+            }
 
             Process.Start(cardsFileName);
         }
 
         private Stream GetXsltStream()
         {
+            if (File.Exists(options.TaskBoardCardsXsltFileName))
+            {
+                return new FileStream(options.TaskBoardCardsXsltFileName, FileMode.Open, FileAccess.Read);
+            }
+
+            if (options.TaskBoardCardsXsltFileName.StartsWith("$/"))
+            {
+                var teamProjectCollectionProvider = IoC.GetInstance<IVisualStudioAdapter>();
+                TfsTeamProjectCollection tpc = teamProjectCollectionProvider.GetCurrent();
+
+                var versionControlServer = tpc.GetService<VersionControlServer>();
+
+                Item item = versionControlServer.GetItem(options.TaskBoardCardsXsltFileName, VersionSpec.Latest);
+
+                return item.DownloadFile();
+            }
+
             if (string.IsNullOrEmpty(options.TaskBoardCardsXsltFileName))
             {
                 return Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("ScrumPowerTools.Resources.ScrumTaskBoardCards.xslt");
-            }
-
-            if (File.Exists(options.TaskBoardCardsXsltFileName))
-            {
-                return new FileStream(options.TaskBoardCardsXsltFileName, FileMode.Open, FileAccess.Read);
             }
 
             throw new ArgumentException("Unable to get XSLT file for creating taskboard cards.");

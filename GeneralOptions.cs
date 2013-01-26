@@ -21,7 +21,7 @@ namespace ScrumPowerTools
         {
             ShowAffectedChangesetFiles = MenuItemVisibility.Show;
             ShowChangesetsWithAffectedFiles = MenuItemVisibility.Show;
-            ShowCreateScrumTaskBoardCards = MenuItemVisibility.Show;
+            ShowCreateTaskBoardCards = MenuItemVisibility.Show;
             Review = MenuItemVisibility.Show;
             TfsQueryShortcuts = new string[0];
             TaskBoardCardsXsltFileName = "";
@@ -31,7 +31,7 @@ namespace ScrumPowerTools
                 {MenuCommands.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
                 {MenuCommands.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
                 {MenuCommands.ShowReviewWindow, () => Review == MenuItemVisibility.Show},
-                {MenuCommands.CreateScrumTaskBoardCards, () => ShowCreateScrumTaskBoardCards == MenuItemVisibility.Show}
+                {MenuCommands.CreateTaskBoardCards, () => ShowCreateTaskBoardCards == MenuItemVisibility.Show}
             };
         }
 
@@ -56,9 +56,9 @@ namespace ScrumPowerTools
         public MenuItemVisibility AssignWorkItemQueryShortcut { get; set; }
 
         [Category(MenuItems)]
-        [DisplayName("Show create scrum task board cards")]
+        [DisplayName("Show create task board cards")]
         [Description(MenuItemDescription)]
-        public MenuItemVisibility ShowCreateScrumTaskBoardCards { get; set; }
+        public MenuItemVisibility ShowCreateTaskBoardCards { get; set; }
 
         [Category("Task Board Cards")]
         [DisplayName("Task board cards xslt file")]
