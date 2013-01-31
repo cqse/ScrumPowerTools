@@ -247,7 +247,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico" />
-    <EmbeddedResource Include="Resources\ScrumTaskBoardCards.xslt" />
+    <EmbeddedResource Include="Resources\TaskBoardCards.xslt" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
     <None Include="VS11Specific\source.extension.vsixmanifest" />
   </ItemGroup>

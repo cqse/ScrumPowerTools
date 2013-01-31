@@ -78,7 +78,7 @@ namespace ScrumPowerTools.ViewModels
             if (string.IsNullOrEmpty(options.TaskBoardCardsXsltFileName))
             {
                 return Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("ScrumPowerTools.Resources.ScrumTaskBoardCards.xslt");
+                    .GetManifestResourceStream("ScrumPowerTools.Resources.TaskBoardCards.xslt");
             }
 
             throw new ArgumentException("Unable to get XSLT file for creating taskboard cards.");
