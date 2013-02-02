@@ -144,6 +144,7 @@
     <Compile Include="Controllers\QueryResultsTotalizerController.cs" />
     <Compile Include="Framework\Composition\IoC.cs" />
     <Compile Include="Framework\Executor.cs" />
+    <Compile Include="Framework\Extensions\WorkItemStoreExtensions.cs" />
     <Compile Include="Framework\Presentation\ColumnDescriptor.cs" />
     <Compile Include="Framework\Presentation\ComboBoxCommandHandlerBinder.cs" />
     <Compile Include="Framework\Presentation\DelegateCommand.cs" />
@@ -250,7 +251,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\Package.ico" />
-    <EmbeddedResource Include="Resources\ScrumTaskBoardCards.xslt" />
+    <EmbeddedResource Include="Resources\TaskBoardCards.xslt" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
     <None Include="VS10Specific\source.extension.vsixmanifest" />
   </ItemGroup>

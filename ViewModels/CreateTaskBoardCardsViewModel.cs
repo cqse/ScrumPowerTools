@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
@@ -14,32 +16,61 @@ using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.TfsIntegration;
+using System.Linq;
+using ScrumPowerTools.Framework.Extensions;
 
 namespace ScrumPowerTools.ViewModels
 {
     [Export(typeof(IMenuCommandHandler))]
     [HandlesMenuCommand(MenuCommands.CreateTaskBoardCards)]
+    [HandlesMenuCommand(MenuCommands.CreateTaskBoardCardsForQueryResult)]
     public class CreateTaskBoardCardsViewModel : IMenuCommandHandler
     {
         private readonly GeneralOptions options;
         private readonly WorkItemSelectionService workItemSelectionService;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
 
         [ImportingConstructor]
-        public CreateTaskBoardCardsViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService)
+        public CreateTaskBoardCardsViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService, 
+            IVisualStudioAdapter visualStudioAdapter)
         {
             this.options = options;
             this.workItemSelectionService = workItemSelectionService;
+            this.visualStudioAdapter = visualStudioAdapter;
         }
 
         public void Execute(int commandId)
         {
-            CreateCards();
+            if (commandId == MenuCommands.CreateTaskBoardCards)
+            {
+                CreateCardsForSelection();
+            }
+            else if (commandId == MenuCommands.CreateTaskBoardCardsForQueryResult)
+            {
+                CreateCardsForQueryResult();
+            }
         }
 
-        private void CreateCards()
+        private void CreateCardsForQueryResult()
+        {
+            var queryPath = visualStudioAdapter.GetCurrentSelectedQueryPath();
+            var tpc = visualStudioAdapter.GetCurrent();
+            var workItemStore = tpc.GetService<WorkItemStore>();
+
+            WorkItemCollection workItems = workItemStore.GetWorkItems(queryPath);
+
+            CreateCards(workItems.OfType<WorkItem>());
+        }
+
+        private void CreateCardsForSelection()
         {
             WorkItem[] workItems = workItemSelectionService.GetSelectedWorkItems();
 
+            CreateCards(workItems);
+        }
+
+        private void CreateCards(IEnumerable<WorkItem> workItems)
+        {
             var workItemXml = new WorkItemXmlFileCreator();
             workItemXml.Create(workItems);
 
@@ -86,20 +117,25 @@ namespace ScrumPowerTools.ViewModels
 
         public bool CanExecute(int commandId)
         {
-            return options.IsEnabled(commandId) && workItemSelectionService.HasSelection();
+            if (commandId == MenuCommands.CreateTaskBoardCards)
+            {
+                return options.IsEnabled(MenuCommands.CreateTaskBoardCards) && workItemSelectionService.HasSelection();
+            }
+
+            return options.IsEnabled(MenuCommands.CreateTaskBoardCards);
         }
     }
 
     internal class WorkItemXmlFileCreator
     {
-        public void Create(WorkItem[] workItems)
+        public void Create(IEnumerable<WorkItem> workItems)
         {
             EnsureTempDirectoryExists();
 
             CreateXmlFile(workItems);
         }
 
-        private void CreateXmlFile(WorkItem[] workItems)
+        private void CreateXmlFile(IEnumerable<WorkItem> workItems)
         {
             var xmlWriter = XmlWriter.Create(FileName, new XmlWriterSettings { Indent = true });
             xmlWriter.WriteStartDocument();

@@ -6,6 +6,7 @@
         public const int ShowChangesetsWithAffectedFiles = 0x101;
         public const int ShowReviewWindow = 0x102;
         public const int CreateTaskBoardCards = 0x103;
+        public const int CreateTaskBoardCardsForQueryResult = 0x104;
 
         public const int TWToolbar = 0x1000;
         public const int FillReviewGroupingComboList = 0x2004;

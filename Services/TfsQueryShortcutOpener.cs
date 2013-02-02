@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using ScrumPowerTools.Framework.Extensions;
 using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Services
@@ -30,7 +30,9 @@ namespace ScrumPowerTools.Services
             {
                 try
                 {
-                    QueryDefinition queryDefinition = GetQueryDefinition(queryPath);
+                    var workItemStore = visualStudioAdapter.GetCurrent().GetService<WorkItemStore>();
+
+                    QueryDefinition queryDefinition = workItemStore.GetQueryDefinition(queryPath);
 
                     if (queryDefinition != null)
                     {
@@ -41,29 +43,6 @@ namespace ScrumPowerTools.Services
                 {
                 }   
             }
-        }
-
-        private QueryDefinition GetQueryDefinition(QueryPath queryPath)
-        {
-            var workItemStore = visualStudioAdapter.GetCurrent().GetService<WorkItemStore>();
-            var queryHierarchy = workItemStore.Projects[queryPath.ProjectName].QueryHierarchy;
-
-            var foundQueryItem = queryPath.PathNames
-                .Aggregate<string, QueryItem>(queryHierarchy,
-                    (queryItem, name) =>
-                    {
-                        var queryFolder = queryItem as QueryFolder;
-
-                        if (queryFolder != null && queryFolder.Contains(name))
-                        {
-                            return queryFolder[name];
-                        }
-
-                        return null;
-                    }
-                );
-
-            return foundQueryItem as QueryDefinition;
         }
 
         private void ShowQueryResults(QueryDefinition queryDefinition)

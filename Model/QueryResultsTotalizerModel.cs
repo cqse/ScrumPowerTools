@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using ScrumPowerTools.Framework.Extensions;
 using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
@@ -41,7 +42,8 @@ namespace ScrumPowerTools.Model
                 return;
             }
 
-            WorkItemCollection workItemCollection = GetWorkItems(workItemQuery);
+            WorkItemCollection workItemCollection = workItemStore.GetWorkItems(workItemQuery, NumericFieldDefinitions);
+
             WorkItem[] workItemsA = new WorkItem[workItemCollection.Count];
             ((ICollection)workItemCollection).CopyTo(workItemsA, 0);
 
@@ -50,7 +52,7 @@ namespace ScrumPowerTools.Model
             RefreshTotals((queryResultsDocument.SelectedItemIds ?? new int[0]));
         }
 
-        protected IEnumerable<FieldDefinition> NumericFieldDefinitions { get; set; }
+        private IEnumerable<FieldDefinition> NumericFieldDefinitions { get; set; }
 
         public void RefreshTotals(int[] selectedItemIds)
         {
@@ -70,44 +72,6 @@ namespace ScrumPowerTools.Model
 
         protected WorkItem[] CurrentWorkItems { get; set; }
 
-        private WorkItemCollection GetWorkItems(Query workItemQuery)
-        {
-            if (workItemQuery.IsLinkQuery)
-            {
-                return GetWorkItemsFromLinkQuery(workItemQuery);
-            }
-            else
-            {
-                return GetWorkItemsFromNormalQuery(workItemQuery);
-            }
-        }
-
-        private WorkItemCollection GetWorkItemsFromLinkQuery(Query workItemQuery)
-        {
-            var workItemInfo = workItemQuery.RunLinkQuery();
-
-            var allWorkItemIds = workItemInfo.Select(wi => wi.TargetId).Distinct().ToArray();
-            IEnumerable<string> numericFieldDefinitionNames = NumericFieldDefinitions.Select(fd => "[" + fd.ReferenceName + "]");
-            string select = "SELECT " + string.Join(", ", numericFieldDefinitionNames) + " FROM WorkItems";
-
-            var tpc = visualStudioAdapter.GetCurrent();
-            var workItemStore = tpc.GetService<WorkItemStore>();
-
-            var actualWorkItemQuery = new Query(workItemStore, select, allWorkItemIds);
-            
-            return actualWorkItemQuery.RunQuery();
-        }
-
-        private WorkItemCollection GetWorkItemsFromNormalQuery(Query workItemQuery)
-        {
-            workItemQuery.DisplayFieldList.Clear();
-
-            NumericFieldDefinitions.ToList()
-                .ForEach(fn => workItemQuery.DisplayFieldList.Add(fn));
-
-            return workItemQuery.RunQuery();
-        }
-
         private IEnumerable<FieldDefinition> GetNumericFieldDefinitions(Query workItemInfoQuery)
         {
             return (from FieldDefinition displayField in workItemInfoQuery.DisplayFieldList
@@ -117,9 +81,10 @@ namespace ScrumPowerTools.Model
 
         private static Hashtable GetTfsQueryParameters(IResultsDocument queryResultsDocument)
         {
-            Hashtable context = new Hashtable();
-            context.Add("project", queryResultsDocument.TeamProject);
-            return context;
+            return new Hashtable()
+            {
+                { "project", queryResultsDocument.TeamProject }
+            };
         }
 
         private static bool IsNumericField(FieldDefinition fieldDefinition)
