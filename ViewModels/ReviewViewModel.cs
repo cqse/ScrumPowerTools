@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using ScrumPowerTools.Framework.Presentation;
@@ -113,6 +114,14 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
+        public ICommand ShowItemCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(ShowItem, () => true);
+            }
+        }
+
         public ReviewItemModel SelectedItem { get; set; }
 
         private void AssignColumns()
@@ -135,6 +144,18 @@ namespace ScrumPowerTools.ViewModels
             Columns = columns;
 
             NotifyOfPropertyChange(() => Columns);
+        }
+
+        private void ShowItem(ReviewItemModel reviewItem)
+        {
+            if (SelectedGrouping == ReviewGrouping.File)
+            {
+                ShellDocumentOpener.Open(reviewItem.LocalFilePath);
+            }
+            else if (SelectedGrouping == ReviewGrouping.Changeset)
+            {
+                TfsUiServices.ShowChangesetDetails(reviewItem.ChangesetId);
+            }
         }
 
         private void SelectItem(ReviewItemModel reviewItem)
@@ -339,7 +360,7 @@ namespace ScrumPowerTools.ViewModels
                     },
                     new ColumnDescriptor
                     {
-                        HeaderText = "CreationDate",
+                        HeaderText = "Creation date",
                         DisplayMember = "CreationDate"
                     }
                 };
@@ -347,8 +368,6 @@ namespace ScrumPowerTools.ViewModels
         }
 
         private string title;
-
-        private bool isExpanded;
 
         [Import(typeof(IToolWindowActivator))]
         private IToolWindowActivator ToolWindowActivator { get; set; }
@@ -363,6 +382,16 @@ namespace ScrumPowerTools.ViewModels
         private ReviewModel model;
 
         private ReviewGrouping SelectedGrouping { get; set; }
+
+        public Visibility IsGroupedByFile
+        {
+            get
+            {
+                return (SelectedGrouping == ReviewGrouping.File)
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
+            }
+        }
     }
 
     public enum ReviewGrouping

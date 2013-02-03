@@ -20,8 +20,7 @@ namespace ScrumPowerTools.Model
 
                 reviewItemModel.LocalFilePath = e.Workspace.TryGetLocalItemForServerItem(change.Item.ServerItem);
                 reviewItemModel.ServerItem = change.Item.ServerItem;
-                reviewItemModel.Change = change.ChangeType.ToString();
-
+                reviewItemModel.Change = (change.ChangeType & (~ChangeType.Encoding)).ToString();
                 items.Add(reviewItemModel);
             }
         }

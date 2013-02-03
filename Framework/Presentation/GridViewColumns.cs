@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -225,6 +226,13 @@ namespace ScrumPowerTools.Framework.Presentation
             {
                 var propertyName = GetPropertyValue(columnSource, displayMemberMember) as string;
                 column.DisplayMemberBinding = new Binding(propertyName);
+                if (propertyName.Contains("Date"))
+                {
+                    string shortDatePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
+                    string shortTimePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortTimePattern;
+
+                    column.DisplayMemberBinding.StringFormat = shortDatePattern + " " + shortTimePattern;
+                }
             }
 
             return column;
