@@ -389,7 +389,7 @@ namespace ScrumPowerTools.ViewModels
             {
                 return (SelectedGrouping == ReviewGrouping.File)
                     ? Visibility.Visible
-                    : Visibility.Hidden;
+                    : Visibility.Collapsed;
             }
         }
     }
