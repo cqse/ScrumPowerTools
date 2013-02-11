@@ -15,5 +15,7 @@ namespace ScrumPowerTools.TfsIntegration
         /// </summary>
         /// <returns></returns>
         QueryPath GetCurrentSelectedQueryPath();
+
+        void ShowChangesetDetails(int changesetId);
     }
 }

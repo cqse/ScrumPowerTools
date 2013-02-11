@@ -1,6 +1,8 @@
 using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Controls;
+using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer;
+using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.Extensibility;
@@ -34,6 +36,17 @@ namespace ScrumPowerTools.TfsIntegration
             }
 
             return null;
+        }
+
+        public void ShowChangesetDetails(int changesetId)
+        {
+            TfsTeamProjectCollection tpc = GetCurrent();
+
+            var teamExplorer = (ITeamExplorer)Package.GetGlobalService(typeof(ITeamExplorer));
+            var versionControlServer = tpc.GetService<VersionControlServer>();
+            Changeset changeset = versionControlServer.GetChangeset(changesetId);
+
+            TeamExplorerUtils.Instance.TryNavigateToChangesetDetails(teamExplorer, changeset, TeamExplorerUtils.NavigateOptions.AlwaysNavigate);
         }
     }
 }

@@ -17,15 +17,7 @@ namespace ScrumPowerTools.Services
         {
             if (VersionControlExt != null)
             {
-                VersionControlExt.History.Show(path, VersionSpec.Latest, 0, RecursionType.OneLevel);
-            }
-        }
-
-        public void ShowChangesetDetails(int changesetId)
-        {
-            if (VersionControlExt != null)
-            {
-                VersionControlExt.ViewChangesetDetails(changesetId);
+                var history = VersionControlExt.History.Show(path, VersionSpec.Latest, 0, RecursionType.Full);
             }
         }
 

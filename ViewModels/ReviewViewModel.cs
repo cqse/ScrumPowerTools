@@ -154,7 +154,7 @@ namespace ScrumPowerTools.ViewModels
             }
             else if (SelectedGrouping == ReviewGrouping.Changeset)
             {
-                TfsUiServices.ShowChangesetDetails(reviewItem.ChangesetId);
+                model.ShowChangesetDetails(reviewItem.ChangesetId);
             }
         }
 
@@ -180,7 +180,7 @@ namespace ScrumPowerTools.ViewModels
 
         private void ViewChangesetDetails(ReviewItemModel reviewItem)
         {
-            TfsUiServices.ShowChangesetDetails(reviewItem.ChangesetId);
+            model.ShowChangesetDetails(reviewItem.ChangesetId);
         }
 
         private void ExcludeChangeset(ReviewItemModel reviewItem)

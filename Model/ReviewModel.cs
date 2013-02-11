@@ -63,5 +63,11 @@ namespace ScrumPowerTools.Model
             var differentiator = new TfsItemDifferentiator();
             differentiator.CompareWithPreviousVersion(serverItem, changesetId);
         }
+
+        public void ShowChangesetDetails(int changesetId)
+        {
+            var visualStudioAdapter = IoC.GetInstance<IVisualStudioAdapter>();
+            visualStudioAdapter.ShowChangesetDetails(changesetId);
+        }
     }
 }
