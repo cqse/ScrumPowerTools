@@ -52,9 +52,22 @@ namespace ScrumPowerTools.Model
             }
 
             string activeDocumentName = activeDocument.FullName;
-            var resultsDocument = documentService.FindDocument(activeDocumentName, null) as IResultsDocument;
 
-            return resultsDocument != null ? resultsDocument.SelectedItemIds : new int[0];
+            IWorkItemTrackingDocument workItemTrackingDocument = documentService.FindDocument(activeDocumentName, null);
+            var workItemDocument = workItemTrackingDocument as IWorkItemDocument;
+            var resultsDocument = workItemTrackingDocument as IResultsDocument;
+
+            if (resultsDocument != null)
+            {
+                return resultsDocument.SelectedItemIds;
+            }
+
+            if ((workItemDocument != null) && (workItemDocument.Item != null))
+            {
+                return new [] {workItemDocument.Item.Id};
+            }
+
+            return new int[0];
         }
     }
 }

@@ -97,6 +97,10 @@
       <Group guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" priority="0x0600" >
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
       </Group>
+
+      <Group guid="scrumPowerToolsCommandGroup" id="WorkItemContextMenuGroup" priority="0x0600" >
+        <Parent guid="WorkItemTrackingGuid" id="WorkItem" />
+      </Group>
       
       <Group guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" priority="0x1002">
         <Parent guid="WorkItemTrackingGuid" id="TEQuery" />
@@ -195,6 +199,16 @@
         </Strings>
       </Button>
 
+      <Button guid="scrumPowerToolsCommandGroup" id="showReviewWindowCommandId" priority="0x0102" type="Button">
+        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemContextMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <CommandName>ShowReviewWindowCommandId</CommandName>
+          <ButtonText>Review</ButtonText>
+        </Strings>
+      </Button>
+      
       <Button guid="scrumPowerToolsCommandGroup" id="CreateTaskBoardCardsCommandId" priority="0x003" type="Button">
         <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
@@ -330,12 +344,13 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="scrumPowerToolsCommandGroup" value="{580831fe-ea0f-46f7-83d7-1d87039202cc}">
       <IDSymbol name="WorkItemMenuGroup" value="0x1020" />
+      <IDSymbol name="WorkItemContextMenuGroup" value="0x1021" />
       <IDSymbol name="showAffectedChangesetFilesCommandId" value="0x0100" />
       <IDSymbol name="showChangesetsWithAffectedFilesCommandId" value="0x0101" />
       <IDSymbol name="showReviewWindowCommandId" value="0x0102" />
       <IDSymbol name="CreateTaskBoardCardsCommandId" value="0x0103" />
       <IDSymbol name="CreateTaskBoardCardsForQueryResultCommandId" value="0x0104" />
-
+      
       <IDSymbol name="fillReviewGroupingComboListCommandId" value="0x2004" />
       <IDSymbol name="changeReviewGroupingCommandId" value="0x2005" />
       <IDSymbol name="expandAllReviewItemsCommandId" value="0x2006" />
