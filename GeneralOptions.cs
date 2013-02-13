@@ -6,7 +6,6 @@ using System.Windows.Forms.Design;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
 using System.Linq;
-using MenuCommands = ScrumPowerTools.Packaging.MenuCommands;
 
 namespace ScrumPowerTools
 {
@@ -15,23 +14,23 @@ namespace ScrumPowerTools
         private const string MenuItems = "Menu Items";
         private const string MenuItemDescription = "Specifies if the menu item should be shown or not.";
 
-        private readonly Dictionary<int, Func<bool>> commandVisibilityMapping;
+        private readonly Dictionary<Feature, Func<bool>> featureVisibilityMapping;
 
         public GeneralOptions()
         {
+            Review = MenuItemVisibility.Show;
             ShowAffectedChangesetFiles = MenuItemVisibility.Show;
             ShowChangesetsWithAffectedFiles = MenuItemVisibility.Show;
             ShowCreateTaskBoardCards = MenuItemVisibility.Show;
-            Review = MenuItemVisibility.Show;
             TfsQueryShortcuts = new string[0];
             TaskBoardCardsXsltFileName = "";
 
-            commandVisibilityMapping = new Dictionary<int,Func<bool>>
+            featureVisibilityMapping = new Dictionary<Feature, Func<bool>>
             {
-                {MenuCommands.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
-                {MenuCommands.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
-                {MenuCommands.ShowReviewWindow, () => Review == MenuItemVisibility.Show},
-                {MenuCommands.CreateTaskBoardCards, () => ShowCreateTaskBoardCards == MenuItemVisibility.Show}
+                {Feature.ShowAffectedChangesetFiles, () => ShowAffectedChangesetFiles == MenuItemVisibility.Show},
+                {Feature.ShowChangesetsWithAffectedFiles, () => ShowChangesetsWithAffectedFiles == MenuItemVisibility.Show},
+                {Feature.Review, () => Review == MenuItemVisibility.Show},
+                {Feature.TaskBoardCards, () => ShowCreateTaskBoardCards == MenuItemVisibility.Show}
             };
         }
 
@@ -68,9 +67,9 @@ namespace ScrumPowerTools
 
         internal string[] TfsQueryShortcuts { get; set; }
 
-        public bool IsEnabled(int commandId)
+        public bool IsEnabled(Feature feature)
         {
-            return commandVisibilityMapping[commandId]();
+            return featureVisibilityMapping[feature]();
         }
 
         public override void SaveSettingsToStorage()

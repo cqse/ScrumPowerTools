@@ -119,10 +119,15 @@ namespace ScrumPowerTools.ViewModels
         {
             if (commandId == MenuCommands.CreateTaskBoardCards)
             {
-                return options.IsEnabled(MenuCommands.CreateTaskBoardCards) && workItemSelectionService.HasSelection();
+                return options.IsEnabled(Feature.TaskBoardCards) && workItemSelectionService.HasSelection();
+            }
+            
+            if(commandId == MenuCommands.CreateTaskBoardCardsForQueryResult)
+            {
+                return options.IsEnabled(Feature.TaskBoardCards);
             }
 
-            return options.IsEnabled(MenuCommands.CreateTaskBoardCards);
+            return false;
         }
     }
 

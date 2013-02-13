@@ -25,6 +25,7 @@ namespace ScrumPowerTools.ViewModels
         private readonly IVisualStudioAdapter visualStudioAdapter;
 
         private readonly Dictionary<int, Action> commandHandlerMappings;
+        private readonly Dictionary<int, Feature> commandFeatureMappings;
 
         [ImportingConstructor]
         public WorkItemContextMenuViewModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService,
@@ -39,6 +40,13 @@ namespace ScrumPowerTools.ViewModels
                 {MenuCommands.ShowAffectedChangesetFiles, ShowAffectedChangesetFiles},
                 {MenuCommands.ShowChangesetsWithAffectedFiles, ShowChangesetsWithAffectedFiles},
                 {MenuCommands.ShowReviewWindow, ShowReviewWindow}
+            };
+
+            commandFeatureMappings = new Dictionary<int, Feature>
+            {
+                {MenuCommands.ShowAffectedChangesetFiles, Feature.ShowAffectedChangesetFiles},
+                {MenuCommands.ShowChangesetsWithAffectedFiles, Feature.ShowChangesetsWithAffectedFiles},
+                {MenuCommands.ShowReviewWindow, Feature.Review}
             };
         }
 
@@ -92,7 +100,7 @@ namespace ScrumPowerTools.ViewModels
 
         public bool CanExecute(int commandId)
         {
-            return options.IsEnabled(commandId) && workItemSelectionService.HasSelection();
+            return options.IsEnabled(commandFeatureMappings[commandId]) && workItemSelectionService.HasSelection();
         }
     }
 }
