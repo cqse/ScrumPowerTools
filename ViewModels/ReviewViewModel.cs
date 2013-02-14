@@ -82,8 +82,7 @@ namespace ScrumPowerTools.ViewModels
         {
             get
             {
-                return new DelegateCommand<ReviewItemModel>(ViewHistory,
-                    () => SelectedItem != null);
+                return new DelegateCommand<ReviewItemModel>(ViewHistory);
             }
         }
 
@@ -93,6 +92,14 @@ namespace ScrumPowerTools.ViewModels
             {
                 return new DelegateCommand<ReviewItemModel>(ViewChangesetDetails,
                     () => SelectedItem != null);
+            }
+        }
+
+        public ICommand ExcludeCommand
+        {
+            get
+            {
+                return new DelegateCommand<ReviewItemModel>(Exclude);
             }
         }
 
@@ -181,6 +188,18 @@ namespace ScrumPowerTools.ViewModels
         private void ViewChangesetDetails(ReviewItemModel reviewItem)
         {
             model.ShowChangesetDetails(reviewItem.ChangesetId);
+        }
+
+        private void Exclude(ReviewItemModel reviewItem)
+        {
+            if (SelectedGrouping == ReviewGrouping.Changeset)
+            {
+                ExcludeChangeset(reviewItem);
+            }
+            else if (SelectedGrouping == ReviewGrouping.File)
+            {
+                ExcludeFile(reviewItem);
+            }
         }
 
         private void ExcludeChangeset(ReviewItemModel reviewItem)
@@ -388,6 +407,16 @@ namespace ScrumPowerTools.ViewModels
             get
             {
                 return (SelectedGrouping == ReviewGrouping.File)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsGroupedByChangeset
+        {
+            get
+            {
+                return (SelectedGrouping == ReviewGrouping.Changeset)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }

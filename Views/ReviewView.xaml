@@ -3,102 +3,142 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:ScrumPowerTools.Framework.Presentation"
-             mc:Ignorable="d" d:DesignHeight="200"
+             xmlns:local="clr-namespace:ScrumPowerTools.Framework.Presentation" mc:Ignorable="d" d:DesignHeight="200"
              d:DesignWidth="500" Name="ReviewToolWindow">
-  <UserControl.Resources>
+    <UserControl.Resources>
 
-    <ContextMenu x:Key="ReviewItemMenu"
-                 DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget.DataContext}">
-        <MenuItem Header="Open" />
-        <MenuItem Header="View History"
-                  Command="{Binding Path=DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}" />
-        <MenuItem Header="Changeset Details"
-                Command="{Binding Path=DataContext.ViewChangesetDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                CommandParameter="{Binding}" />
-        <MenuItem Header="Compare">
-            <MenuItem Header="With Previous Version"
-                        Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                        CommandParameter="{Binding}" />
-            <MenuItem Header="Version Before First Change With Version of Last Changeset"
-                        Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                        CommandParameter="{Binding}" />
-        </MenuItem>
-        <Separator />
-        <MenuItem Header="Exclude Changeset"
-                  Command="{Binding Path=DataContext.ExcludeChangesetCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}" />
-        <MenuItem Header="Exclude File" 
-                  Command="{Binding Path=DataContext.ExcludeFileCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
-                  CommandParameter="{Binding}" />
-    </ContextMenu>
-
-  </UserControl.Resources>
-  <Grid>
-    <ListView Name="ReviewItems" SelectedItem="{Binding SelectedItem}">
-      <ListView.View>
-        <GridView local:GridViewColumns.DisplayMemberMember="DisplayMember"
-                  local:GridViewColumns.HeaderTextMember="HeaderText" 
-                  local:GridViewColumns.ColumnsSource="{Binding Columns}">
-
-          <GridView.ColumnHeaderContainerStyle>
-            <Style TargetType="GridViewColumnHeader">
-              <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
-              <Setter Property="Padding" Value="5,0,5,0" />
-            </Style>
-          </GridView.ColumnHeaderContainerStyle>
-        </GridView>
-      </ListView.View>
-      <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem">
-          <Setter Property="local:ListViewItemClickBehavior.DoubleClick"
-                  Value="{Binding DataContext.SelectItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
-          <Setter Property="ContextMenu" Value="{StaticResource ReviewItemMenu}" />
-        </Style>
-      </ListView.ItemContainerStyle>
-      <ListView.GroupStyle>
-        <GroupStyle>
-          <GroupStyle.ContainerStyle>
-            <Style TargetType="{x:Type GroupItem}">
-              <Setter Property="Margin" Value="0,0,0,5" />
-              <Setter Property="Template">
+        <Style x:Key="sstyle" TargetType="Hyperlink">
+            <Setter Property="TextDecorations" Value="None" />
+            <Setter Property="Foreground">
                 <Setter.Value>
-                  <ControlTemplate TargetType="{x:Type GroupItem}">
-                        <Expander IsExpanded="{Binding Path=Items[0].IsGroupExpanded}"          
-                                  BorderThickness="0,0,0,1">
-                      <Expander.Header>
-                        <DockPanel>
-                            <TextBlock Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" >
-                                <Hyperlink TextDecorations="None"       
-                                    Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                                    CommandParameter="{Binding Path=Items[0]}">
-                                    <Image Source="/ScrumPowerToolsVS11;component/Resources/CompareAllChanges.png"
-                                           ToolTip="Compare version before first change with version of last change"/>
-                                </Hyperlink>
-                            </TextBlock>
-                            <TextBlock Text="{Binding Path=Items[0].Description}" Margin="5,0,5,0" />
-                            <TextBlock Text="{Binding Path=ItemCount, StringFormat=({0})}" />
-                            <TextBlock Margin="5,0,5,0">
-                                <Hyperlink
-                                    Command="{Binding Path=DataContext.ShowItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                                    CommandParameter="{Binding Path=Items[0]}">
-                                    Show
-                                </Hyperlink>
-                            </TextBlock>
-                        </DockPanel>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <ItemsPresenter />
-                      </Expander.Content>
-                    </Expander>
-                  </ControlTemplate>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}" />
                 </Setter.Value>
-              </Setter>
-            </Style>
-          </GroupStyle.ContainerStyle>
-        </GroupStyle>
-      </ListView.GroupStyle>
-    </ListView>
-  </Grid>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextDecorations" Value="Underline" />
+                    <Setter Property="Foreground" Value="Blue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ContextMenu x:Key="ReviewItemMenu"
+                     DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget.DataContext}">
+            <MenuItem Header="Open" />
+            <MenuItem Header="View History"
+                      Command="{Binding Path=DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                      CommandParameter="{Binding}" />
+            <MenuItem Header="Changeset Details"
+                      Command="{Binding Path=DataContext.ViewChangesetDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                      CommandParameter="{Binding}" />
+            <MenuItem Header="Compare">
+                <MenuItem Header="With Previous Version"
+                          Command="{Binding Path=DataContext.CompareWithPreviousVersionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                          CommandParameter="{Binding}" />
+                <MenuItem Header="Version Before First Change With Version of Last Changeset"
+                          Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                          CommandParameter="{Binding}" />
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Exclude Changeset"
+                      Command="{Binding Path=DataContext.ExcludeChangesetCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                      CommandParameter="{Binding}" />
+            <MenuItem Header="Exclude File"
+                      Command="{Binding Path=DataContext.ExcludeFileCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl} } }"
+                      CommandParameter="{Binding}" />
+        </ContextMenu>
+
+    </UserControl.Resources>
+    <Grid>
+        <ListView Name="ReviewItems" SelectedItem="{Binding SelectedItem}">
+            <ListView.View>
+                <GridView local:GridViewColumns.DisplayMemberMember="DisplayMember"
+                          local:GridViewColumns.HeaderTextMember="HeaderText" local:GridViewColumns.ColumnsSource="{Binding Columns}">
+
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                            <Setter Property="Padding" Value="5,0,5,0" />
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="local:ListViewItemClickBehavior.DoubleClick"
+                            Value="{Binding DataContext.SelectItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" />
+                    <Setter Property="ContextMenu" Value="{StaticResource ReviewItemMenu}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="{Binding Path=Items[0].IsGroupExpanded}"
+                                                  BorderThickness="0,0,0,1" VerticalAlignment="Top">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Path=Items[0].Description}"
+                                                                       Margin="5,0,5,0" />
+                                                            <TextBlock
+                                                                Text="{Binding Path=ItemCount, StringFormat=({0})}" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Margin="5,0,5,0" FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByChangeset, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
+                                                                <Hyperlink Style="{StaticResource sstyle}"
+                                                                           Command="{Binding Path=DataContext.ShowItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                                           CommandParameter="{Binding Path=Items[0]}">
+                                                                    Show
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                            <TextBlock Margin="5,0,5,0" FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
+                                                                <Hyperlink Style="{StaticResource sstyle}"
+                                                                           Command="{Binding Path=DataContext.ShowItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                                           CommandParameter="{Binding Path=Items[0]}">
+                                                                    Open
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                            <TextBlock FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">|</TextBlock>
+                                                            <TextBlock Margin="5,0,5,0" FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
+                                                                <Hyperlink Style="{StaticResource sstyle}"
+                                                                           Command="{Binding Path=DataContext.ViewHistoryCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                                           CommandParameter="{Binding Path=Items[0]}">
+                                                                    History
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                            <TextBlock FontSize="10">|</TextBlock>
+                                                            <TextBlock Margin="5,0,5,0" FontSize="10">
+                                                                <Hyperlink Style="{StaticResource sstyle}"
+                                                                           Command="{Binding Path=DataContext.ExcludeCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                                           CommandParameter="{Binding Path=Items[0]}">
+                                                                    Exclude
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+    </Grid>
 </UserControl>
