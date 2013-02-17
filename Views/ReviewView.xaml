@@ -21,7 +21,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
+        
         <ContextMenu x:Key="ReviewItemMenu"
                      DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget.DataContext}">
             <MenuItem Header="Open" />
@@ -84,10 +84,8 @@
                                                 <DockPanel>
                                                     <StackPanel Orientation="Vertical">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Path=Items[0].Description}"
-                                                                       Margin="5,0,5,0" />
-                                                            <TextBlock
-                                                                Text="{Binding Path=ItemCount, StringFormat=({0})}" />
+                                                            <TextBlock Text="{Binding Path=Items[0].Description}" Margin="5,0,5,0" />
+                                                            <TextBlock Text="{Binding Path=ItemCount, StringFormat=({0})}" />
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Margin="5,0,5,0" FontSize="10"
@@ -104,6 +102,16 @@
                                                                            Command="{Binding Path=DataContext.ShowItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                                                            CommandParameter="{Binding Path=Items[0]}">
                                                                     Open
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                            <TextBlock FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">|</TextBlock>
+                                                            <TextBlock Margin="5,0,5,0" FontSize="10"
+                                                                       Visibility="{Binding Path=DataContext.IsGroupedByFile, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
+                                                                <Hyperlink Style="{StaticResource sstyle}"
+                                                                           Command="{Binding Path=DataContext.CompareInitialVersionWithLatestChangeCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                                           CommandParameter="{Binding Path=Items[0]}">
+                                                                    Compare all changes
                                                                 </Hyperlink>
                                                             </TextBlock>
                                                             <TextBlock FontSize="10"
