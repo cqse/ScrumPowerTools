@@ -14,7 +14,7 @@
           body { font-family: arial; }
 
           .card, .userStoryCard, .bugCard {
-            border: solid 1px black; width: 8cm; height: 5cm;
+            border: solid 1px black; width: 8cm; height: 5.5cm;
             display: inline-block; margin: 2mm; position: relative;
           }
 
@@ -28,7 +28,7 @@
 
           .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 30px; font-weight: bold; }
 
-          .sprintDetails { position: absolute; bottom: 0px; left: 0px; font-size: 10px; color: lightgray; }
+          .sprintDetails { position: absolute; bottom: 0px; left: 0px; font-size: 10px; color: gray; }
         </style>
       </head>
 
@@ -52,7 +52,13 @@
             
             <div class="title"><xsl:value-of select="@Type" />&#160;<xsl:value-of select="@Id" /></div>
             <div class="description"><xsl:value-of select="Fields/Field[@RefName='System.Title']/@Value" /></div>
-            <div class="estimation"><xsl:value-of select="Fields/Field[@RefName='Microsoft.VSTS.Scheduling.StoryPoints']/@Value" /> SP</div>
+
+            <xsl:if test="Fields/Field[@RefName='Microsoft.VSTS.Scheduling.StoryPoints']/@Value">
+              <div class="estimation">
+                <xsl:value-of select="Fields/Field[@RefName='Microsoft.VSTS.Scheduling.StoryPoints']/@Value" /> SP
+              </div>              
+            </xsl:if>
+
             <div class="sprintDetails">
               <div>Rank&#160;<xsl:value-of select="Fields/Field[@RefName='Microsoft.VSTS.Common.StackRank']/@Value" /></div>
               <div><xsl:value-of select="Fields/Field[@RefName='System.AreaPath']/@Value" /></div>
