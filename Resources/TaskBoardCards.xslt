@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Taskboard Cards</title>
         <style type="text/css">
+          
           body { font-family: arial; }
 
           .card, .userStoryCard, .bugCard {
@@ -29,6 +30,7 @@
           .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 26px; font-weight: bold; }
 
           .sprintDetails { position: absolute; bottom: 0px; left: 0px; font-size: 10px; color: gray; }
+          
         </style>
       </head>
 
