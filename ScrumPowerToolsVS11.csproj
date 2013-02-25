@@ -185,6 +185,8 @@
     <Compile Include="Model\ShowChangesetItemsModel.cs" />
     <Compile Include="Model\ShowChangesetsEventArgs.cs" />
     <Compile Include="Model\ShowChangesetsModel.cs" />
+    <Compile Include="Model\TaskBoardCards\TaskBoardCardsModel.cs" />
+    <Compile Include="Model\TaskBoardCards\WorkItemXmlFileCreator.cs" />
     <Compile Include="Model\TfsItemDifferentiator.cs" />
     <Compile Include="Model\WorkItemCollector.cs" />
     <Compile Include="Model\WorkItemSelectionService.cs" />
@@ -201,9 +203,9 @@
     <Compile Include="Services\TfsUiServices.cs" />
     <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
     <Compile Include="TfsIntegration\Vs11VisualStudioAdapter.cs" />
-    <Compile Include="ViewModels\CreateTaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
+    <Compile Include="ViewModels\TaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
     <Compile Include="ViewModels\WorkItemContextMenuViewModel.cs" />
     <Compile Include="Views\QueryResultsTotalizerView.cs" />
