@@ -26,7 +26,7 @@
 
           .description { position: absolute; }
 
-          .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 30px; font-weight: bold; }
+          .estimation { position: absolute; bottom: 0px; right: 0px; font-size: 26px; font-weight: bold; }
 
           .sprintDetails { position: absolute; bottom: 0px; left: 0px; font-size: 10px; color: gray; }
         </style>
