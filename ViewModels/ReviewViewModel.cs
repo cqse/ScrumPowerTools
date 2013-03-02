@@ -27,15 +27,11 @@ namespace ScrumPowerTools.ViewModels
                                    IComboBoxCommandHandler,
                                    IMenuCommandHandler
     {
-        private readonly IList<int> excludedChangesets;
-        private readonly IList<string> excludedFiles;
-
         public ReviewViewModel()
         {
-            excludedChangesets = new List<int>();
-            excludedFiles = new List<string>();
+            reviewItemViewModels = new ReviewItemViewModel[0];
 
-            ReviewItems = new ListCollectionView(new List<ReviewItemModel>());
+            ReviewItems = new ListCollectionView(new List<ReviewItemViewModel>());
             SelectedGrouping = ReviewGrouping.Changeset;
 
             AssignColumns();
@@ -65,71 +61,51 @@ namespace ScrumPowerTools.ViewModels
 
         public ICommand SelectItemCommand
         {
-            get { return new DelegateCommand<ReviewItemModel>(SelectItem); }
+            get { return new DelegateCommand<ReviewItemViewModel>(SelectItem); }
         }
 
         public ICommand CompareWithPreviousVersionCommand
         {
-            get { return new DelegateCommand<ReviewItemModel>(CompareWithPreviousVersion); }
+            get { return new DelegateCommand<ReviewItemViewModel>(CompareWithPreviousVersion); }
         }
 
         public ICommand CompareInitialVersionWithLatestChangeCommand
         {
-            get { return new DelegateCommand<ReviewItemModel>(CompareInitialVersionWithLatestChange); }
+            get { return new DelegateCommand<ReviewItemViewModel>(CompareInitialVersionWithLatestChange); }
         }
 
         public ICommand ViewHistoryCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(ViewHistory);
-            }
+            get { return new DelegateCommand<ReviewItemViewModel>(ViewHistory); }
         }
 
         public ICommand ViewChangesetDetailsCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(ViewChangesetDetails,
-                    () => SelectedItem != null);
+            get { return new DelegateCommand<ReviewItemViewModel>(ViewChangesetDetails, () => SelectedItem != null);
             }
         }
 
         public ICommand ExcludeCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(Exclude);
-            }
+            get { return new DelegateCommand<ReviewItemViewModel>(Exclude); }
         }
 
         public ICommand ExcludeChangesetCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(ExcludeChangeset,
-                    () => SelectedItem != null);
-            }
+            get { return new DelegateCommand<ReviewItemViewModel>(ExcludeChangeset, () => SelectedItem != null); }
         }
 
         public ICommand ExcludeFileCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(ExcludeFile,
-                    () => SelectedItem != null);
-            }
+            get { return new DelegateCommand<ReviewItemViewModel>(ExcludeFile, () => SelectedItem != null); }
         }
 
         public ICommand ShowItemCommand
         {
-            get
-            {
-                return new DelegateCommand<ReviewItemModel>(ShowItem, () => true);
-            }
+            get { return new DelegateCommand<ReviewItemViewModel>(ShowItem, () => true); }
         }
 
-        public ReviewItemModel SelectedItem { get; set; }
+        public ReviewItemViewModel SelectedItem { get; set; }
 
         private void AssignColumns()
         {
@@ -153,7 +129,7 @@ namespace ScrumPowerTools.ViewModels
             NotifyOfPropertyChange(() => Columns);
         }
 
-        private void ShowItem(ReviewItemModel reviewItem)
+        private void ShowItem(ReviewItemViewModel reviewItem)
         {
             if (SelectedGrouping == ReviewGrouping.File)
             {
@@ -165,32 +141,32 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
-        private void SelectItem(ReviewItemModel reviewItem)
+        private void SelectItem(ReviewItemViewModel reviewItem)
         {
             ShellDocumentOpener.Open(reviewItem.LocalFilePath);
         }
 
-        private void CompareWithPreviousVersion(ReviewItemModel reviewItem)
+        private void CompareWithPreviousVersion(ReviewItemViewModel reviewItem)
         {
             model.CompareWithPreviousVersion(reviewItem.ServerItem, reviewItem.ChangesetId);
         }
 
-        private void CompareInitialVersionWithLatestChange(ReviewItemModel reviewItem)
+        private void CompareInitialVersionWithLatestChange(ReviewItemViewModel reviewItem)
         {
             model.CompareInitialVersionWithLatestChange(reviewItem.ServerItem);
         }
 
-        private void ViewHistory(ReviewItemModel reviewItem)
+        private void ViewHistory(ReviewItemViewModel reviewItem)
         {
             TfsUiServices.ShowHistory(reviewItem.ServerItem);
         }
 
-        private void ViewChangesetDetails(ReviewItemModel reviewItem)
+        private void ViewChangesetDetails(ReviewItemViewModel reviewItem)
         {
             model.ShowChangesetDetails(reviewItem.ChangesetId);
         }
 
-        private void Exclude(ReviewItemModel reviewItem)
+        private void Exclude(ReviewItemViewModel reviewItem)
         {
             if (SelectedGrouping == ReviewGrouping.Changeset)
             {
@@ -202,29 +178,50 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
-        private void ExcludeChangeset(ReviewItemModel reviewItem)
+        private void ExcludeChangeset(ReviewItemViewModel reviewItem)
         {
-            excludedChangesets.Add(reviewItem.ChangesetId);
+            reviewItemViewModels
+                .Where(r => r.ChangesetId == reviewItem.ChangesetId)
+                .ToList()
+                .ForEach(reviewItemViewModel => reviewItemViewModel.Exclude());
 
-            ReviewItems.Refresh();
+            SyncGroupVisibility();
         }
 
-        private void ExcludeFile(ReviewItemModel reviewItem)
+        private void ExcludeFile(ReviewItemViewModel reviewItem)
         {
-            excludedFiles.Add(reviewItem.ServerItem);
+            var fileItems = reviewItemViewModels.Where(r => r.LocalFilePath == reviewItem.LocalFilePath);
 
-            SyncGroupExpansionStateOfItems();
+            foreach (ReviewItemViewModel reviewItemViewModel in fileItems)
+            {
+                reviewItemViewModel.Exclude();
+            }
 
-            ReviewItems.Refresh();
+            SyncGroupVisibility();
         }
 
-        private void SyncGroupExpansionStateOfItems()
+        private void SyncGroupVisibility()
         {
-            var groups = ReviewItems.Groups.OfType<CollectionViewGroup>();
+            IEnumerable<IGrouping<string, ReviewItemViewModel>> groups = new List<IGrouping<string, ReviewItemViewModel>>();
 
-            groups.ToList()
-                .ForEach(g => g.Items.Cast<ReviewItemModel>().ToList()
-                    .ForEach(ri => ri.IsGroupExpanded = g.Items.Cast<ReviewItemModel>().First().IsGroupExpanded));
+            if (SelectedGrouping == ReviewGrouping.Changeset)
+            {
+                groups = reviewItemViewModels.GroupBy(k => k.ChangesetId.ToString());
+            }
+            else if (SelectedGrouping == ReviewGrouping.File)
+            {
+                groups = reviewItemViewModels.GroupBy(k => k.LocalFilePath);                
+            }
+
+            foreach (IGrouping<string, ReviewItemViewModel> itemViewModels in groups)
+            {
+                bool areAllExcluded = itemViewModels.All(m => m.IsExcluded);
+
+                foreach (ReviewItemViewModel reviewItemViewModel in itemViewModels)
+                {
+                    reviewItemViewModel.GroupVisibility = areAllExcluded ? Visibility.Collapsed : Visibility.Visible;
+                }
+            }
         }
 
         public void Handle(ShowReviewWindowMessage message)
@@ -232,23 +229,14 @@ namespace ScrumPowerTools.ViewModels
             model = new ReviewModel();
             model.Review(message.WorkItemId);
 
-            ClearExcludedItems();
-
             Title = model.Title;
 
-            ReviewItems = new ListCollectionView(model.ItemsToReview.ToList());
-            ReviewItems.Filter = ReviewModelFilter;
+            reviewItemViewModels = model.ItemsToReview.Select(i => new ReviewItemViewModel(i)).ToArray();
+
+            ReviewItems = new ListCollectionView(reviewItemViewModels);
 
             UpdateGrouping();
             ToolWindowActivator.Activate<ReviewToolWindow>();
-        }
-
-        private bool ReviewModelFilter(object o)
-        {
-            var reviewItemModel = (ReviewItemModel)o;
-
-            return !excludedChangesets.Contains(reviewItemModel.ChangesetId)
-                   && !excludedFiles.Contains(reviewItemModel.ServerItem);
         }
 
         public IEnumerable<string> GetAvailableItems(int commandId)
@@ -302,17 +290,17 @@ namespace ScrumPowerTools.ViewModels
 
         private void ExpandAllReviewItems(bool expand)
         {
-            ReviewItems.SourceCollection.Cast<ReviewItemModel>().ToList()
+            reviewItemViewModels.ToList()
                 .ForEach(ri => ri.IsGroupExpanded = expand);
-
-            ReviewItems.Refresh();
         }
 
         private void ClearExcludedItems()
         {
-            excludedChangesets.Clear();
-            excludedFiles.Clear();
-            ReviewItems.Refresh();
+            reviewItemViewModels.ToList().ForEach(reviewItemViewModel =>
+            {
+                reviewItemViewModel.Include();
+                reviewItemViewModel.GroupVisibility = Visibility.Visible;
+            });
         }
 
         public bool CanExecute(int commandId)
@@ -324,7 +312,7 @@ namespace ScrumPowerTools.ViewModels
         {
             ReviewItems.GroupDescriptions.Clear();
 
-            ReviewItems.SourceCollection.Cast<ReviewItemModel>()
+            ReviewItems.SourceCollection.Cast<ReviewItemViewModel>()
                 .ToList().ForEach(ri => ri.GroupingType = SelectedGrouping);
 
             if (SelectedGrouping == ReviewGrouping.File)
@@ -386,22 +374,6 @@ namespace ScrumPowerTools.ViewModels
             }
         }
 
-        private string title;
-
-        [Import(typeof(IToolWindowActivator))]
-        private IToolWindowActivator ToolWindowActivator { get; set; }
-
-        [Import(typeof(ShellDocumentOpener))]
-        private ShellDocumentOpener ShellDocumentOpener { get; set; }
-
-        [Import(typeof(TfsUiServices))]
-        private TfsUiServices TfsUiServices { get; set; }
-
-        private ListCollectionView reviewItems;
-        private ReviewModel model;
-
-        private ReviewGrouping SelectedGrouping { get; set; }
-
         public Visibility IsGroupedByFile
         {
             get
@@ -421,6 +393,23 @@ namespace ScrumPowerTools.ViewModels
                     : Visibility.Collapsed;
             }
         }
+
+        private string title;
+
+        [Import(typeof(IToolWindowActivator))]
+        private IToolWindowActivator ToolWindowActivator { get; set; }
+
+        [Import(typeof(ShellDocumentOpener))]
+        private ShellDocumentOpener ShellDocumentOpener { get; set; }
+
+        [Import(typeof(TfsUiServices))]
+        private TfsUiServices TfsUiServices { get; set; }
+
+        private ListCollectionView reviewItems;
+        private ReviewModel model;
+        private ReviewItemViewModel[] reviewItemViewModels;
+
+        private ReviewGrouping SelectedGrouping { get; set; }
     }
 
     public enum ReviewGrouping

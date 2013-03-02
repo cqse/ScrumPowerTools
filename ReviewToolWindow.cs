@@ -19,21 +19,10 @@ namespace ScrumPowerTools
         public ReviewToolWindow() :
             base(null)
         {
-            // Set the window title reading it from the resources.
             Caption = "Review";
-            // Set the image that will appear on the tab of the window frame
-            // when docked with an other window
-            // The resource ID correspond to the one defined in the resx file
-            // while the Index is the offset in the bitmap strip. Each image in
-            // the strip being 16x16.
-            //this.BitmapResourceID = 301;
-            //this.BitmapIndex = 1;
             ToolBar = new CommandID(Identifiers.CommandGroupId, MenuCommands.TWToolbar);
             ToolBarLocation = (int)VSTWT_LOCATION.VSTWT_TOP;
 
-            // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
-            // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
-            // the object returned by the Content property.
             var view = ViewResolver.Resolve<ReviewViewModel>();
 
             viewModel = ((FrameworkElement)view).DataContext as ReviewViewModel;

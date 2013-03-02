@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using ScrumPowerTools.ViewModels;
 
 namespace ScrumPowerTools.Model
 {
@@ -14,42 +12,18 @@ namespace ScrumPowerTools.Model
             Committer = changesetVisitEventArgs.Committer;
         }
 
-        public bool IsGroupExpanded { get; set; }
+        public string Comment { get; private set; }
 
-        public string Comment { get; internal set; }
+        public int ChangesetId { get; private set; }
 
-        public int ChangesetId { get; internal set; }
+        public DateTime CreationDate { get; private set; }
 
-        public DateTime CreationDate { get; internal set; }
-
-        public string Committer { get; internal set; }
+        public string Committer { get; private set; }
 
         public string ServerItem { get; internal set; }
 
         public string Change { get; internal set; }
 
         public string LocalFilePath { get; set; }
-
-        public string Folder
-        {
-            get { return Path.GetDirectoryName(LocalFilePath); }
-        }
-
-        public string Description
-        {
-            get 
-            { 
-                return GroupingType == ReviewGrouping.File 
-                ? ServerItem
-                : Comment;
-            }
-        }
-
-        public ReviewGrouping GroupingType { get; set; }
-
-        public string Name
-        {
-            get { return Path.GetFileName(ServerItem); }
-        }
     }
 }
