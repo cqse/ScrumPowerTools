@@ -15,8 +15,9 @@
           body { font-family: arial; }
 
           .card, .userStoryCard, .bugCard {
-            border: solid 1px black; width: 8cm; height: 5.5cm;
-            display: inline-block; margin: 4mm; position: relative;
+            border: solid 1px black; width: 8cm; height: 5.3cm;
+            display: inline-block; margin: 3mm; position: relative;
+            overflow: hidden;
           }
 
           .title { background-color: #4169e1; color: white; font-weight: bold; text-align: center; }
