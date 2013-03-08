@@ -64,14 +64,22 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 
         private void TransformWorkItemsToCards()
         {
-            using (Stream xsltStream = GetXsltStream())
-            using (XmlReader xslt = XmlReader.Create(xsltStream))
+            using (var inMemoryXsltStream = new MemoryStream())
             {
-                var xslCompiledTransform = new XslCompiledTransform();
-                xslCompiledTransform.Load(xslt);
-                xslCompiledTransform.Transform(WorkItemsFileName, CardsFileName);
+                using (Stream xsltStream = GetXsltStream())
+                {
+                    xsltStream.CopyTo(inMemoryXsltStream);
+                    inMemoryXsltStream.Seek(0, SeekOrigin.Begin);
+                }
 
-                CreateLocalCopyOfXslt(xsltStream);
+                using (XmlReader xslt = XmlReader.Create(inMemoryXsltStream))
+                {
+                    var xslCompiledTransform = new XslCompiledTransform();
+                    xslCompiledTransform.Load(xslt);
+                    xslCompiledTransform.Transform(WorkItemsFileName, CardsFileName);
+
+                    CreateLocalCopyOfXslt(inMemoryXsltStream);
+                }
             }
         }
 
