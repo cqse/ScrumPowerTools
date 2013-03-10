@@ -64,31 +64,14 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 
         private void TransformWorkItemsToCards()
         {
-            using (var inMemoryXsltStream = new MemoryStream())
+            using (Stream xsltStream = GetXsltStream())
+            using (XmlReader xslt = XmlReader.Create(xsltStream))
             {
-                using (Stream xsltStream = GetXsltStream())
-                {
-                    xsltStream.CopyTo(inMemoryXsltStream);
-                    inMemoryXsltStream.Seek(0, SeekOrigin.Begin);
-                }
+                var xslCompiledTransform = new XslCompiledTransform();
+                xslCompiledTransform.Load(xslt);
+                xslCompiledTransform.Transform(WorkItemsFileName, CardsFileName);
 
-                using (XmlReader xslt = XmlReader.Create(inMemoryXsltStream))
-                {
-                    var xslCompiledTransform = new XslCompiledTransform();
-                    xslCompiledTransform.Load(xslt);
-                    xslCompiledTransform.Transform(WorkItemsFileName, CardsFileName);
-
-                    CreateLocalCopyOfXslt(inMemoryXsltStream);
-                }
-            }
-        }
-
-        private static void CreateLocalCopyOfXslt(Stream xsltStream)
-        {
-            using(var xsltLocalCopy = File.Create(XsltLocalCopyFileName))
-            {
-                xsltStream.Seek(0, SeekOrigin.Begin);
-                xsltStream.CopyTo(xsltLocalCopy);
+                CreateLocalCopyOfXslt(xsltStream);
             }
         }
 
@@ -113,7 +96,15 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 
                 Item item = versionControlServer.GetItem(options.TaskBoardCardsXsltFileName, VersionSpec.Latest);
 
-                return item.DownloadFile();
+                var memoryStream = new MemoryStream();
+
+                using (var unseeakableFileStream = item.DownloadFile())
+                {
+                    unseeakableFileStream.CopyTo(memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                }
+
+                return memoryStream;
             }
 
             if (String.IsNullOrEmpty(options.TaskBoardCardsXsltFileName))
@@ -123,6 +114,15 @@ namespace ScrumPowerTools.Model.TaskBoardCards
             }
 
             throw new ArgumentException("Unable to get XSLT file for creating taskboard cards.");
+        }
+
+        private static void CreateLocalCopyOfXslt(Stream xsltStream)
+        {
+            using(var xsltLocalCopy = File.Create(XsltLocalCopyFileName))
+            {
+                xsltStream.Seek(0, SeekOrigin.Begin);
+                xsltStream.CopyTo(xsltLocalCopy);
+            }
         }
 
         private bool IsXsltFromTfs
