@@ -1,6 +1,6 @@
 using System;
 
-namespace ScrumPowerTools.Model
+namespace ScrumPowerTools.Model.Review
 {
     public class ReviewItemModel
     {

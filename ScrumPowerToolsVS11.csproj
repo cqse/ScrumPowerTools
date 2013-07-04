@@ -178,9 +178,9 @@
     <Compile Include="Model\QueryResultsTotalizerModel.cs" />
     <Compile Include="Model\QuerySelectionTotalsEventArgs.cs" />
     <Compile Include="Model\QueryResultsDocumentCreationObserver.cs" />
-    <Compile Include="Model\ReviewModel.cs" />
-    <Compile Include="Model\ReviewItemCollectorStrategy.cs" />
-    <Compile Include="Model\ReviewItemModel.cs" />
+    <Compile Include="Model\Review\ReviewItemCollectorStrategy.cs" />
+    <Compile Include="Model\Review\ReviewItemModel.cs" />
+    <Compile Include="Model\Review\ReviewModel.cs" />
     <Compile Include="Model\ShowChangesetItemsEventArgs.cs" />
     <Compile Include="Model\ShowChangesetItemsModel.cs" />
     <Compile Include="Model\ShowChangesetsEventArgs.cs" />

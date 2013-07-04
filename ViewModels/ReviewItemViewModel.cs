@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Windows;
 using ScrumPowerTools.Framework.Presentation;
-using ScrumPowerTools.Model;
+using ScrumPowerTools.Model.Review;
 
 namespace ScrumPowerTools.ViewModels
 {

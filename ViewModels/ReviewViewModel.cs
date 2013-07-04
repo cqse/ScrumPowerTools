@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using ScrumPowerTools.Framework.Presentation;
-using ScrumPowerTools.Model;
+using ScrumPowerTools.Model.Review;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
 

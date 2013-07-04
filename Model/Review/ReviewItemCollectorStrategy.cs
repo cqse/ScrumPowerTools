@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
-namespace ScrumPowerTools.Model
+namespace ScrumPowerTools.Model.Review
 {
     internal class ReviewItemCollectorStrategy : IWorkItemCollectorStrategy
     {

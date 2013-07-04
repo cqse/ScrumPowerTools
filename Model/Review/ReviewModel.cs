@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
-using System.Linq;
 
-namespace ScrumPowerTools.Model
+namespace ScrumPowerTools.Model.Review
 {
     public class ReviewModel
     {
