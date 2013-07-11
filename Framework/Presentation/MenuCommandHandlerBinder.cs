@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using ExceptionMessageBoxLibrary;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Packaging;
@@ -36,7 +37,14 @@ namespace ScrumPowerTools.Framework.Presentation
             var command = sender as OleMenuCommand;
             if (null != command)
             {
-                GetHandler(command.CommandID.ID).Execute(command.CommandID.ID);
+                try
+                {
+                    GetHandler(command.CommandID.ID).Execute(command.CommandID.ID);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionMessageBox<ExceptionMessageBoxView>.Show(ex);
+                }
             }
         }
 
