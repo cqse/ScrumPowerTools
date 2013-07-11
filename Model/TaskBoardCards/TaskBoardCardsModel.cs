@@ -50,7 +50,15 @@ namespace ScrumPowerTools.Model.TaskBoardCards
         {
             EnsureTempDirectoryExists();
 
-            new WorkItemXmlFileCreator().Create(workItems, WorkItemsFileName);
+            var tpc = visualStudioAdapter.GetCurrent();
+            var workItemStore = tpc.GetService<WorkItemStore>();
+
+            WorkItem[] relatedWorkItems = workItems
+                .SelectMany(wi => wi.WorkItemLinks.Cast<WorkItemLink>()
+                    .Select(s => s.TargetId).Distinct()
+                    .Select(id => workItemStore.GetWorkItem(id))).ToArray();
+
+            new WorkItemXmlFileCreator().Create(workItems, relatedWorkItems, WorkItemsFileName);
 
             TransformWorkItemsToCards();
 

@@ -8,7 +8,7 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 {
     internal class WorkItemXmlFileCreator
     {
-        public void Create(IEnumerable<WorkItem> workItems, string fileName)
+        public void Create(IEnumerable<WorkItem> workItems, WorkItem[] relatedWorkItems, string fileName)
         {
             var xmlWriter = XmlWriter.Create(fileName, new XmlWriterSettings { Indent = true });
             xmlWriter.WriteStartDocument();
@@ -16,7 +16,12 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 
             foreach (WorkItem workItem in workItems)
             {
-                WriteWorkItemXml(workItem, xmlWriter);
+                WriteWorkItemXml(workItem, xmlWriter, "WorkItem");
+            }
+
+            foreach (WorkItem workItem in relatedWorkItems)
+            {
+                WriteWorkItemXml(workItem, xmlWriter, "RelatedWorkItem");
             }
 
             xmlWriter.WriteEndElement();
@@ -24,13 +29,15 @@ namespace ScrumPowerTools.Model.TaskBoardCards
             xmlWriter.Close();
         }
 
-        private static void WriteWorkItemXml(WorkItem workItem, XmlWriter xmlWriter)
+        private static void WriteWorkItemXml(WorkItem workItem, XmlWriter xmlWriter, string elementName)
         {
-            xmlWriter.WriteStartElement("WorkItem");
+            xmlWriter.WriteStartElement(elementName);
             xmlWriter.WriteAttributeString("Id", workItem.Id.ToString(CultureInfo.CurrentCulture));
             xmlWriter.WriteAttributeString("Type", workItem.Type.Name);
 
             WriteFields(workItem, xmlWriter);
+
+            WriteWorkItemLinks(xmlWriter, workItem.WorkItemLinks);
 
             xmlWriter.WriteEndElement();
         }
@@ -53,6 +60,23 @@ namespace ScrumPowerTools.Model.TaskBoardCards
             xml.WriteAttributeString("RefName", field.ReferenceName);
             xml.WriteAttributeString("Value", field.Value != null ? field.Value.ToString() : "");
             xml.WriteEndElement();
+        }
+
+        private static void WriteWorkItemLinks(XmlWriter xmlWriter, WorkItemLinkCollection workItemLinks)
+        {
+            xmlWriter.WriteStartElement("WorkItemLinks");
+
+            foreach (WorkItemLink workItemLink in workItemLinks)
+            {
+                xmlWriter.WriteStartElement("WorkItemLink");
+
+                xmlWriter.WriteAttributeString("LinkTypeEndName", workItemLink.LinkTypeEnd.Name);
+                xmlWriter.WriteAttributeString("TargetId", workItemLink.TargetId.ToString());
+
+                xmlWriter.WriteEndElement();
+            }
+
+            xmlWriter.WriteEndElement();
         }
     }
 }
