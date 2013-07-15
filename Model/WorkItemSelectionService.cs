@@ -3,6 +3,7 @@ using System.Linq;
 using EnvDTE;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using ScrumPowerTools.Framework.Extensions;
 using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
@@ -30,16 +31,11 @@ namespace ScrumPowerTools.Model
             return GetSelectedWorkItemIdentifiers().Any();
         }
 
-        public WorkItem[] GetSelectedWorkItems()
+        public WorkItemCollection GetSelectedWorkItems()
         {
             var workItemStore = visualStudioAdapter.GetCurrent().GetService<WorkItemStore>();
 
-            if (HasSelection())
-            {
-                return GetSelectedWorkItemIdentifiers().Select(id => workItemStore.GetWorkItem(id)).ToArray();
-            }
-
-            return new WorkItem[0];
+            return workItemStore.GetWorkItems(GetSelectedWorkItemIdentifiers());
         }
 
         private int[] GetSelectedWorkItemIdentifiers()

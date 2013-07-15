@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Xml;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
@@ -8,7 +6,7 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 {
     internal class WorkItemXmlFileCreator
     {
-        public void Create(IEnumerable<WorkItem> workItems, WorkItem[] relatedWorkItems, string fileName)
+        public void Create(WorkItemCollection workItems, WorkItemCollection relatedWorkItems, string fileName)
         {
             var xmlWriter = XmlWriter.Create(fileName, new XmlWriterSettings { Indent = true });
             xmlWriter.WriteStartDocument();

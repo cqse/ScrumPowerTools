@@ -39,6 +39,11 @@ namespace ScrumPowerTools.Framework.Extensions
             return foundQueryItem as QueryDefinition;
         }
 
+        public static WorkItemCollection GetWorkItems(this WorkItemStore store, int[] identifiers)
+        {
+            return store.Query(identifiers.Distinct().ToArray(), "SELECT * FROM WorkItems");
+        }
+
         public static WorkItemCollection GetWorkItems(this WorkItemStore store, Query workItemQuery,
                                                       IEnumerable<FieldDefinition> fieldDefinitions)
         {

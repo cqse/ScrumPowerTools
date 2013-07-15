@@ -36,29 +36,21 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 
             WorkItemCollection workItems = workItemStore.GetWorkItems(queryPath);
 
-            CreateCards(workItems.OfType<WorkItem>());
+            CreateCards(workItems);
         }
 
         public void CreateCardsFromWorkItemSelection()
         {
-            WorkItem[] workItems = workItemSelectionService.GetSelectedWorkItems();
+            WorkItemCollection workItems = workItemSelectionService.GetSelectedWorkItems();
 
             CreateCards(workItems);
         }
 
-        private void CreateCards(IEnumerable<WorkItem> workItems)
+        private void CreateCards(WorkItemCollection workItems)
         {
             EnsureTempDirectoryExists();
 
-            var tpc = visualStudioAdapter.GetCurrent();
-            var workItemStore = tpc.GetService<WorkItemStore>();
-
-            WorkItem[] relatedWorkItems = workItems
-                .SelectMany(wi => wi.WorkItemLinks.Cast<WorkItemLink>()
-                    .Select(s => s.TargetId).Distinct()
-                    .Select(id => workItemStore.GetWorkItem(id))).ToArray();
-
-            new WorkItemXmlFileCreator().Create(workItems, relatedWorkItems, WorkItemsFileName);
+            CreateCardsXmlFile(workItems);
 
             TransformWorkItemsToCards();
 
@@ -68,6 +60,21 @@ namespace ScrumPowerTools.Model.TaskBoardCards
         private void EnsureTempDirectoryExists()
         {
             Directory.CreateDirectory(TempDirectory);
+        }
+
+        private void CreateCardsXmlFile(WorkItemCollection workItems)
+        {
+            var tpc = visualStudioAdapter.GetCurrent();
+            var workItemStore = tpc.GetService<WorkItemStore>();
+
+            int[] relatedWorkITemIdentifiers =
+                workItems.OfType<WorkItem>()
+                    .SelectMany(wi => wi.WorkItemLinks.Cast<WorkItemLink>())
+                    .Select(s => s.TargetId).Distinct().ToArray();
+
+            WorkItemCollection relatedWorkItems = workItemStore.GetWorkItems(relatedWorkITemIdentifiers);
+
+            new WorkItemXmlFileCreator().Create(workItems, relatedWorkItems, WorkItemsFileName);
         }
 
         private void TransformWorkItemsToCards()
