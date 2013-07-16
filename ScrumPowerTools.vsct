@@ -98,8 +98,7 @@
         <Parent guid="WorkItemTrackingGuid" id="ResultList" />
       </Group>
 
-      <Group guid="scrumPowerToolsCommandGroup" id="WorkItemContextMenuGroup" priority="0x0600" >
-        <Parent guid="WorkItemTrackingGuid" id="WorkItem" />
+      <Group guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" priority="0x0600" >
       </Group>
       
       <Group guid="scrumPowerToolsCommandGroup" id="TeamExplorerQueryNodeContextMenuGroup" priority="0x1002">
@@ -170,7 +169,7 @@
       </Button>
       
       <Button guid="scrumPowerToolsCommandGroup" id="showAffectedChangesetFilesCommandId" priority="0x0100" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -180,7 +179,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="showChangesetsWithAffectedFilesCommandId" priority="0x0101" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -190,17 +189,7 @@
       </Button>
 
       <Button guid="scrumPowerToolsCommandGroup" id="showReviewWindowCommandId" priority="0x0102" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemMenuGroup" />
-        <CommandFlag>DynamicVisibility</CommandFlag>
-        <CommandFlag>DefaultInvisible</CommandFlag>
-        <Strings>
-          <CommandName>ShowReviewWindowCommandId</CommandName>
-          <ButtonText>Review</ButtonText>
-        </Strings>
-      </Button>
-
-      <Button guid="scrumPowerToolsCommandGroup" id="showReviewWindowCommandId" priority="0x0102" type="Button">
-        <Parent guid="scrumPowerToolsCommandGroup" id="WorkItemContextMenuGroup" />
+        <Parent guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
@@ -336,7 +325,19 @@
     </Bitmaps>
     
   </Commands>
+  
+  <CommandPlacements>
 
+    <CommandPlacement guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" priority="0x0600" >
+      <Parent guid="WorkItemTrackingGuid" id="ResultList" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="scrumPowerToolsCommandGroup" id="ReviewMenuGroup" priority="0x0600" >
+      <Parent guid="WorkItemTrackingGuid" id="WorkItem" />
+    </CommandPlacement>
+
+  </CommandPlacements>
+  
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="scrumPowerToolsPackage" value="{534ed8ea-71db-4c8f-a27b-588c7e19d8f7}" />
@@ -344,7 +345,7 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="scrumPowerToolsCommandGroup" value="{580831fe-ea0f-46f7-83d7-1d87039202cc}">
       <IDSymbol name="WorkItemMenuGroup" value="0x1020" />
-      <IDSymbol name="WorkItemContextMenuGroup" value="0x1021" />
+      <IDSymbol name="ReviewMenuGroup" value="0x1021" />
       <IDSymbol name="showAffectedChangesetFilesCommandId" value="0x0100" />
       <IDSymbol name="showChangesetsWithAffectedFilesCommandId" value="0x0101" />
       <IDSymbol name="showReviewWindowCommandId" value="0x0102" />

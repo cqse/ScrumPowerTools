@@ -27,3 +27,9 @@
 
 //Team Foundation Main Menu, use guidSHLMainMenu guid with this ID
 #define IDM_MENU_TEAM_FOUNDATION_CLIENT 0x700
+
+
+
+#define TeamExplorerMyWorkGuid	{ 0xFFE1131C, 0x8EA1, 0x4D05, { 0x97, 0x28, 0x34, 0xAD, 0x46, 0x11, 0xBD, 0xA9 } }
+#define SuspendedWorkItemContextMenu 4259
+#define AvailableWorkItemContextMenu 4258
