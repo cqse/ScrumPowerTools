@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.Controls;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {
@@ -11,23 +14,19 @@ namespace ScrumPowerTools.Model
         public event EventHandler<ChangesetVisitEventArgs> ChangesetVisit = delegate { };
 
         private readonly VersionControlServer versionControlServer;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
         private readonly WorkItemVisitor workItemVisitor;
         private readonly Workspace workspace;
 
-        public ChangesetVisitor(WorkItemStore store, VersionControlServer versionControlServer)
+        public ChangesetVisitor(WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
         {
             this.versionControlServer = versionControlServer;
+            this.visualStudioAdapter = visualStudioAdapter;
 
             workItemVisitor = new WorkItemVisitor(store);
             workItemVisitor.WorkItemVisit += OnWorkItemVisit;
 
-            try
-            {
-                workspace = versionControlServer.GetWorkspace(Environment.MachineName, versionControlServer.AuthorizedUser);
-            }
-            catch
-            {
-            }
+            workspace = visualStudioAdapter.GetCurrentWorkSpace();
         }
 
         void OnWorkItemVisit(object sender, WorkItemVisitEventArgs e)

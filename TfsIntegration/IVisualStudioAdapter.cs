@@ -1,4 +1,5 @@
 using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
 using ScrumPowerTools.Services;
 
 namespace ScrumPowerTools.TfsIntegration
@@ -17,5 +18,7 @@ namespace ScrumPowerTools.TfsIntegration
         QueryPath GetCurrentSelectedQueryPath();
 
         void ShowChangesetDetails(int changesetId);
+
+        Workspace GetCurrentWorkSpace();
     }
 }

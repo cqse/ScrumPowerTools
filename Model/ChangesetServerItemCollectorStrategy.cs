@@ -2,12 +2,13 @@
 using System.Linq;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {
     internal interface IWorkItemCollectorStrategy
     {
-        void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer);
+        void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter);
     }
 
     internal class ChangesetServerItemCollectorStrategy : IWorkItemCollectorStrategy
@@ -16,9 +17,9 @@ namespace ScrumPowerTools.Model
 
         private IList<string> serverItems;
 
-        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer)
+        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
         {
-            var changesetVisitor = new ChangesetVisitor(store, versionControlServer);
+            var changesetVisitor = new ChangesetVisitor(store, versionControlServer, visualStudioAdapter);
             changesetVisitor.ChangesetVisit += OnChangesetVisit;
 
             serverItems = new List<string>();

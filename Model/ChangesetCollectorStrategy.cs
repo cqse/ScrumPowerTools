@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {
@@ -47,9 +48,9 @@ namespace ScrumPowerTools.Model
             changesets.Add(changesetModel);
         }
 
-        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer)
+        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
         {
-            var changesetVisitor = new ChangesetVisitor(store, versionControlServer);
+            var changesetVisitor = new ChangesetVisitor(store, versionControlServer, visualStudioAdapter);
             changesetVisitor.ChangesetVisit += OnChangesetVisit;
 
             changesets = new List<ChangesetModel>();

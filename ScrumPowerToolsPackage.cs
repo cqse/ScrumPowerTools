@@ -56,15 +56,17 @@ namespace ScrumPowerTools
         {
             base.Initialize();
 
+            var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+
 #if VS11
-            IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter();
+            IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
 #else
             IVisualStudioAdapter visualStudioAdapter = new VisualStudio2010Adapter();
 #endif
 
             IoC.Register(visualStudioAdapter);
             
-            var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+            
             var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
             IoC.Register(new WorkItemSelectionService(dte, documentService, visualStudioAdapter));

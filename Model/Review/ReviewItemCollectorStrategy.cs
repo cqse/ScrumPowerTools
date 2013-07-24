@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model.Review
 {
@@ -10,6 +12,16 @@ namespace ScrumPowerTools.Model.Review
         public IEnumerable<ReviewItemModel> Items
         {
             get { return items; }
+        }
+
+        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        {
+            var changesetVisitor = new ChangesetVisitor(store, versionControlServer, visualStudioAdapter);
+            changesetVisitor.ChangesetVisit += OnChangesetVisit;
+
+            items = new List<ReviewItemModel>();
+
+            changesetVisitor.Visit(workItem);
         }
 
         void OnChangesetVisit(object sender, ChangesetVisitEventArgs e)
@@ -23,16 +35,6 @@ namespace ScrumPowerTools.Model.Review
                 reviewItemModel.Change = (change.ChangeType & (~ChangeType.Encoding)).ToString();
                 items.Add(reviewItemModel);
             }
-        }
-
-        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer)
-        {
-            var changesetVisitor = new ChangesetVisitor(store, versionControlServer);
-            changesetVisitor.ChangesetVisit += OnChangesetVisit;
-
-            items = new List<ReviewItemModel>();
-
-            changesetVisitor.Visit(workItem);
         }
     }
 }

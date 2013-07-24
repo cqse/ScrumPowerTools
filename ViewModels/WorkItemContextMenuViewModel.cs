@@ -55,7 +55,7 @@ namespace ScrumPowerTools.ViewModels
             TfsTeamProjectCollection tpc = visualStudioAdapter.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
             var versionControlServer = tpc.GetService<VersionControlServer>();
-            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
+            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer, visualStudioAdapter);
             var model = new ShowChangesetsModel(workItemSelectionService, workItemCollector);
 
             var dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
@@ -71,7 +71,7 @@ namespace ScrumPowerTools.ViewModels
             TfsTeamProjectCollection tpc = visualStudioAdapter.GetCurrent();
             var workItemStore = tpc.GetService<WorkItemStore>();
             var versionControlServer = tpc.GetService<VersionControlServer>();
-            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
+            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer, visualStudioAdapter);
             var model = new ShowChangesetItemsModel(workItemSelectionService, workItemCollector);
 
             var dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));

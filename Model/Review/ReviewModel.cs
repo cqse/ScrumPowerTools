@@ -11,10 +11,11 @@ namespace ScrumPowerTools.Model.Review
     {
         private readonly VersionControlServer versionControlServer;
         private readonly WorkItemStore workItemStore;
+        private readonly IVisualStudioAdapter teamProjectCollectionProvider;
 
         public ReviewModel()
         {
-            var teamProjectCollectionProvider = IoC.GetInstance<IVisualStudioAdapter>();
+            teamProjectCollectionProvider = IoC.GetInstance<IVisualStudioAdapter>();
             var tpc = teamProjectCollectionProvider.GetCurrent();
 
             workItemStore = tpc.GetService<WorkItemStore>();
@@ -32,7 +33,7 @@ namespace ScrumPowerTools.Model.Review
                 ItemsToReview = new ReviewItemModel[0];
             }
 
-            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer);
+            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer, teamProjectCollectionProvider);
             var collectorStrategy = new ReviewItemCollectorStrategy();
 
             workItemCollector.CollectItems(workItemId, collectorStrategy);
