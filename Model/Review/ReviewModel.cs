@@ -33,8 +33,8 @@ namespace ScrumPowerTools.Model.Review
                 ItemsToReview = new ReviewItemModel[0];
             }
 
-            var workItemCollector = new WorkItemCollector(workItemStore, versionControlServer, teamProjectCollectionProvider);
-            var collectorStrategy = new ReviewItemCollectorStrategy();
+            var workItemCollector = new WorkItemCollector(workItemStore);
+            var collectorStrategy = new ReviewItemCollectorStrategy(workItemStore, versionControlServer, teamProjectCollectionProvider);
 
             workItemCollector.CollectItems(workItemId, collectorStrategy);
 

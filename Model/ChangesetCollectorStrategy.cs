@@ -21,10 +21,20 @@ namespace ScrumPowerTools.Model
 
     internal class ChangesetCollectorStrategy : IWorkItemCollectorStrategy
     {
+        private readonly WorkItemStore store;
+        private readonly VersionControlServer versionControlServer;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
         private IList<ChangesetModel> changesets;
         public IEnumerable<ChangesetModel> Changesets
         {
             get { return changesets; }
+        }
+
+        public ChangesetCollectorStrategy(WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        {
+            this.store = store;
+            this.versionControlServer = versionControlServer;
+            this.visualStudioAdapter = visualStudioAdapter;
         }
 
         void OnChangesetVisit(object sender, ChangesetVisitEventArgs e)
@@ -48,7 +58,7 @@ namespace ScrumPowerTools.Model
             changesets.Add(changesetModel);
         }
 
-        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        public void Collect(WorkItem workItem)
         {
             var changesetVisitor = new ChangesetVisitor(store, versionControlServer, visualStudioAdapter);
             changesetVisitor.ChangesetVisit += OnChangesetVisit;

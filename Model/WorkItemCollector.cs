@@ -1,32 +1,26 @@
-using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools.Model
 {
     public class WorkItemCollector
     {
         private readonly WorkItemStore workItemStore;
-        private readonly VersionControlServer versionControlServer;
-        private readonly IVisualStudioAdapter visualStudioAdapter;
 
-        public WorkItemCollector(WorkItemStore workItemStore, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        public WorkItemCollector(WorkItemStore workItemStore)
         {
             this.workItemStore = workItemStore;
-            this.versionControlServer = versionControlServer;
-            this.visualStudioAdapter = visualStudioAdapter;
         }
 
         internal void CollectItems(int workItemId, IWorkItemCollectorStrategy strategy)
         {
-            CollectForWorkItem(workItemId, strategy, visualStudioAdapter);
+            CollectForWorkItem(workItemId, strategy);
         }
 
-        private void CollectForWorkItem(int selectedItemIds, IWorkItemCollectorStrategy strategy, IVisualStudioAdapter visualStudioAdapter)
+        private void CollectForWorkItem(int selectedItemIds, IWorkItemCollectorStrategy strategy)
         {
             WorkItem workItem = workItemStore.GetWorkItem(selectedItemIds);
 
-            strategy.Collect(workItem, workItemStore, versionControlServer, visualStudioAdapter);
+            strategy.Collect(workItem);
         }
     }
 }

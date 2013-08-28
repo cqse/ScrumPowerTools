@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using EnvDTE;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Controls;
 using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer;
+using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Microsoft.VisualStudio.Shell;
@@ -62,12 +64,19 @@ namespace ScrumPowerTools.TfsIntegration
 
         public Workspace GetCurrentWorkSpace()
         {
+            Workspace workSpace = null;
+
             if (VersionControlExplorerExt != null)
             {
-                return VersionControlExplorerExt.Explorer.Workspace;
+                workSpace = VersionControlExplorerExt.SolutionWorkspace ?? VersionControlExplorerExt.Explorer.Workspace;
             }
 
-            return null;
+            if (workSpace == null)
+            {
+                throw new Exception("Unable te get the workspace, please open the solution of the items you want to review or go to the Source Control Explorer to initialize the workspace.");
+            }
+
+            return workSpace;
         }
 
         private VersionControlExt VersionControlExplorerExt

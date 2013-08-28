@@ -8,13 +8,23 @@ namespace ScrumPowerTools.Model.Review
 {
     internal class ReviewItemCollectorStrategy : IWorkItemCollectorStrategy
     {
+        private readonly WorkItemStore store;
+        private readonly VersionControlServer versionControlServer;
+        private readonly IVisualStudioAdapter visualStudioAdapter;
         private List<ReviewItemModel> items;
         public IEnumerable<ReviewItemModel> Items
         {
             get { return items; }
         }
 
-        public void Collect(WorkItem workItem, WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        public ReviewItemCollectorStrategy(WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        {
+            this.store = store;
+            this.versionControlServer = versionControlServer;
+            this.visualStudioAdapter = visualStudioAdapter;
+        }
+
+        public void Collect(WorkItem workItem)
         {
             var changesetVisitor = new ChangesetVisitor(store, versionControlServer, visualStudioAdapter);
             changesetVisitor.ChangesetVisit += OnChangesetVisit;
