@@ -61,7 +61,7 @@ namespace ScrumPowerTools
 
         [Category("Task Board Cards")]
         [DisplayName("Task board cards xslt file")]
-        [Description("Specifies which XSLT file to use for creating the task board cards. The default will be used when not specified.")]
+        [Description("Specifies which XSLT file to use for creating the task board cards, this can be a local file like c:\\somedir\\some.xslt or an TFS path like $/project/folder/some.xslt. The default xslt will be used when not specified.")]
         [EditorAttribute(typeof(XsltFileNameEditor), typeof(UITypeEditor))]
         public string TaskBoardCardsXsltFileName { get; set; }
 

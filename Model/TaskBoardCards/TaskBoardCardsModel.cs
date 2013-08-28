@@ -131,13 +131,21 @@ namespace ScrumPowerTools.Model.TaskBoardCards
             throw new ArgumentException("Unable to get XSLT file for creating taskboard cards.");
         }
 
-        private static void CreateLocalCopyOfXslt(Stream xsltStream)
+        private void CreateLocalCopyOfXslt(Stream xsltStream)
         {
-            using(var xsltLocalCopy = File.Create(XsltLocalCopyFileName))
+            if (!IsCurrentXsltSameAsLocalCopy)
             {
-                xsltStream.Seek(0, SeekOrigin.Begin);
-                xsltStream.CopyTo(xsltLocalCopy);
+                using (var xsltLocalCopy = File.Create(XsltLocalCopyFileName))
+                {
+                    xsltStream.Seek(0, SeekOrigin.Begin);
+                    xsltStream.CopyTo(xsltLocalCopy);
+                }
             }
+        }
+
+        private bool IsCurrentXsltSameAsLocalCopy
+        {
+            get { return options.TaskBoardCardsXsltFileName == XsltLocalCopyFileName; }
         }
 
         private bool IsXsltFromTfs
