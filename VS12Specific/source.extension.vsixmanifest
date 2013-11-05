@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="0A0F7ADE-7952-4575-B0A9-F13B5ECDDA6A" Version="0.6.1" Language="en-US" Publisher="Pascal van Buijtene" />
+    <DisplayName>Scrum Power Tools for Visual Studio 2013</DisplayName>
+    <Description xml:space="preserve">Adds extensions to support daily scrum activities, like drawing burn down chart, showing items for review and creating taskboard cards.</Description>
+    <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/649af44d-95fc-4836-8264-b3af376b5929</MoreInfo>
+    <License>license.txt</License>
+    <GettingStartedGuide>http://visualstudiogallery.msdn.microsoft.com/649af44d-95fc-4836-8264-b3af376b5929</GettingStartedGuide>
+    <ReleaseNotes>http://visualstudiogallery.msdn.microsoft.com/649af44d-95fc-4836-8264-b3af376b5929</ReleaseNotes>
+    <Tags>Team Development, Code review, Scrum, Task Board Cards</Tags>
+  </Metadata>
+  <Installation InstalledByMsi="false">
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
+    <InstallationTarget Version="12.0" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Version="12.0" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Version="12.0" Id="Microsoft.VisualStudio.IntegratedShell" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.11.0" DisplayName="Visual Studio MPF 11.0" d:Source="Installed" Version="11.0" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>

@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScrumPowerTools</RootNamespace>
-    <AssemblyName>ScrumPowerToolsVS11</AssemblyName>
+    <AssemblyName>ScrumPowerToolsVS12</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -38,7 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\ReleaseVS11\</OutputPath>
+    <OutputPath>bin\ReleaseVS12\</OutputPath>
     <DefineConstants>TRACE;VS11</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -249,11 +249,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="VS12Specific\source.extension.vsixmanifest" />
     <Resource Include="Resources\CompareAllChanges.png" />
     <Content Include="Resources\Package.ico" />
     <EmbeddedResource Include="Resources\TaskBoardCards.xslt" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
-    <None Include="VS11Specific\source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ReviewView.xaml">
