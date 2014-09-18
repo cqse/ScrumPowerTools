@@ -4,7 +4,7 @@ Scrum Power Tools for Visual Studio
 Remarks
 -------
 
-Fork from [Codepley Project](https://scrumpowertools.codeplex.com/) to add back support for Visual Studio 2010, fix bugs and add extension points for ConQAT code review.
+Fork from [Codepley Project](https://scrumpowertools.codeplex.com/) by Pascal van Buijtene to add back support for Visual Studio 2010, fix bugs and add extension points for ConQAT code review.
 
 Description
 -----------
