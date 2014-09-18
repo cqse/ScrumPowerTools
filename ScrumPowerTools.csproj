@@ -13,10 +13,14 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +38,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
@@ -177,9 +181,9 @@
     <Compile Include="Model\QueryResultsTotalizerModel.cs" />
     <Compile Include="Model\QuerySelectionTotalsEventArgs.cs" />
     <Compile Include="Model\QueryResultsDocumentCreationObserver.cs" />
-    <Compile Include="Model\ReviewModel.cs" />
-    <Compile Include="Model\ReviewItemCollectorStrategy.cs" />
-    <Compile Include="Model\ReviewItemModel.cs" />
+    <Compile Include="Model\Review\ReviewItemCollectorStrategy.cs" />
+    <Compile Include="Model\Review\ReviewItemModel.cs" />
+    <Compile Include="Model\Review\ReviewModel.cs" />
     <Compile Include="Model\ShowChangesetItemsEventArgs.cs" />
     <Compile Include="Model\ShowChangesetItemsModel.cs" />
     <Compile Include="Model\ShowChangesetsEventArgs.cs" />
@@ -195,21 +199,17 @@
     <Compile Include="Packaging\MenuCommands.cs" />
     <Compile Include="ReviewToolWindow.cs" />
     <Compile Include="Services\QueryPath.cs" />
+    <Compile Include="Services\ShellDocumentOpener.cs" />
     <Compile Include="Services\TfsQueryShortcutAssigner.cs" />
     <Compile Include="Services\TfsQueryShortcutOpener.cs" />
     <Compile Include="Services\TfsQueryShortcutStore.cs" />
-    <Compile Include="Services\TfsUiServices.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Services\ShellDocumentOpener.cs" />
+    <Compile Include="Services\TfsUiServices.cs" />
     <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
-    <Compile Include="TfsIntegration\VisualStudio2010Adapter.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="TfsIntegration\Vs10VisualStudioAdapter.cs" />
     <Compile Include="ViewModels\ReviewItemViewModel.cs" />
-    <Compile Include="ViewModels\TaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\ShowReviewWindowMessage.cs" />
+    <Compile Include="ViewModels\TaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
     <Compile Include="ViewModels\WorkItemContextMenuViewModel.cs" />
     <Compile Include="Views\QueryResultsTotalizerView.cs" />
@@ -254,10 +254,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="VS10Specific\source.extension.vsixmanifest" />
+    <Resource Include="Resources\CompareAllChanges.png" />
     <Content Include="Resources\Package.ico" />
     <EmbeddedResource Include="Resources\TaskBoardCards.xslt" />
     <Content Include="TeamExplorerMenuIdentifiers.h" />
-    <None Include="VS10Specific\source.extension.vsixmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ReviewView.xaml">
@@ -280,12 +281,12 @@
   -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
+    <StartProgram>C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
+    <StartProgram>C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
   </PropertyGroup>
 </Project>

@@ -61,7 +61,7 @@ namespace ScrumPowerTools
 #if VS11
             IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
 #else
-            IVisualStudioAdapter visualStudioAdapter = new VisualStudio2010Adapter();
+            IVisualStudioAdapter visualStudioAdapter = new Vs10VisualStudioAdapter(dte);
 #endif
 
             IoC.Register(visualStudioAdapter);

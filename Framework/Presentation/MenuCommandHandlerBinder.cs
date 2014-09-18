@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
-using ExceptionMessageBoxLibrary;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Packaging;
+using System.Windows;
 
 namespace ScrumPowerTools.Framework.Presentation
 {
@@ -43,7 +43,7 @@ namespace ScrumPowerTools.Framework.Presentation
                 }
                 catch (Exception ex)
                 {
-                    ExceptionMessageBox<ExceptionMessageBoxView>.Show(ex);
+                    MessageBox.Show(ex.Message, "Could execute command");
                 }
             }
         }
