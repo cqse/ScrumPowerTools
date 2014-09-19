@@ -8,26 +8,25 @@ using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Services;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using EnvDTE;
 
 namespace ScrumPowerTools.TfsIntegration
 {
-    internal class Vs10VisualStudioAdapter : IVisualStudioAdapter
-    {
-        private readonly EnvDTE.DTE dte;
+	internal class Vs10VisualStudioAdapter : VisualStudioAdapterBase
+	{
+		public Vs10VisualStudioAdapter(DTE dte)
+			: base(dte)
+		{
+		}
 
-        public Vs10VisualStudioAdapter(EnvDTE.DTE dte)
-        {
-            this.dte = dte;
-        }
-
-        public TfsTeamProjectCollection GetCurrent()
+        public override TfsTeamProjectCollection GetCurrent()
         {
             var teamExplorer = IoC.GetInstance<IPackageServiceProvider>().GetService<IVsTeamExplorer>();
             
             return TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(teamExplorer.GetProjectContext().DomainUri));
         }
 
-        public QueryPath GetCurrentSelectedQueryPath()
+        public override QueryPath GetCurrentSelectedQueryPath()
         {        
             var teamExplorer = IoC.GetInstance<IPackageServiceProvider>().GetService<IVsTeamExplorer>();
             var canonicalName = GetSelectedCanonicalNameFromTeamExplorer(teamExplorer);
@@ -39,7 +38,7 @@ namespace ScrumPowerTools.TfsIntegration
             return new QueryPath(projectName, teamQuery);
         }
 
-        public void ShowChangesetDetails(int changesetId)
+        public override void ShowChangesetDetails(int changesetId)
         {
             if (VersionControlExt != null)
             {
@@ -77,33 +76,6 @@ namespace ScrumPowerTools.TfsIntegration
             hierarchy.GetCanonicalName(selectedItemId, out canonicalName);
 
             return canonicalName;
-        }
-
-        // TODO (MP) extract to common base class? Also consider getting the workspace from pending changes window?
-
-        public Workspace GetCurrentWorkSpace()
-        {
-            Workspace workSpace = null;
-
-            if (VersionControlExplorerExt != null)
-            {
-                workSpace = VersionControlExplorerExt.SolutionWorkspace ?? VersionControlExplorerExt.Explorer.Workspace;
-            }
-
-            if (workSpace == null)
-            {
-                throw new Exception("Unable te get the workspace.\nPlease open the solution of the items you want to review or go to the Source Control Explorer to initialize the workspace.");
-            }
-
-            return workSpace;
-        }
-
-        private VersionControlExt VersionControlExplorerExt
-        {
-            get
-            {
-                return dte.GetObject("Microsoft.VisualStudio.TeamFoundation.VersionControl.VersionControlExt") as VersionControlExt;
-            }
         }
     }
 }

@@ -205,6 +205,7 @@
     <Compile Include="Services\TfsQueryShortcutStore.cs" />
     <Compile Include="Services\TfsUiServices.cs" />
     <Compile Include="TfsIntegration\IVisualStudioAdapter.cs" />
+    <Compile Include="TfsIntegration\VisualStudioAdapterBase.cs" />
     <Compile Include="TfsIntegration\Vs10VisualStudioAdapter.cs" />
     <Compile Include="ViewModels\ReviewItemViewModel.cs" />
     <Compile Include="ViewModels\ReviewViewModel.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Views\ReviewView.xaml.cs">
       <DependentUpon>ReviewView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vs10VisualStudioAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
