@@ -11,6 +11,7 @@ using ScrumPowerTools.Model;
 using ScrumPowerTools.Packaging;
 using ScrumPowerTools.TfsIntegration;
 using ScrumPowerTools.Views;
+using ScrumPowerTools.Extensibility.Service;
 
 namespace ScrumPowerTools.ViewModels
 {
@@ -88,7 +89,8 @@ namespace ScrumPowerTools.ViewModels
             {
                 IoC.GetInstance<EventAggregator>().Publish(new ShowReviewWindowMessage()
                 {
-                    WorkItemId = workItemSelectionService.GetFirstSelected()
+                    WorkItemId = workItemSelectionService.GetFirstSelected(),
+                    ReviewItemFilter = Package.GetGlobalService(typeof(SReviewItemFilter)) as IReviewItemFilter
                 });
             }
         }

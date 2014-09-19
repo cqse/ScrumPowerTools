@@ -227,7 +227,6 @@
     <Compile Include="Views\ReviewView.xaml.cs">
       <DependentUpon>ReviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vs10VisualStudioAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -268,7 +267,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="ScrumPowerTools.Extensibility\ScrumPowerTools.Extensibility.csproj">
+      <Project>{4996281C-B1F3-4ECA-A795-521DBB7B32A7}</Project>
+      <Name>ScrumPowerTools.Extensibility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

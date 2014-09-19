@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.TfsIntegration;
+using ScrumPowerTools.Extensibility.Service;
 
 namespace ScrumPowerTools.Model.Review
 {
@@ -11,17 +12,20 @@ namespace ScrumPowerTools.Model.Review
         private readonly WorkItemStore store;
         private readonly VersionControlServer versionControlServer;
         private readonly IVisualStudioAdapter visualStudioAdapter;
+        private readonly IReviewItemFilter filter;
         private List<ReviewItemModel> items;
+
         public IEnumerable<ReviewItemModel> Items
         {
             get { return items; }
         }
 
-        public ReviewItemCollectorStrategy(WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter)
+        public ReviewItemCollectorStrategy(WorkItemStore store, VersionControlServer versionControlServer, IVisualStudioAdapter visualStudioAdapter, IReviewItemFilter filter)
         {
             this.store = store;
             this.versionControlServer = versionControlServer;
             this.visualStudioAdapter = visualStudioAdapter;
+            this.filter = filter;
         }
 
         public void Collect(WorkItem workItem)
@@ -43,7 +47,11 @@ namespace ScrumPowerTools.Model.Review
                 reviewItemModel.LocalFilePath = e.Workspace.TryGetLocalItemForServerItem(change.Item.ServerItem);
                 reviewItemModel.ServerItem = change.Item.ServerItem;
                 reviewItemModel.Change = (change.ChangeType & (~ChangeType.Encoding)).ToString();
-                items.Add(reviewItemModel);
+
+                if (this.filter == null || this.filter.IsIncluded(reviewItemModel))
+                {
+                    items.Add(reviewItemModel);
+                }
             }
         }
     }

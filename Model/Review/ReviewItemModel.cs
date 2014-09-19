@@ -1,8 +1,9 @@
 using System;
+using ScrumPowerTools.Extensibility.Model;
 
 namespace ScrumPowerTools.Model.Review
 {
-    public class ReviewItemModel
+    public class ReviewItemModel : IReviewItem
     {
         public ReviewItemModel(ChangesetVisitEventArgs changesetVisitEventArgs)
         {

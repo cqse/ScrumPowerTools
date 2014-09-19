@@ -4,6 +4,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.TfsIntegration;
+using ScrumPowerTools.Extensibility.Service;
 
 namespace ScrumPowerTools.Model.Review
 {
@@ -26,7 +27,7 @@ namespace ScrumPowerTools.Model.Review
 
         public IEnumerable<ReviewItemModel> ItemsToReview { get; private set; }
 
-        public void Review(int workItemId)
+        public void Review(int workItemId, IReviewItemFilter filter)
         {
             if (workItemId <= 0)
             {
@@ -34,7 +35,7 @@ namespace ScrumPowerTools.Model.Review
             }
 
             var workItemCollector = new WorkItemCollector(workItemStore);
-            var collectorStrategy = new ReviewItemCollectorStrategy(workItemStore, versionControlServer, teamProjectCollectionProvider);
+            var collectorStrategy = new ReviewItemCollectorStrategy(workItemStore, versionControlServer, teamProjectCollectionProvider, filter);
 
             workItemCollector.CollectItems(workItemId, collectorStrategy);
 

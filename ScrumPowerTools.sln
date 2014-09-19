@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools", "ScrumPowerTools.csproj", "{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumPowerTools.Extensibility", "ScrumPowerTools.Extensibility\ScrumPowerTools.Extensibility.csproj", "{4996281C-B1F3-4ECA-A795-521DBB7B32A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6CE11CF-93C4-4958-9CAA-46F43BD05C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4996281C-B1F3-4ECA-A795-521DBB7B32A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4996281C-B1F3-4ECA-A795-521DBB7B32A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4996281C-B1F3-4ECA-A795-521DBB7B32A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4996281C-B1F3-4ECA-A795-521DBB7B32A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -227,7 +227,8 @@ namespace ScrumPowerTools.ViewModels
         public void Handle(ShowReviewWindowMessage message)
         {
             model = new ReviewModel();
-            model.Review(message.WorkItemId);
+
+            model.Review(message.WorkItemId, message.ReviewItemFilter);
 
             Title = model.Title;
 
