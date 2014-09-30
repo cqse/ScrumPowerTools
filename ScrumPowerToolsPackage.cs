@@ -36,7 +36,7 @@ namespace ScrumPowerTools
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(ReviewToolWindow))]
-    [ProvideOptionPage(typeof(GeneralOptions),"Scrum Power Toolss", "General", 110, 1001, false)]
+    [ProvideOptionPage(typeof(GeneralOptions),"Scrum Power Tools", "General", 110, 1001, false)]
     [Guid(Identifiers.PackageId)]
     [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
     public sealed class ScrumPowerToolsPackage : Package, IToolWindowActivator, IPackageServiceProvider
