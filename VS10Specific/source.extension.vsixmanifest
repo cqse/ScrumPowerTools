@@ -3,7 +3,7 @@
   <Identifier Id="534ed8ea-71db-4c8f-a27b-588c7e19d8f7">
     <Name>Scrum Power Tools</Name>
     <Author>Pascal van Buijtene</Author>
-    <Version>0.5</Version>
+    <Version>0.6.1.1</Version>
     <Description xml:space="preserve">Adds extensions to support daily scrum activities, like drawing burn down chart and showing items for reviewing.</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>http://visualstudiogallery.msdn.microsoft.com/3f261226-530e-4e9c-b7d7-451c2f77f262</MoreInfoUrl>
