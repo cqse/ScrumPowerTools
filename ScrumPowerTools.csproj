@@ -213,6 +213,7 @@
     <Compile Include="ViewModels\TaskBoardCardsViewModel.cs" />
     <Compile Include="ViewModels\TfsQueryShortcutViewModel.cs" />
     <Compile Include="ViewModels\WorkItemContextMenuViewModel.cs" />
+    <Compile Include="Framework\Presentation\PropertyGroupDescriptor.cs" />
     <Compile Include="Views\QueryResultsTotalizerView.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

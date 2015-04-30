@@ -115,7 +115,7 @@ namespace ScrumPowerTools.ViewModels
             {
                 columns =
                     new ObservableCollection<ColumnDescriptor>(
-                        AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder"));
+                        AvailableColumns.Where(cd => cd.DisplayMember != "Name" && cd.DisplayMember != "Folder" && cd.DisplayMember != "Glyph"));
             }
             else
             {
@@ -123,6 +123,8 @@ namespace ScrumPowerTools.ViewModels
                     new ObservableCollection<ColumnDescriptor>(
                         AvailableColumns.Where(cd => cd.DisplayMember != "Comment"));
             }
+
+            // TODO (MP) Remove Glyph if no glyph data available...
 
             Columns = columns;
 
@@ -336,6 +338,11 @@ namespace ScrumPowerTools.ViewModels
             {
                 return new List<ColumnDescriptor>
                 {
+                    new ColumnDescriptor
+                    {
+                        HeaderText = "",
+                        DisplayMember = "Glyph"
+                    },
                     new ColumnDescriptor
                     {
                         HeaderText = "Changeset",

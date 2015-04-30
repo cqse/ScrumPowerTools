@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows;
 using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model.Review;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace ScrumPowerTools.ViewModels
 {
@@ -36,6 +38,8 @@ namespace ScrumPowerTools.ViewModels
         public string Change { get; internal set; }
 
         public string LocalFilePath { get; set; }
+
+        public ImageSource Glyph { get { return new BitmapImage(new Uri("C:\\logo.png")); } }
 
         public string Folder
         {
