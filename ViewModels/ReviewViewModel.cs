@@ -1,3 +1,7 @@
+using ScrumPowerTools.Framework.Presentation;
+using ScrumPowerTools.Model.Review;
+using ScrumPowerTools.Packaging;
+using ScrumPowerTools.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,10 +11,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using ScrumPowerTools.Framework.Presentation;
-using ScrumPowerTools.Model.Review;
-using ScrumPowerTools.Packaging;
-using ScrumPowerTools.Services;
 
 namespace ScrumPowerTools.ViewModels
 {
@@ -61,7 +61,7 @@ namespace ScrumPowerTools.ViewModels
 
         public ICommand SelectItemCommand
         {
-            get { return new DelegateCommand<ReviewItemViewModel>(SelectItem); }
+            get { return new DelegateCommand<ReviewItemViewModel>(SelectItem, () => SelectedItem != null); }
         }
 
         public ICommand CompareWithPreviousVersionCommand
@@ -81,7 +81,9 @@ namespace ScrumPowerTools.ViewModels
 
         public ICommand ViewChangesetDetailsCommand
         {
-            get { return new DelegateCommand<ReviewItemViewModel>(ViewChangesetDetails, () => SelectedItem != null);
+            get
+            {
+                return new DelegateCommand<ReviewItemViewModel>(ViewChangesetDetails, () => SelectedItem != null);
             }
         }
 
@@ -210,7 +212,7 @@ namespace ScrumPowerTools.ViewModels
             }
             else if (SelectedGrouping == ReviewGrouping.File)
             {
-                groups = reviewItemViewModels.GroupBy(k => k.LocalFilePath);                
+                groups = reviewItemViewModels.GroupBy(k => k.LocalFilePath);
             }
 
             foreach (IGrouping<string, ReviewItemViewModel> itemViewModels in groups)
