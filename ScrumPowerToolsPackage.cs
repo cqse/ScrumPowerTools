@@ -17,97 +17,100 @@ using ScrumPowerTools.TfsIntegration;
 
 namespace ScrumPowerTools
 {
-    /// <summary>
-    /// This is the class that implements the package exposed by this assembly.
-    ///
-    /// The minimum requirement for a class to be considered a valid package for Visual Studio
-    /// is to implement the IVsPackage interface and register itself with the shell.
-    /// This package uses the helper classes defined inside the Managed Package Framework (MPF)
-    /// to do it: it derives from the Package class that provides the implementation of the 
-    /// IVsPackage interface and uses the registration attributes defined in the framework to 
-    /// register itself and its components with the shell.
-    /// </summary>
-    // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
-    // a package.
-    [PackageRegistration(UseManagedResourcesOnly = true)]
-    // This attribute is used to register the informations needed to show the this package
-    // in the Help/About dialog of Visual Studio.
-    [InstalledProductRegistration("#110", "#112", "0.1", IconResourceID = 400)]
-    // This attribute is needed to let the shell know that this package exposes some menus.
-    [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(ReviewToolWindow))]
-    [ProvideOptionPage(typeof(GeneralOptions),"Scrum Power Tools", "General", 110, 1001, false)]
-    [Guid(Identifiers.PackageId)]
-    [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
-    public sealed class ScrumPowerToolsPackage : Package, IToolWindowActivator, IPackageServiceProvider
-    {
-        public ScrumPowerToolsPackage()
-        {
-            IoC.Setup(Assembly.GetExecutingAssembly());
-            IoC.Register<IToolWindowActivator>(this);
-            IoC.Register<IPackageServiceProvider>(this);
-        }
+	/// <summary>
+	/// This is the class that implements the package exposed by this assembly.
+	///
+	/// The minimum requirement for a class to be considered a valid package for Visual Studio
+	/// is to implement the IVsPackage interface and register itself with the shell.
+	/// This package uses the helper classes defined inside the Managed Package Framework (MPF)
+	/// to do it: it derives from the Package class that provides the implementation of the 
+	/// IVsPackage interface and uses the registration attributes defined in the framework to 
+	/// register itself and its components with the shell.
+	/// </summary>
+	// This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
+	// a package.
+	[PackageRegistration(UseManagedResourcesOnly = true)]
+	// This attribute is used to register the informations needed to show the this package
+	// in the Help/About dialog of Visual Studio.
+	[InstalledProductRegistration("#110", "#112", "0.1", IconResourceID = 400)]
+	// This attribute is needed to let the shell know that this package exposes some menus.
+	[ProvideMenuResource("Menus.ctmenu", 1)]
+	[ProvideToolWindow(typeof(ReviewToolWindow))]
+	[ProvideOptionPage(typeof(GeneralOptions), "Scrum Power Tools", "General", 110, 1001, false)]
+	[Guid(Identifiers.PackageId)]
+	[ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")] //Auto load when having connection with TFS
+	public sealed class ScrumPowerToolsPackage : Package, IToolWindowActivator, IPackageServiceProvider
+	{
+		public ScrumPowerToolsPackage()
+		{
+			IoC.Setup(Assembly.GetExecutingAssembly());
+			IoC.Register<IToolWindowActivator>(this);
+			IoC.Register<IPackageServiceProvider>(this);
+		}
 
-        /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initilaization code that rely on services provided by VisualStudio.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
+		/// <summary>
+		/// Initialization of the package; this method is called right after the package is sited, so this is the place
+		/// where you can put all the initilaization code that rely on services provided by VisualStudio.
+		/// </summary>
+		protected override void Initialize()
+		{
+			base.Initialize();
 
-            var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
+			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
 
-#if VS11
-            IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
+#if VS15
+			IVisualStudioAdapter visualStudioAdapter = new Vs14VisualStudioAdapter(dte);
+
+#elif VS11
+			IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
 #else
-            IVisualStudioAdapter visualStudioAdapter = new Vs10VisualStudioAdapter(dte);
+			IVisualStudioAdapter visualStudioAdapter = new Vs10VisualStudioAdapter(dte);
 #endif
 
-            IoC.Register(visualStudioAdapter);
-            
-            
-            var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
+			IoC.Register(visualStudioAdapter);
 
-            IoC.Register(new WorkItemSelectionService(dte, documentService, visualStudioAdapter));
-            IoC.Register(new ShellDocumentOpener(this));
-            IoC.Register(new TfsUiServices(dte));
 
-            new QueryResultsTotalizerController(documentService, dte.StatusBar, visualStudioAdapter);
+			var documentService = (DocumentService)GetGlobalService(typeof(DocumentService));
 
-            var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
-            var tfsQueryShortcutStore = new TfsQueryShortcutStore(options);
-            var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore, visualStudioAdapter);
-            var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, visualStudioAdapter, tfsQueryShortcutStore);
+			IoC.Register(new WorkItemSelectionService(dte, documentService, visualStudioAdapter));
+			IoC.Register(new ShellDocumentOpener(this));
+			IoC.Register(new TfsUiServices(dte));
 
-            IoC.Register(options);
-            IoC.Register(tfsQueryShortcutStore);
-            IoC.Register(tfsQueryShortcutAssigner);
-            IoC.Register(tfsQueryShortcutOpener);
+			new QueryResultsTotalizerController(documentService, dte.StatusBar, visualStudioAdapter);
 
-            MenuCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
-            ComboBoxCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
-        }
+			var options = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
+			var tfsQueryShortcutStore = new TfsQueryShortcutStore(options);
+			var tfsQueryShortcutAssigner = new TfsQueryShortcutAssigner(tfsQueryShortcutStore, visualStudioAdapter);
+			var tfsQueryShortcutOpener = new TfsQueryShortcutOpener(documentService, visualStudioAdapter, tfsQueryShortcutStore);
 
-        public void Activate<T>()
-        {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            const bool createWhenNotFound = true;
-            ToolWindowPane window = FindToolWindow(typeof(T), 0, createWhenNotFound);
+			IoC.Register(options);
+			IoC.Register(tfsQueryShortcutStore);
+			IoC.Register(tfsQueryShortcutAssigner);
+			IoC.Register(tfsQueryShortcutOpener);
 
-            if ((null == window) || (null == window.Frame))
-            {
-                throw new NotSupportedException("Resources.CanNotCreateWindow");
-            }
+			MenuCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
+			ComboBoxCommandHandlerBinder.Bind(GetService<IMenuCommandService>());
+		}
 
-            var windowFrame = (IVsWindowFrame)window.Frame;
-            ErrorHandler.ThrowOnFailure(windowFrame.Show());
-        }
+		public void Activate<T>()
+		{
+			// Get the instance number 0 of this tool window. This window is single instance so this instance
+			// is actually the only one.
+			const bool createWhenNotFound = true;
+			ToolWindowPane window = FindToolWindow(typeof(T), 0, createWhenNotFound);
 
-        public T GetService<T>() where T : class
-        {
-            return (T)GetService(typeof(T));
-        }
-    }
+			if ((null == window) || (null == window.Frame))
+			{
+				throw new NotSupportedException("Resources.CanNotCreateWindow");
+			}
+
+			var windowFrame = (IVsWindowFrame)window.Frame;
+			ErrorHandler.ThrowOnFailure(windowFrame.Show());
+		}
+
+		public T GetService<T>() where T : class
+		{
+			return (T)GetService(typeof(T));
+		}
+	}
 }
