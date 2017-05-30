@@ -5,28 +5,28 @@ using System.Reflection;
 
 namespace ScrumPowerTools.Framework.Composition
 {
-    public static class IoC
-    {
-        private static CompositionContainer container;
+	public static class IoC
+	{
+		private static CompositionContainer container;
 
-        public static void Setup(Assembly assembly)
-        {
-            container = new CompositionContainer(new AssemblyCatalog(assembly));
-        }
+		public static void Setup(Assembly assembly)
+		{
+			container = new CompositionContainer(new AssemblyCatalog(assembly));
+		}
 
-        public static void Register<T>(T instance)
-        {
-            container.ComposeExportedValue(instance);
-        }
+		public static void Register<T>(T instance)
+		{
+			container.ComposeExportedValue(instance);
+		}
 
-        public static T GetInstance<T>()
-        {
-            return container.GetExportedValue<T>();
-        }
+		public static T GetInstance<T>()
+		{
+			return container.GetExportedValue<T>();
+		}
 
-        public static IEnumerable<T> GetInstances<T>()
-        {
-            return container.GetExportedValues<T>();
-        }
-    }
+		public static IEnumerable<T> GetInstances<T>()
+		{
+			return container.GetExportedValues<T>();
+		}
+	}
 }
