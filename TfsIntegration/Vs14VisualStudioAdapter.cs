@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.Extensibility;
 using ScrumPowerTools.Framework.Composition;
 using ScrumPowerTools.Services;
+using System.Reflection;
 
 namespace ScrumPowerTools.TfsIntegration
 {
@@ -29,7 +30,41 @@ namespace ScrumPowerTools.TfsIntegration
 			=> legacyAdapter.GetCurrent();
 
 		public override QueryPath GetCurrentSelectedQueryPath()
-			=> this.legacyAdapter.GetCurrentSelectedQueryPath();
+		{
+			// TODO (VZ): implement
+			throw new NotImplementedException();
+
+			var foundationContextManager = (ITeamFoundationContextManager)Package.GetGlobalService(typeof(ITeamFoundationContextManager));
+
+			object tEobj = Package.GetGlobalService(typeof(ITeamExplorer));
+			dynamic tE = Package.GetGlobalService(typeof(ITeamExplorer));
+			dynamic service;
+
+			Type tEtype = tE.GetType();
+			PropertyInfo[] pi = tEtype.GetProperties();
+
+			var x = ((Microsoft.TeamFoundation.Controls.ITeamExplorer)tE).CurrentPage;
+
+			//var teamExplorer = (ITeamExplorer)Package.GetGlobalService(typeof(ITeamExplorer));
+			//var service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt2>();
+
+			var q = service.SelectedQueryIds.FirstOrDefault();
+			if (q != null)
+			{
+
+			}
+
+			//QueryItem query = service.SelectedQueryItems.FirstOrDefault();
+
+			//if (query != null)
+			//{
+			//	string path = string.Join("/", query.Path.Split('/').Skip(1));
+
+			//	return new QueryPath(foundationContextManager.CurrentContext.TeamProjectName, path);
+			//}
+
+			return null;
+		}
 
 		public override void ShowChangesetDetails(int changesetId)
 			=> legacyAdapter.ShowChangesetDetails(changesetId);
