@@ -49,7 +49,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\DebugVS11\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;VS11;VS15</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;VS11;$(DefineConstants)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -57,7 +57,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\ReleaseVS12\</OutputPath>
-    <DefineConstants>TRACE;VS11;VS15</DefineConstants>
+    <DefineConstants>TRACE;VS11;$(DefineConstants)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>

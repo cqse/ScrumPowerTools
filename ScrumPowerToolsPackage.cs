@@ -14,7 +14,6 @@ using ScrumPowerTools.Packaging;
 using ScrumPowerTools.Services;
 using ScrumPowerTools.TfsIntegration;
 
-
 namespace ScrumPowerTools
 {
 	/// <summary>
@@ -58,9 +57,8 @@ namespace ScrumPowerTools
 
 			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
 
-#if VS15
+#if VS14
 			IVisualStudioAdapter visualStudioAdapter = new Vs14VisualStudioAdapter(dte);
-
 #elif VS11
 			IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
 #else
