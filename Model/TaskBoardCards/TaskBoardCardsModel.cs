@@ -19,8 +19,10 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 	public class TaskBoardCardsModel
 	{
 		[ImportingConstructor]
-		public TaskBoardCardsModel(GeneralOptions options, WorkItemSelectionService workItemSelectionService,
-								   IVisualStudioAdapter visualStudioAdapter)
+		public TaskBoardCardsModel(
+			GeneralOptions options,
+			WorkItemSelectionService workItemSelectionService,
+			IVisualStudioAdapter visualStudioAdapter)
 		{
 			this.options = options;
 			this.workItemSelectionService = workItemSelectionService;
@@ -36,9 +38,14 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 				return;
 			}
 
-			var tpc = visualStudioAdapter.GetCurrent();
-			var workItemStore = tpc.GetService<WorkItemStore>();
-			WorkItemCollection workItems = workItemStore.GetWorkItems(queryPath);
+			WorkItemCollection workItems =
+				visualStudioAdapter.GetCurrent()
+					.GetService<WorkItemStore>()
+					.GetWorkItems(queryPath);
+
+			// TODO (VZ): We actually just want the query definition, which we get in the 
+			//			  visualStudioAdapter ... how do we manage here? Either try to get the
+			//            definition AGAIN here with the query path ... or refactor to just return it.
 
 			CreateCards(workItems);
 		}

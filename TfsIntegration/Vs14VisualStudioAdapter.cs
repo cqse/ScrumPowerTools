@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.Extensibility;
 using System.Linq;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using ScrumPowerTools.Framework.Composition;
 
 namespace ScrumPowerTools.TfsIntegration
 {
@@ -26,35 +27,25 @@ namespace ScrumPowerTools.TfsIntegration
 
 		public override QueryPath GetCurrentSelectedQueryPath()
 		{
-			var foundationContextManager = Framework.Composition.IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamFoundationContextManager>();
-			var teamExplorer = Framework.Composition.IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamExplorer>();
+			ITeamFoundationContextManager foundationContextManager =
+				IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamFoundationContextManager>();
+			ITeamExplorer teamExplorer =
+				IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamExplorer>();
 
-			var service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt2>();
-			var serviceProperties = service.GetType().GetProperties();
-			if (serviceProperties.Count() != 2)
+			IWorkItemQueriesExt2 service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt2>();
+			Guid id = service.SelectedQueryIds.FirstOrDefault();
+
+			if (id == null)
 			{
 				return null;
 			}
 
-			object items = null;
-			string selectedQueryItemsPropertyName = "SelectedQueryItems";
-			if (serviceProperties[0].Name.Equals(selectedQueryItemsPropertyName))
-			{
-				items = serviceProperties[0].GetValue(service);
-			}
-			else if (serviceProperties[1].Name.Equals(selectedQueryItemsPropertyName))
-			{
-				items = serviceProperties[1].GetValue(service);
-			}
+			WorkItemStore wis = legacyAdapter.GetCurrent().GetService<WorkItemStore>();
 
-			var item = (items as QueryItem[])?.FirstOrDefault();
-			if (item != null)
-			{
-				string path = string.Join("/", item.Path.Split('/').Skip(1));
-				return new QueryPath(foundationContextManager.CurrentContext.TeamProjectName, path);
-			}
+			QueryDefinition def = wis.GetQueryDefinition(id);
+			return new QueryPath(def.Project.Name, def.Path);
 
-			return null;
+			// TODO (VZ): Error handling and rethink return value
 		}
 
 		public override void ShowChangesetDetails(int changesetId)
