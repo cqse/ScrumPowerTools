@@ -71,12 +71,12 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 			var tpc = visualStudioAdapter.GetCurrent();
 			var workItemStore = tpc.GetService<WorkItemStore>();
 
-			int[] relatedWorkITemIdentifiers =
+			int[] relatedWorkItemIdentifiers =
 				workItems.OfType<WorkItem>()
 					.SelectMany(wi => wi.WorkItemLinks.Cast<WorkItemLink>())
 					.Select(s => s.TargetId).Distinct().ToArray();
 
-			WorkItemCollection relatedWorkItems = workItemStore.GetWorkItems(relatedWorkITemIdentifiers);
+			WorkItemCollection relatedWorkItems = workItemStore.GetWorkItems(relatedWorkItemIdentifiers);
 
 			new WorkItemXmlFileCreator().Create(workItems, relatedWorkItems, WorkItemsFileName);
 		}
