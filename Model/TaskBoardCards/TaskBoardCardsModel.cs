@@ -30,9 +30,14 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 		public void CreateCardsFromSelectedQuery()
 		{
 			var queryPath = visualStudioAdapter.GetCurrentSelectedQueryPath();
+			if (queryPath == null)
+			{
+				System.Windows.MessageBox.Show("Couldn't gather query items.");
+				return;
+			}
+
 			var tpc = visualStudioAdapter.GetCurrent();
 			var workItemStore = tpc.GetService<WorkItemStore>();
-
 			WorkItemCollection workItems = workItemStore.GetWorkItems(queryPath);
 
 			CreateCards(workItems);
