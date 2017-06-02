@@ -5,6 +5,9 @@ using Microsoft.TeamFoundation.Controls;
 using Microsoft.VisualStudio.Shell;
 using ScrumPowerTools.Services;
 using System.Reflection;
+using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.Extensibility;
+using System.Linq;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
 namespace ScrumPowerTools.TfsIntegration
 {
@@ -23,37 +26,33 @@ namespace ScrumPowerTools.TfsIntegration
 
 		public override QueryPath GetCurrentSelectedQueryPath()
 		{
-			// TODO (VZ): implement
-			throw new NotImplementedException();
+			var foundationContextManager = Framework.Composition.IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamFoundationContextManager>();
+			var teamExplorer = Framework.Composition.IoC.GetInstance<IPackageServiceProvider>().GetService<ITeamExplorer>();
 
-			var foundationContextManager = (ITeamFoundationContextManager)Package.GetGlobalService(typeof(ITeamFoundationContextManager));
-
-			object tEobj = Package.GetGlobalService(typeof(ITeamExplorer));
-			dynamic tE = Package.GetGlobalService(typeof(ITeamExplorer));
-			dynamic service;
-
-			Type tEtype = tE.GetType();
-			PropertyInfo[] pi = tEtype.GetProperties();
-
-			var x = ((Microsoft.TeamFoundation.Controls.ITeamExplorer)tE).CurrentPage;
-
-			//var teamExplorer = (ITeamExplorer)Package.GetGlobalService(typeof(ITeamExplorer));
-			//var service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt2>();
-
-			var q = service.SelectedQueryIds.FirstOrDefault();
-			if (q != null)
+			var service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt2>();
+			var serviceProperties = service.GetType().GetProperties();
+			if (serviceProperties.Count() != 2)
 			{
-
+				return null;
 			}
 
-			//QueryItem query = service.SelectedQueryItems.FirstOrDefault();
+			object items = null;
+			string selectedQueryItemsPropertyName = "SelectedQueryItems";
+			if (serviceProperties[0].Name.Equals(selectedQueryItemsPropertyName))
+			{
+				items = serviceProperties[0].GetValue(service);
+			}
+			else if (serviceProperties[1].Name.Equals(selectedQueryItemsPropertyName))
+			{
+				items = serviceProperties[1].GetValue(service);
+			}
 
-			//if (query != null)
-			//{
-			//	string path = string.Join("/", query.Path.Split('/').Skip(1));
-
-			//	return new QueryPath(foundationContextManager.CurrentContext.TeamProjectName, path);
-			//}
+			var item = (items as QueryItem[])?.FirstOrDefault();
+			if (item != null)
+			{
+				string path = string.Join("/", item.Path.Split('/').Skip(1));
+				return new QueryPath(foundationContextManager.CurrentContext.TeamProjectName, path);
+			}
 
 			return null;
 		}
