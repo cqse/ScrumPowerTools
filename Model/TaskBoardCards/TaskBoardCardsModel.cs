@@ -44,8 +44,9 @@ namespace ScrumPowerTools.Model.TaskBoardCards
 					.GetWorkItems(queryPath);
 
 			// TODO (VZ): We actually just want the query definition, which we get in the 
-			//			  visualStudioAdapter ... how do we manage here? Either try to get the
-			//            definition AGAIN here with the query path ... or refactor to just return it.
+			//			  visualStudioAdapter ... how do we continue from here? Either try to get 
+			//	          the definition AGAIN here with the query path ... or refactor to just 
+			//            directly return it from the visualStudioAdapter.
 
 			CreateCards(workItems);
 		}

@@ -23,8 +23,10 @@ namespace ScrumPowerTools.TfsIntegration
 		}
 
 		public override TfsTeamProjectCollection GetCurrent()
-			=> legacyAdapter.GetCurrent();
+			=> this.legacyAdapter.GetCurrent();
 
+
+		// TODO (VZ): Error handling and rethink return value
 		public override QueryPath GetCurrentSelectedQueryPath()
 		{
 			ITeamFoundationContextManager foundationContextManager =
@@ -40,15 +42,13 @@ namespace ScrumPowerTools.TfsIntegration
 				return null;
 			}
 
-			WorkItemStore wis = legacyAdapter.GetCurrent().GetService<WorkItemStore>();
+			WorkItemStore wis = this.legacyAdapter.GetCurrent().GetService<WorkItemStore>();
 
 			QueryDefinition def = wis.GetQueryDefinition(id);
 			return new QueryPath(def.Project.Name, def.Path);
-
-			// TODO (VZ): Error handling and rethink return value
 		}
 
 		public override void ShowChangesetDetails(int changesetId)
-			=> legacyAdapter.ShowChangesetDetails(changesetId);
+			=> this.legacyAdapter.ShowChangesetDetails(changesetId);
 	}
 }

@@ -57,9 +57,7 @@ namespace ScrumPowerTools
 
 			var dte = (EnvDTE.DTE)GetService(typeof(EnvDTE.DTE));
 
-#if VS14
-			IVisualStudioAdapter visualStudioAdapter = new Vs14VisualStudioAdapter(dte);
-#elif VS11
+#if VS11
 			IVisualStudioAdapter visualStudioAdapter = new Vs11VisualStudioAdapter(dte);
 #else
 			IVisualStudioAdapter visualStudioAdapter = new Vs10VisualStudioAdapter(dte);

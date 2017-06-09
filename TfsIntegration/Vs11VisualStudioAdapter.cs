@@ -31,11 +31,9 @@ namespace ScrumPowerTools.TfsIntegration
 
 		public override QueryPath GetCurrentSelectedQueryPath()
 		{
-#if VS14
-			throw new InvalidOperationException("This method is only valid for Visual Studio version up to 13.");
-#else
 			var foundationContextManager = (ITeamFoundationContextManager)Package.GetGlobalService(typeof(ITeamFoundationContextManager));
 			var teamExplorer = (ITeamExplorer)Package.GetGlobalService(typeof(ITeamExplorer));
+			// TODO (VZ): Deprecated interface. Possible refactoring was started in Vs14VisualStudioAdapter.cs (unused).
 			var service = teamExplorer.CurrentPage.GetService<IWorkItemQueriesExt>();
 
 			QueryItem query = service.SelectedQueryItems.FirstOrDefault();
@@ -48,7 +46,6 @@ namespace ScrumPowerTools.TfsIntegration
 			}
 
 			return null;
-#endif
 		}
 
 		public override void ShowChangesetDetails(int changesetId)
