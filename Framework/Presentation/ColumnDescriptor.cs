@@ -5,5 +5,7 @@ namespace ScrumPowerTools.Framework.Presentation
         public string HeaderText { get; set; }
 
         public string DisplayMember { get; set; }
+
+        public string CellTemplate { get; set; }
     }
 }

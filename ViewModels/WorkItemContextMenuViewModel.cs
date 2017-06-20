@@ -90,7 +90,8 @@ namespace ScrumPowerTools.ViewModels
                 IoC.GetInstance<EventAggregator>().Publish(new ShowReviewWindowMessage()
                 {
                     WorkItemId = workItemSelectionService.GetFirstSelected(),
-                    ReviewItemFilter = Package.GetGlobalService(typeof(SReviewItemFilter)) as IReviewItemFilter
+                    ReviewItemFilter = Package.GetGlobalService(typeof(SReviewItemFilter)) as IReviewItemFilter,
+                    ReviewItemGlyphProvider = Package.GetGlobalService(typeof(SReviewItemGlyphProvider)) as IReviewItemGlyphProvider
                 });
             }
         }

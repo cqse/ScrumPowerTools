@@ -8,5 +8,7 @@ namespace ScrumPowerTools.ViewModels
         public int WorkItemId { get; set; }
 
         public IReviewItemFilter ReviewItemFilter { get; set; }
+
+        public IReviewItemGlyphProvider ReviewItemGlyphProvider { get; set; }
     }
 }

@@ -234,7 +234,7 @@ namespace ScrumPowerTools.ViewModels
 
             Title = model.Title;
 
-            reviewItemViewModels = model.ItemsToReview.Select(i => new ReviewItemViewModel(i)).ToArray();
+            reviewItemViewModels = model.ItemsToReview.Select(i => new ReviewItemViewModel(i, message.ReviewItemGlyphProvider)).ToArray();
 
             ReviewItems = new ListCollectionView(reviewItemViewModels);
 
@@ -341,7 +341,7 @@ namespace ScrumPowerTools.ViewModels
                     new ColumnDescriptor
                     {
                         HeaderText = "",
-                        DisplayMember = "Glyph"
+                        CellTemplate = "imageTemplate"
                     },
                     new ColumnDescriptor
                     {

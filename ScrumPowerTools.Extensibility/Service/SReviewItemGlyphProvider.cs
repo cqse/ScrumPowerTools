@@ -6,9 +6,9 @@
     using System.Text;
     using System.Runtime.InteropServices;
 
-    [Guid("54B8B17E-88F3-44CE-8BE7-FAB7DB82FA7B")]
-    public interface IFileGlyphProvider
+    [Guid("AF0A8EC7-14FA-499F-A499-02E11B5D348C")]
+    public interface SReviewItemGlyphProvider
     {
-
+        // this is a marker interface
     }
 }

@@ -37,6 +37,7 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,13 +45,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\IReviewItem.cs" />
-    <Compile Include="Service\SFileGlyphProvider.cs" />
+    <Compile Include="Service\SReviewItemGlyphProvider.cs" />
     <Compile Include="Service\SReviewItemFilter.cs" />
     <Compile Include="Service\IReviewItemFilter.cs" />
-    <Compile Include="Service\IFileGlyphProvider.cs" />
+    <Compile Include="Service\IReviewItemGlyphProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

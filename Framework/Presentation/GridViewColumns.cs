@@ -6,6 +6,9 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Linq;
+using ScrumPowerTools.Framework.Extensions;
 
 namespace ScrumPowerTools.Framework.Presentation
 {
@@ -22,7 +25,7 @@ namespace ScrumPowerTools.Framework.Presentation
             obj.SetValue(ColumnsSourceProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ColumnsSource.
+        // Using a DependencyProperty as the backing store for ColumnsSource. 
         // This enables animation, styling, binding, etc... 
         public static readonly DependencyProperty ColumnsSourceProperty =
             DependencyProperty.RegisterAttached(
@@ -30,6 +33,26 @@ namespace ScrumPowerTools.Framework.Presentation
                 typeof(object),
                 typeof(GridViewColumns),
                 new UIPropertyMetadata(null, ColumnsSourceChanged));
+
+        [AttachedPropertyBrowsableForType(typeof(GridView))]
+        public static string GetCellTemplateMember(DependencyObject obj)
+        {
+            return (string)obj.GetValue(CellTemplateProperty);
+        }
+
+        public static void SetCellTemplateMember(DependencyObject obj, string value)
+        {
+            obj.SetValue(CellTemplateProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for Celltemplate.
+        // This enables animation, styling, binding, etc... 
+        public static readonly DependencyProperty CellTemplateProperty =
+            DependencyProperty.RegisterAttached(
+                "CellTemplate",
+                typeof(string),
+                typeof(GridViewColumns),
+                new UIPropertyMetadata(null));
 
 
         [AttachedPropertyBrowsableForType(typeof(GridView))]
@@ -216,22 +239,36 @@ namespace ScrumPowerTools.Framework.Presentation
             var column = new GridViewColumn();
             string headerTextMember = GetHeaderTextMember(gridView);
             string displayMemberMember = GetDisplayMemberMember(gridView);
-
+            string cellTemplateMember = GetCellTemplateMember(gridView);
+            
             if (!string.IsNullOrEmpty(headerTextMember))
             {
                 column.Header = GetPropertyValue(columnSource, headerTextMember);
             }
 
+            if (!string.IsNullOrEmpty(cellTemplateMember))
+            {
+                var cellTemplateName = GetPropertyValue(columnSource, cellTemplateMember) as string;
+                if (cellTemplateName != null)
+                {
+                    var template = gridView.GetParents().OfType<ListView>().FirstOrDefault().TryFindResource(cellTemplateName) as DataTemplate;
+                    column.CellTemplate = template;
+                }
+            }
+
             if (!string.IsNullOrEmpty(displayMemberMember))
             {
                 var propertyName = GetPropertyValue(columnSource, displayMemberMember) as string;
-                column.DisplayMemberBinding = new Binding(propertyName);
-                if (propertyName.Contains("Date"))
+                if (propertyName != null)
                 {
-                    string shortDatePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
-                    string shortTimePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortTimePattern;
+                    column.DisplayMemberBinding = new Binding(propertyName);
+                    if (propertyName.Contains("Date"))
+                    {
+                        string shortDatePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
+                        string shortTimePattern = CultureInfo.CurrentUICulture.DateTimeFormat.ShortTimePattern;
 
-                    column.DisplayMemberBinding.StringFormat = shortDatePattern + " " + shortTimePattern;
+                        column.DisplayMemberBinding.StringFormat = shortDatePattern + " " + shortTimePattern;
+                    }
                 }
             }
 

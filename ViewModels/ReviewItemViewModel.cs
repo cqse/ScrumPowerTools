@@ -5,6 +5,7 @@ using ScrumPowerTools.Framework.Presentation;
 using ScrumPowerTools.Model.Review;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using ScrumPowerTools.Extensibility.Service;
 
 namespace ScrumPowerTools.ViewModels
 {
@@ -14,7 +15,7 @@ namespace ScrumPowerTools.ViewModels
         private bool isGroupExpanded;
         private Visibility groupVisibility;
 
-        public ReviewItemViewModel(ReviewItemModel reviewItemModel)
+        public ReviewItemViewModel(ReviewItemModel reviewItemModel, IReviewItemGlyphProvider reviewItemGlyphProvider)
         {
             ChangesetId = reviewItemModel.ChangesetId;
             Comment = reviewItemModel.Comment;
@@ -23,6 +24,11 @@ namespace ScrumPowerTools.ViewModels
             ServerItem = reviewItemModel.ServerItem;
             Change = reviewItemModel.Change;
             LocalFilePath = reviewItemModel.LocalFilePath;
+
+            if (reviewItemGlyphProvider != null)
+            {
+                this.Glyph = reviewItemGlyphProvider.GetGlyph(reviewItemModel);
+            }
         }
 
         public string Comment { get; private set; }
@@ -39,7 +45,7 @@ namespace ScrumPowerTools.ViewModels
 
         public string LocalFilePath { get; set; }
 
-        public ImageSource Glyph { get { return new BitmapImage(new Uri("C:\\logo.png")); } }
+        public ImageSource Glyph { get; private set; }
 
         public string Folder
         {

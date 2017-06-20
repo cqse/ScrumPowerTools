@@ -39,8 +39,9 @@ namespace ScrumPowerTools.Model
 
                 Difference.VisualDiffItems(versionControlServer, itemFrom, itemTo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // TODO (MP) we should give some clues on what went wrong...
                 //HACK
             }
         }

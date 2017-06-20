@@ -51,9 +51,16 @@
     </UserControl.Resources>
     <Grid>
         <ListView Name="ReviewItems" SelectedItem="{Binding SelectedItem}">
+            <ListView.Resources>
+                <DataTemplate x:Key="imageTemplate">
+                    <Image Source="{Binding Glyph}" Stretch="UniformToFill" Height="16"/>
+                </DataTemplate>
+            </ListView.Resources>
             <ListView.View>
                 <GridView local:GridViewColumns.DisplayMemberMember="DisplayMember"
-                          local:GridViewColumns.HeaderTextMember="HeaderText" local:GridViewColumns.ColumnsSource="{Binding Columns}">
+                          local:GridViewColumns.HeaderTextMember="HeaderText"
+                          local:GridViewColumns.CellTemplateMember="CellTemplate"
+                          local:GridViewColumns.ColumnsSource="{Binding Columns}">
 
                     <GridView.ColumnHeaderContainerStyle>
                         <Style TargetType="GridViewColumnHeader">
@@ -61,6 +68,7 @@
                             <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
+                    
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
