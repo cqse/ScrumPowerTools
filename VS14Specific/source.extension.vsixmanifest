@@ -4,9 +4,7 @@
 		<Identity Id="coming" Version="0.6.2" Language="en-US" Publisher="Pascal van Buijtene" />
 		<DisplayName>Scrum Power Tools for Visual Studio 2015</DisplayName>
 		<Description xml:space="preserve">Adds extensions to support daily scrum activities, like drawing burn down chart, showing items for review and creating taskboard cards.</Description>
-		<MoreInfo>https://marketplace.visualstudio.com/items?itemName=PascalvanBuijtene.ScrumPowerToolsforVisualStudio2015</MoreInfo>
 		<License>license.txt</License>
-		<GettingStartedGuide>https://marketplace.visualstudio.com/items?itemName=PascalvanBuijtene.ScrumPowerToolsforVisualStudio2015</GettingStartedGuide>
 		<Tags>Team Development, Code review, Scrum, Task Board Cards</Tags>
 	</Metadata>
 	<Installation InstalledByMsi="false">
